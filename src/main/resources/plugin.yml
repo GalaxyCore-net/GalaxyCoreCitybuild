@@ -2,3 +2,10 @@ name: Essential
 version: '${project.version}'
 main: net.galaxycore.essential.Essential
 api-version: 1.16
+description: CityBuild Plugin für GalaxyCore.net
+commands:
+  Debug:
+  Gamemode:
+    aliases: ["gm"]
+  Heal:
+    description: Füllt dein Hunger und deine Herzen wieder auf.

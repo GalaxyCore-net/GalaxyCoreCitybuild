@@ -6,22 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class HealCommand implements CommandExecutor {
+public class AnvilCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-        
         Player player = (Player) sender;
-        if (args.length == 0) {
-            player.setHealth(20);
-            player.sendMessage("§2Du wurdest geheilt");
-            player.setFoodLevel(20);
-            player.setFireTicks(0);
-            player.setRemainingAir(15 * 20);
-
-        }
         return false;
-
-
     }
 }

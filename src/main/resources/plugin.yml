@@ -9,3 +9,6 @@ commands:
     aliases: ["gm"]
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
+  Fly:
+
+  Feed:

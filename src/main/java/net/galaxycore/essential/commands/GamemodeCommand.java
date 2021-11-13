@@ -1,6 +1,5 @@
 package net.galaxycore.essential.commands;
 
-import net.md_5.bungee.chat.SelectorComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -16,6 +15,9 @@ public class GamemodeCommand implements CommandExecutor {
     //do one two
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if (!sender.hasPermission("Citybuild.command.gamemode")) return true;
+
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein");
             return false;

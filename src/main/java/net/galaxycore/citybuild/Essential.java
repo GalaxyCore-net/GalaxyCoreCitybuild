@@ -1,6 +1,6 @@
-package net.galaxycore.essential;
+package net.galaxycore.citybuild;
 
-import net.galaxycore.essential.commands.*;
+import net.galaxycore.citybuild.commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Essential extends JavaPlugin {
@@ -12,6 +12,8 @@ public final class Essential extends JavaPlugin {
         getCommand("Heal").setExecutor(new HealCommand());
         getCommand("Fly").setExecutor(new FlyCommand());
         getCommand("Feed").setExecutor(new FeedCommand());
+        getCommand("Workbench").setExecutor(new WorkbenchCommand());
+        getCommand("Anvil").setExecutor(new AnvilCommand());
 
     }
 

@@ -1,14 +1,21 @@
 name: Essential
 version: '${project.version}'
-main: net.galaxycore.essential.Essential
+main: net.galaxycore.citybuild.Essential
 api-version: 1.16
+author: TheNick24
 description: CityBuild Plugin für GalaxyCore.net
 commands:
   Debug:
   Gamemode:
-    aliases: ["gm"]
+    aliases: [ "gm" ]
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
   Fly:
 
   Feed:
+
+  Workbench:
+    aliases: [ "wb" ]
+
+  Anvil:
+    aliases: [ "av" ]

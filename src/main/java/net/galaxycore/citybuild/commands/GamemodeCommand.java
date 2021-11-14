@@ -57,24 +57,23 @@ public class GamemodeCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("1")) {
                 target.setGameMode(GameMode.CREATIVE);
                 target.sendMessage(I18N.getByPlayer(target, "citybuild.creative"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.creative"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.creative.set"));
             } else if (args[0].equalsIgnoreCase("0")) {
                 target.setGameMode(GameMode.SURVIVAL);
                 target.sendMessage(I18N.getByPlayer(target, "citybuild.survival"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.survival"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.survival.set"));
             } else if (args[0].equalsIgnoreCase("2")) {
                 target.setGameMode(GameMode.ADVENTURE);
                 target.sendMessage(I18N.getByPlayer(target, "citybuild.adventure"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.adventure"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.adventure.set"));
             } else if (args[0].equalsIgnoreCase("3")) {
                 target.setGameMode(GameMode.SPECTATOR);
                 target.sendMessage(I18N.getByPlayer(target, "citybuild.spectator"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.spectator"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.spectator.set"));
             } else {
-
+                sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
             }
-            sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
         }
-        return false;
+        return true;
     }
 }

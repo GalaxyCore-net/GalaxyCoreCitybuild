@@ -26,8 +26,6 @@ public class HealCommand implements CommandExecutor {
             player.setFoodLevel(20);
             player.setFireTicks(0);
             player.setRemainingAir(15 * 20);
-
-
         }
         return false;
 

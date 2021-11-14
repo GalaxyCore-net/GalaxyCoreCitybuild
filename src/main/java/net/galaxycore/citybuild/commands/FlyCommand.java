@@ -1,5 +1,6 @@
 package net.galaxycore.citybuild.commands;
 
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,44 +14,44 @@ public class FlyCommand implements CommandExecutor {
         Player player = (Player) sender;
         if (args.length == 0) {
             if (!player.hasPermission("citybuild.command.fly.self")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
             if (!player.getAllowFlight()) {
                 player.setAllowFlight(true);
                 player.setFlying(true);
-                player.sendMessage("§2Du wurdest in den FlugModus gesetzt");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.on"));
 
             } else {
 
                 player.setAllowFlight(false);
                 player.setFlying(false);
-                player.sendMessage("§2Du wurdest aus dem FlugModus gesetzt");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.off"));
 
             }
         } else if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.fly.other")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                player.sendMessage("Dieser Spieler ist nicht online");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
             }
             if (!target.getAllowFlight()) {
                 target.setAllowFlight(true);
                 target.setFlying(true);
-                target.sendMessage("§2Du wurdest von " + sender.getName() + "§2in den Flugmodus gesetzt");
-                player.sendMessage("§2Du hast" + target.getName() + "§2in den FlugModus gesetzt");
+                target.sendMessage(I18N.getByPlayer(player, "citybuild.fly.on.other"));
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.set.on"));
 
 
             } else {
 
                 target.setAllowFlight(false);
                 target.setFlying(false);
-                target.sendMessage("§2Du wurdest von " + sender.getName() + "§2aus dem Flugmodus gesetzt");
-                player.sendMessage("§2Du hast" + player.getName() + "§2aus dem FlugModus gesetzt");
+                target.sendMessage(I18N.getByPlayer(player, "citybuild.fly.off.other"));
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.set.off"));
 
             }
         }

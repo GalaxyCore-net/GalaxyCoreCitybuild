@@ -4,6 +4,8 @@ main: net.galaxycore.citybuild.Essential
 api-version: 1.16
 author: TheNick24
 description: CityBuild Plugin für GalaxyCore.net
+depend:
+  - GalaxyCoreCore
 commands:
   Debug:
   Gamemode:

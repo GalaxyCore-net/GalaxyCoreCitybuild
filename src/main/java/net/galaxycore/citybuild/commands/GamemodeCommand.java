@@ -1,5 +1,6 @@
 package net.galaxycore.citybuild.commands;
 
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,66 +17,63 @@ public class GamemodeCommand implements CommandExecutor {
     //do one two
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein");
-            return false;
-        }
-
         Player player = (Player) sender;
 
         if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.gamemode.self")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
             if (args[0].equalsIgnoreCase("1")) {
                 player.setGameMode(GameMode.CREATIVE);
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im KreativModus");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.creative"));
             } else if (args[0].equalsIgnoreCase("0")) {
                 player.setGameMode(GameMode.SURVIVAL);
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im ÜberlebensModus");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.survival"));
             } else if (args[0].equalsIgnoreCase("2")) {
                 player.setGameMode(GameMode.ADVENTURE);
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im AbenteuerModus");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.adventure"));
             } else if (args[0].equalsIgnoreCase("3")) {
                 player.setGameMode(GameMode.SPECTATOR);
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im SpectatorModus");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.spectator"));
             } else {
-                sender.sendMessage(ChatColor.RED + "Usage: /gamemode <0|1|2|3>");
+                sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
 
             }
         }
-        if (args.length == 1) {
+        if (args.length == 2) {
             if (!player.hasPermission("citybuild.command.gamemode.other")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
-            Player target = Bukkit.getPlayer(args[0]);
+            Player target = Bukkit.getPlayer(args[1]);
+
+            // Mit Target meine ich den anderen Spieler der den User im Command schreibt
+
             if (target == null) {
-                player.sendMessage("Dieser Spieler ist nicht online");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
             }
             if (args[0].equalsIgnoreCase("1")) {
                 target.setGameMode(GameMode.CREATIVE);
-                target.sendMessage(ChatColor.GREEN + "Du bist nun im KreativModus");
-                player.sendMessage(ChatColor.GREEN + "Du bist hast im KrjjativModus");
+                target.sendMessage(I18N.getByPlayer(target, "citybuild.creative"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.creative"));
             } else if (args[0].equalsIgnoreCase("0")) {
                 target.setGameMode(GameMode.SURVIVAL);
-                target.sendMessage(ChatColor.GREEN + "Du bist nun im ÜberlebensModus");
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im KreativModus");
+                target.sendMessage(I18N.getByPlayer(target, "citybuild.survival"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.survival"));
             } else if (args[0].equalsIgnoreCase("2")) {
                 target.setGameMode(GameMode.ADVENTURE);
-                target.sendMessage(ChatColor.GREEN + "Du bist nun im AbenteuerModus");
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im KreativModus");
+                target.sendMessage(I18N.getByPlayer(target, "citybuild.adventure"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.adventure"));
             } else if (args[0].equalsIgnoreCase("3")) {
                 target.setGameMode(GameMode.SPECTATOR);
-                target.sendMessage(ChatColor.GREEN + "Du bist nun im SpectatorModus");
-                player.sendMessage(ChatColor.GREEN + "Du bist nun im KreativModus");
+                target.sendMessage(I18N.getByPlayer(target, "citybuild.spectator"));
+                player.sendMessage(I18N.getByPlayer(target, "citybuild.spectator"));
             } else {
 
             }
-            sender.sendMessage(ChatColor.RED + "Usage: /gamemode <0|1|2|3>");
+            sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
         }
         return false;
     }

@@ -61,6 +61,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>galaxycore</id>
+            <url>https://nrm.galaxycore.net/repository/galaxycore/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -68,6 +72,12 @@
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.galaxycore</groupId>
+            <artifactId>galaxycorecore</artifactId>
+            <version>1.3.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

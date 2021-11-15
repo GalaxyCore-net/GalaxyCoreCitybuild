@@ -7,21 +7,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class DayCommand implements CommandExecutor {
-
+public class NightCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         Player player = (Player) sender;
-        if (!player.hasPermission("citybuild.command.day")) {
+        if (!player.hasPermission("citybuild.command.night")) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
             return true;
         }
 
-        player.getLocation().getWorld().setTime(6000);
-        player.sendMessage(I18N.getByPlayer(player, "citybuild.time.day"));
+        player.getLocation().getWorld().setTime(18000);
+        player.sendMessage(I18N.getByPlayer(player, "citybuild.time.night"));
 
 
         return true;
     }
+
 }

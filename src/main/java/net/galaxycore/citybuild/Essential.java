@@ -36,7 +36,9 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.heal.self", "§cDu hast dich geheilt");
         I18N.setDefaultByLang("de_DE", "citybuild.heal.other", "§cDu hast %player% geheilt");
         I18N.setDefaultByLang("de_DE", "citybuild.heal.other.self", "§cDu wurdest von %player% geheilt");
-        I18N.setDefaultByLang("de_DE", "citybuild.debug", "&cSollte jetzt eigentlich funktionieren %player%");
+        I18N.setDefaultByLang("de_DE", "citybuild.debug", "§cSollte jetzt eigentlich funktionieren %player%");
+        I18N.setDefaultByLang("de_DE", "citybuild.time.day", "§cDu hast die Zeit auf Tag gesetzt ");
+        I18N.setDefaultByLang("de_DE", "citybuild.time.night", "§cDu hast die Zeit auf Nacht gesetzt ");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -62,6 +64,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.heal.other", "§cYou have healed %player");
         I18N.setDefaultByLang("en_GB", "citybuild.heal.other.self", "§cYou have been healed by %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.debug", "§cShould actually work now %player%");
+        I18N.setDefaultByLang("en_GB", "citybuild.time.day", "§cYou have set the time to day ");
+        I18N.setDefaultByLang("en_GB", "citybuild.time.night", "§cYou have set the time to night ");
 
 
 
@@ -72,6 +76,8 @@ public final class Essential extends JavaPlugin {
         getCommand("Feed").setExecutor(new FeedCommand());
         getCommand("Workbench").setExecutor(new WorkbenchCommand());
         getCommand("Anvil").setExecutor(new AnvilCommand());
+        getCommand("Day").setExecutor(new DayCommand());
+        getCommand("Night").setExecutor(new NightCommand());
 
     }
 

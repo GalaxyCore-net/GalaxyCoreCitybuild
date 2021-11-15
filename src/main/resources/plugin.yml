@@ -13,11 +13,13 @@ commands:
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
   Fly:
-
   Feed:
-
   Workbench:
     aliases: [ "wb,craft" ]
-
   Anvil:
     aliases: [ "av" ]
+  Day:
+    aliases: [ "d" ]
+  Night:
+    aliases: [ "n" ]
+

@@ -17,7 +17,7 @@ commands:
   Feed:
 
   Workbench:
-    aliases: [ "wb" ]
+    aliases: [ "wb,craft" ]
 
   Anvil:
     aliases: [ "av" ]

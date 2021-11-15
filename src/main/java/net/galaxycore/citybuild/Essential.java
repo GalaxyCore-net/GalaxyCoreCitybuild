@@ -33,7 +33,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.feed", "§cDeine Hungerleiste wurde aufgefüllt");
         I18N.setDefaultByLang("de_DE", "citybuild.feed.other", "§cDeine Hungerleiste wurde von %player% aufgefüllt");
         I18N.setDefaultByLang("de_DE", "citybuild.feed.other.notify", "§cDu hast %player%´s Hungerleiste aufgefüllt");
-        System.out.println(1);
+        I18N.setDefaultByLang("de_DE", "citybuild.heal.self", "§cDu hast dich geheilt");
+        I18N.setDefaultByLang("de_DE", "citybuild.heal.other", "§cDu hast %player% geheilt");
+        I18N.setDefaultByLang("de_DE", "citybuild.heal.other.self", "§cDu wurdest von %player% geheilt");
+        I18N.setDefaultByLang("de_DE", "citybuild.debug", "&cSollte jetzt eigentlich funktionieren %player%");
+
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
         I18N.setDefaultByLang("en_GB", "citybuild.creative", "§cYour Gamemode has been set to Creative Mode ");
@@ -54,7 +58,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.feed", "§cYour hunger bar has been filled up");
         I18N.setDefaultByLang("en_GB", "citybuild.feed.other", "§cYour hunger bar has been filled up by %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.feed.other.notify", "§cYou have filled up %player%'s hunger bar");
-        System.out.println(2);
+        I18N.setDefaultByLang("en_GB", "citybuild.heal.self", "§cYou have healed yourself");
+        I18N.setDefaultByLang("en_GB", "citybuild.heal.other", "§cYou have healed %player");
+        I18N.setDefaultByLang("en_GB", "citybuild.heal.other.self", "§cYou have been healed by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.debug", "§cShould actually work now %player%");
 
 
 

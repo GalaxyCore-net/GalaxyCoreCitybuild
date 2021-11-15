@@ -1,5 +1,6 @@
 package net.galaxycore.citybuild.commands;
 
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,31 +18,30 @@ public class FeedCommand implements CommandExecutor {
 
 
             if (!player.hasPermission("citybuild.command.feed.self")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
             player.setFoodLevel(20);
             player.setSaturation(20);
-            player.sendMessage("§2Du wurdest gefüttert.");
+            player.sendMessage(I18N.getByPlayer(player, "citybuild.feed"));
         } else if (args.length == 1) {
 
             if (!player.hasPermission("citybuild.command.feed.other")) {
-                player.sendMessage("§2Du hast keine Berechtigung diesen Command zu benutzen!");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                player.sendMessage("Dieser Spieler ist nicht online");
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
             }
             target.setFoodLevel(20);
             target.setSaturation(20);
-            target.sendMessage("§2Du wurdest von " + sender.getName() + "§2 gefüttert");
-            player.sendMessage("§2Du hast" + target.getName() + "§2 gefüttert");
-
+            target.sendMessage(I18N.getByPlayer(player, "citybuild.feed.other"));
+            player.sendMessage(I18N.getByPlayer(player, "citybuild.feed.other.notify"));
 
         }
-        return false;
+        return true;
     }
 }

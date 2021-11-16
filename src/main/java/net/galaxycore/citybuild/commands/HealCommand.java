@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class HealCommand implements CommandExecutor {
@@ -23,14 +25,29 @@ public class HealCommand implements CommandExecutor {
 
         if (args.length == 0) {
             if (healCooldown.containsKey(player)) {
-                if (player.hasPermission("citybuild.command.heal.self.cooldown.bypass")) ;
-                //To Do Cooldown mit Permission Bypass
+                if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
+                    if (healCooldown.get(player) < System.currentTimeMillis()) {
+                        healCooldown.remove(player);
+                    } else {
+                        player.sendMessage(I18N.getByPlayer(player, "citybuild.cooldown")
+                                .replace("%time%", new SimpleDateFormat(
+                                        I18N.getInstanceRef().get().getLanguages()
+                                                .get(I18N.getInstanceRef().get().getLocale(player)).getDateFormat() + " " +
+                                                I18N.getInstanceRef().get().getLanguages()
+                                                        .get(I18N.getInstanceRef().get().getLocale(player)).getTimeFormat())
+                                        .format(new Date(healCooldown.get(player)))));
+
+                        return true;
+                    }
+
+                }
             }
             player.setHealth(20);
             player.sendMessage(I18N.getByPlayer(player, "citybuild.heal.self"));
             player.setFoodLevel(20);
             player.setFireTicks(0);
             player.setRemainingAir(15 * 20);
+            healCooldown.put(player, System.currentTimeMillis() + 14400000); // 14400000 = 4h
 
         } else if (args.length == 1) {
 

@@ -10,9 +10,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class FeedCommand implements CommandExecutor {
+    private HashMap<Player, Long> feedCooldown = new HashMap<>();
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
 
         Player player = (Player) sender;
 
@@ -22,11 +29,28 @@ public class FeedCommand implements CommandExecutor {
             if (!player.hasPermission("citybuild.command.feed.self")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
-                //TODO Cooldown mit Permission Bypass
+            }
+
+
+            if (feedCooldown.containsKey(player)) {
+                if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
+                    if (feedCooldown.get(player) < System.currentTimeMillis()) {
+                        feedCooldown.remove(player);
+                    } else {
+                        player.sendMessage(I18N.getByPlayer(player, "citybuild.cooldown")
+                                .replace("%time%", new SimpleDateFormat(
+                                        I18N.getInstanceRef().get().getLanguages()
+                                                .get(I18N.getInstanceRef().get().getLocale(player)).getDateFormat() + " " +
+                                                I18N.getInstanceRef().get().getLanguages()
+                                                        .get(I18N.getInstanceRef().get().getLocale(player)).getTimeFormat())
+                                        .format(new Date(feedCooldown.get(player)))));
+                    }
+                }
             }
             player.setFoodLevel(20);
             player.setSaturation(20);
             player.sendMessage(I18N.getByPlayer(player, "citybuild.feed"));
+            feedCooldown.put(player, System.currentTimeMillis() + 900000); // 900000ms = 15m
         } else if (args.length == 1) {
 
             if (!player.hasPermission("citybuild.command.feed.other")) {
@@ -48,3 +72,4 @@ public class FeedCommand implements CommandExecutor {
         return true;
     }
 }
+

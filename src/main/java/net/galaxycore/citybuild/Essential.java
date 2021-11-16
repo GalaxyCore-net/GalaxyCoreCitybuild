@@ -44,11 +44,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.weather.clear", "§cDu hast das Wetter auf Klar geändert");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.rain", "§cDu hast das Wetter auf Regen geändert");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.thunder", "§cDu hast das Wetter auf Gewitter geändert");
-        I18N.setDefaultByLang("de_DE", "citybuild.cooldown", "§cAktuell musst du noch %time% warten");
+        I18N.setDefaultByLang("de_DE", "citybuild.cooldown", "§cDu musst noch bis %time% warten");
         I18N.setDefaultByLang("de_DE", "citybuild.hat", "§cViel Spaß mit deinem neuen Hut!");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.global.clear", "§c%player% hat das Wetter auf Klar geändert");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.global.rain", "§c%player% hat das Wetter auf Regen geändert");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.global.thunder", "§c%player% hat das Wetter auf Gewitter geändert");
+        I18N.setDefaultByLang("de_DE", "citybuild.day.global", "§c%player% hat die Zeit auf Tag verändert");
+        I18N.setDefaultByLang("de_DE", "citybuild.night.global", "§c%player% hat die Zeit auf Nacht verändert");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -79,11 +81,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.weather.clear", "§cYou changed the weather to clear");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.rain", "§cYou have changed the weather to rain");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.thunder", "§cYou have changed the weather to thunderstorms");
-        I18N.setDefaultByLang("en_GB", "citybuild.cooldown", "§cCurrently you still have to wait %time%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.cooldown", "§cYou still have to wait until %time%.");
         I18N.setDefaultByLang("en_GB", "citybuild.hat", "§cHave fun with your new Hat!");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.global.clear", "§c%player% changed the weather to clear");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.global.rain", "§c%player% changed the weather to rain");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.global.thunder", "§c%player% changed the weather to thunder");
+        I18N.setDefaultByLang("en_GB", "citybuild.day.global", "§c%player% has changed the time to day");
+        I18N.setDefaultByLang("en_GB", "citybuild.night.global", "§c%player% has changed the time to night");
 
 
 

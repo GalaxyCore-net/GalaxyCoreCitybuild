@@ -1,8 +1,10 @@
 package net.galaxycore.citybuild;
 
 import net.galaxycore.citybuild.commands.*;
+import net.galaxycore.citybuild.listeners.DamageListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -25,7 +27,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.spectator.set", "§cDu hast %player% in den Spectatormodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.adventure", "§cDu bist nun im Adventuremodus");
         I18N.setDefaultByLang("de_DE", "citybuild.adventure.set", "§cDu hast %player% in den Adventuremodus gesetzt");
-        I18N.setDefaultByLang("de_DE", "citybuild.gamemode.usage", "&cBenutze: /gamemode <0|1|2|3>");
+        I18N.setDefaultByLang("de_DE", "citybuild.gamemode.usage", "§cBenutze: /gamemode <0|1|2|3>");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.on", "§cDu wurdest in den FlugModus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.off", "§cDu wurdest aus dem FlugModus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.on.other", "§cDu wurdest von %player% in den Flugmodus gesetzt");
@@ -51,6 +53,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.weather.global.thunder", "§c%player% hat das Wetter auf Gewitter geändert");
         I18N.setDefaultByLang("de_DE", "citybuild.day.global", "§c%player% hat die Zeit auf Tag verändert");
         I18N.setDefaultByLang("de_DE", "citybuild.night.global", "§c%player% hat die Zeit auf Nacht verändert");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.on", "§cDu hast dich in den Gottmodus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.off", "§cDu hast dich aus dem Gottmodus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.on.other", "§c%player% hat dich in den Gottmodus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.on.other.notify", "§cDu hast %player% in den Gottmodus");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.off.other", "§c%player% hat dich in den Gottmodus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.off.other.notify", "§cDu hast %player% in den Gottmodus");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.usage", "§cBenutze: /god Player");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -62,7 +71,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.spectator.set", "§cYou have set %player% to Spectator Mode");
         I18N.setDefaultByLang("en_GB", "citybuild.adventure", "§cYour Gamemode has been set to Adventure Mode ");
         I18N.setDefaultByLang("en_GB", "citybuild.adventure.set", "§cYou have set %player% to Adventure Mode");
-        I18N.setDefaultByLang("en_GB", "citybuild.gamemode.usage", "&cUsage: /gamemode <0|1|2|3>");
+        I18N.setDefaultByLang("en_GB", "citybuild.gamemode.usage", "§cUsage: /gamemode <0|1|2|3>");
         I18N.setDefaultByLang("en_GB", "citybuild.fly.on", "§cYou have been set to flight mode.");
         I18N.setDefaultByLang("en_GB", "citybuild.fly.off", "§cYou have been put out of flight mode");
         I18N.setDefaultByLang("en_GB", "citybuild.fly.on.other", "§cYou have been put into flight mode by %player%.");
@@ -88,6 +97,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.weather.global.thunder", "§c%player% changed the weather to thunder");
         I18N.setDefaultByLang("en_GB", "citybuild.day.global", "§c%player% has changed the time to day");
         I18N.setDefaultByLang("en_GB", "citybuild.night.global", "§c%player% has changed the time to night");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.on", "§cYou have put yourself in God mode");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.off", "§cYou have put yourself out of God mode");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.on.other", "§c%player% has put you in god mode");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.on.other.notify", "§cYou have set %player% to god mode.");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.off.other", "§c%player% has put you in god mode");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.off.other.notify", "§cYou have set %player% to god mode.");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.usage", "§cUsage: /god Player");
 
 
 
@@ -102,6 +118,9 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("night")).setExecutor(new NightCommand());
         Objects.requireNonNull(getCommand("hat")).setExecutor(new HatCommand());
         Objects.requireNonNull(getCommand("weather")).setExecutor(new WeatherCommand());
+        Objects.requireNonNull(getCommand("god")).setExecutor(new GodCommand());
+
+        Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
 
     }
 

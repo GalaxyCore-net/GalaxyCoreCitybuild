@@ -50,7 +50,6 @@ public class WeatherCommand implements CommandExecutor {
                     if (onlinePlayer != player)
                         onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.weather.global.thunder"), new LuckPermsApiWrapper(player)));
                 }
-                // TODO Cooldown mit Bypass Permissions
             }
         } else if (args.length == 0) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.weather.clear"));

@@ -12,10 +12,6 @@ import org.bukkit.entity.Player;
 
 public class GamemodeCommand implements CommandExecutor {
 
-    //do one - do two
-
-    //do 0 1 2
-    //do one two
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
@@ -48,8 +44,6 @@ public class GamemodeCommand implements CommandExecutor {
                 return true;
             }
             Player target = Bukkit.getPlayer(args[1]);
-
-            // Mit Target meine ich den anderen Spieler der den User im Command schreibt
 
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));

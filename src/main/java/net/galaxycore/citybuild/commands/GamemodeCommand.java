@@ -1,8 +1,9 @@
 package net.galaxycore.citybuild.commands;
 
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -56,20 +57,20 @@ public class GamemodeCommand implements CommandExecutor {
             }
             if (args[0].equalsIgnoreCase("1")) {
                 target.setGameMode(GameMode.CREATIVE);
-                target.sendMessage(I18N.getByPlayer(target, "citybuild.creative"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.creative.set"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
             } else if (args[0].equalsIgnoreCase("0")) {
                 target.setGameMode(GameMode.SURVIVAL);
-                target.sendMessage(I18N.getByPlayer(target, "citybuild.survival"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.survival.set"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.survival"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
             } else if (args[0].equalsIgnoreCase("2")) {
                 target.setGameMode(GameMode.ADVENTURE);
-                target.sendMessage(I18N.getByPlayer(target, "citybuild.adventure"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.adventure.set"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.adventure"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
             } else if (args[0].equalsIgnoreCase("3")) {
                 target.setGameMode(GameMode.SPECTATOR);
-                target.sendMessage(I18N.getByPlayer(target, "citybuild.spectator"));
-                player.sendMessage(I18N.getByPlayer(target, "citybuild.spectator.set"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.spectator"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
             } else {
                 sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
             }

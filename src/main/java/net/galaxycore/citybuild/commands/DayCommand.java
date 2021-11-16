@@ -1,6 +1,9 @@
 package net.galaxycore.citybuild.commands;
 
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +23,11 @@ public class DayCommand implements CommandExecutor {
 
         player.getLocation().getWorld().setTime(6000);
         player.sendMessage(I18N.getByPlayer(player, "citybuild.time.day"));
-
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            if (onlinePlayer != player)
+                onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.time.global"), new LuckPermsApiWrapper(player)));
+        }
+//TODO Cooldown mit Bypass Permission
 
         return true;
     }

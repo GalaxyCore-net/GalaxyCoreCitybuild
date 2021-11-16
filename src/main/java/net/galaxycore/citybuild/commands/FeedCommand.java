@@ -1,6 +1,8 @@
 package net.galaxycore.citybuild.commands;
 
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,6 +22,7 @@ public class FeedCommand implements CommandExecutor {
             if (!player.hasPermission("citybuild.command.feed.self")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
+                //TODO Cooldown mit Permission Bypass
             }
             player.setFoodLevel(20);
             player.setSaturation(20);
@@ -38,8 +41,8 @@ public class FeedCommand implements CommandExecutor {
             }
             target.setFoodLevel(20);
             target.setSaturation(20);
-            target.sendMessage(I18N.getByPlayer(player, "citybuild.feed.other"));
-            player.sendMessage(I18N.getByPlayer(player, "citybuild.feed.other.notify"));
+            target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other"), new LuckPermsApiWrapper(player)));
+            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other.notify"), new LuckPermsApiWrapper(target)));
 
         }
         return true;

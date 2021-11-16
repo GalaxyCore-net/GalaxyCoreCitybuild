@@ -1,6 +1,8 @@
 package net.galaxycore.citybuild.commands;
 
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -42,16 +44,16 @@ public class FlyCommand implements CommandExecutor {
             if (!target.getAllowFlight()) {
                 target.setAllowFlight(true);
                 target.setFlying(true);
-                target.sendMessage(I18N.getByPlayer(player, "citybuild.fly.on.other"));
-                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.set.on"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.on.other"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.set.on"), new LuckPermsApiWrapper(target)));
 
 
             } else {
 
                 target.setAllowFlight(false);
                 target.setFlying(false);
-                target.sendMessage(I18N.getByPlayer(player, "citybuild.fly.off.other"));
-                player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.set.off"));
+                target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.off.other"), new LuckPermsApiWrapper(player)));
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.set.off"), new LuckPermsApiWrapper(target)));
 
             }
         }

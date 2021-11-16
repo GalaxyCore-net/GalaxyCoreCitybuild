@@ -8,18 +8,31 @@ depend:
   - GalaxyCoreCore
 commands:
   Debug:
+    description:
+
   Gamemode:
+    description:
     aliases: [ "gm" ]
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
   Fly:
+    description:
   Feed:
+    description:
   Workbench:
-    aliases: [ "wb,craft" ]
+    description:
+    aliases: [ "wb", "craft" ]
   Anvil:
+    description:
     aliases: [ "av" ]
   Day:
+    description:
     aliases: [ "d" ]
   Night:
+    description:
     aliases: [ "n" ]
+  Hat:
+    description:
+  Weather:
+    description:
 

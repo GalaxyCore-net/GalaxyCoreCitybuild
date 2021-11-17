@@ -8,33 +8,35 @@ depend:
   - GalaxyCoreCore
 commands:
   Debug:
-    description:
-
+    description: Gibt dir eine Test Nachricht aus.
   Gamemode:
-    description:
+    description: Setzt dich in verschiedene Spielmodi.
     aliases: [ "gm" ]
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
   Fly:
-    description:
+    description: Setzt dich oder andere Spieler in den Flugmodus
   Feed:
-    description:
+    description: DU kannst deine oder andere Hungerleisten auffüllen
   Workbench:
-    description:
+    description: Öffnet eine Mobile Werkbank
     aliases: [ "wb", "craft" ]
   Anvil:
-    description:
+    description: Öffnet einen Mobilen Amboss
     aliases: [ "av" ]
   Day:
-    description:
+    description: Ändert die TagesZeit auf Tag
     aliases: [ "d" ]
   Night:
-    description:
+    description: Ändert die TagesZeit auf Nacht
     aliases: [ "n" ]
   Hat:
-    description:
+    description: Setzt dir das Item in deiner Hand auf deinen Kopf
   Weather:
-    description:
+    description: Ändert das Weather in 3 verschieden Möglichkeiten
   God:
+    description: Setzt dich in einen unverwundbaren Modus
+  Teleport:
     description:
+    aliases: [ "tp" ]
 

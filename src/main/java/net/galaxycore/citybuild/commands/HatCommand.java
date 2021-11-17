@@ -11,20 +11,15 @@ import org.jetbrains.annotations.NotNull;
 public class HatCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         Player player = (Player) sender;
-
         if (!player.hasPermission("citybuild.command.hat")) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
             return true;
         }
-
         ItemStack oldHelmet = player.getInventory().getHelmet();
         player.getInventory().setHelmet(player.getInventory().getItemInMainHand());
         player.getInventory().setItemInMainHand(oldHelmet);
         player.sendMessage(I18N.getByPlayer(player, "citybuild.hat"));
-
-
         return true;
     }
 }

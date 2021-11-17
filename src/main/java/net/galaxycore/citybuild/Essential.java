@@ -2,6 +2,7 @@ package net.galaxycore.citybuild;
 
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.DamageListener;
+import net.galaxycore.citybuild.listeners.FoodLevelChangeListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
@@ -60,6 +61,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.god.off.other", "§c%player% hat dich in den Gottmodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.god.off.other.notify", "§cDu hast %player% in den Gottmodus");
         I18N.setDefaultByLang("de_DE", "citybuild.god.usage", "§cBenutze: /god Player");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.self", "§cDu hast dich zu %player% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.other", "§c%player% hat dich zu dir teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target.tp.notify","§cDu hast %target1% zu %target2% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target1","§c%target2% wurde von %player% zu dir teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target2","§cDu wurdest von %player% zu %target1% teleportiert.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -104,6 +110,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.god.off.other", "§c%player% has put you in god mode");
         I18N.setDefaultByLang("en_GB", "citybuild.god.off.other.notify", "§cYou have set %player% to god mode.");
         I18N.setDefaultByLang("en_GB", "citybuild.god.usage", "§cUsage: /god Player");
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.self", "§cYou have teleported to %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.other", "§c%player% teleported you to you.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target.tp.notify","§cYou teleported %target1% to %target2%."); // Command Executor
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target1","§%target2% was teleported to you by %player%."); // Player to you
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target2","§cYou have been teleported from %player% to %target1%."); // you to Player
 
 
 
@@ -119,8 +130,10 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("hat")).setExecutor(new HatCommand());
         Objects.requireNonNull(getCommand("weather")).setExecutor(new WeatherCommand());
         Objects.requireNonNull(getCommand("god")).setExecutor(new GodCommand());
+        Objects.requireNonNull(getCommand("teleport")).setExecutor(new TeleportCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
 
     }
 

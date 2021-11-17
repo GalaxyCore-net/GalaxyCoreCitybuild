@@ -11,15 +11,12 @@ public class DebugCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         Player player = (Player) sender;
         if (!player.hasPermission("citybuild.command.debug")) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
             return true;
         }
-
         String message = (I18N.getByPlayer(player, "citybuild.debug"));
-
         sender.sendMessage(message);
         return true;
     }

@@ -16,22 +16,14 @@ import java.util.HashMap;
 
 public class FeedCommand implements CommandExecutor {
     private HashMap<Player, Long> feedCooldown = new HashMap<>();
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-
         Player player = (Player) sender;
-
         if (args.length == 0) {
-
-
             if (!player.hasPermission("citybuild.command.feed.self")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
-
-
             if (feedCooldown.containsKey(player)) {
                 if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
                     if (feedCooldown.get(player) < System.currentTimeMillis()) {
@@ -57,7 +49,6 @@ public class FeedCommand implements CommandExecutor {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
-
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
@@ -67,7 +58,6 @@ public class FeedCommand implements CommandExecutor {
             target.setSaturation(20);
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other.notify"), new LuckPermsApiWrapper(target)));
-
         }
         return true;
     }

@@ -16,13 +16,9 @@ import java.util.HashMap;
 
 public class HealCommand implements CommandExecutor {
     private HashMap<Player, Long> healCooldown = new HashMap<>();
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         Player player = (Player) sender;
-
-
         if (args.length == 0) {
             if (healCooldown.containsKey(player)) {
                 if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
@@ -36,26 +32,22 @@ public class HealCommand implements CommandExecutor {
                                                 I18N.getInstanceRef().get().getLanguages()
                                                         .get(I18N.getInstanceRef().get().getLocale(player)).getTimeFormat())
                                         .format(new Date(healCooldown.get(player)))));
-
                         return true;
                     }
-
                 }
             }
             player.setHealth(20);
             player.sendMessage(I18N.getByPlayer(player, "citybuild.heal.self"));
             player.setFoodLevel(20);
             player.setFireTicks(0);
+            player.setSaturation(20);
             player.setRemainingAir(15 * 20);
             healCooldown.put(player, System.currentTimeMillis() + 14400000); // 14400000 = 4h
-
         } else if (args.length == 1) {
-
             if (!player.hasPermission("citybuild.command.heal.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
-
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
@@ -64,11 +56,10 @@ public class HealCommand implements CommandExecutor {
             target.setHealth(20);
             target.setFoodLevel(20);
             target.setFireTicks(0);
+            target.setSaturation(20);
             target.setRemainingAir(15 * 20);
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.heal.other.self"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.heal.other"), new LuckPermsApiWrapper(target)));
-
-
         }
         return true;
     }

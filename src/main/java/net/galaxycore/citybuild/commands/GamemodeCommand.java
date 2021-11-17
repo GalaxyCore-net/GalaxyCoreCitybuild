@@ -15,7 +15,6 @@ public class GamemodeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-
         if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.gamemode.self")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
@@ -35,7 +34,6 @@ public class GamemodeCommand implements CommandExecutor {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.spectator"));
             } else {
                 sender.sendMessage(I18N.getByPlayer(player, "citybuild.gamemode.usage"));
-
             }
         }
         if (args.length == 2) {
@@ -44,7 +42,6 @@ public class GamemodeCommand implements CommandExecutor {
                 return true;
             }
             Player target = Bukkit.getPlayer(args[1]);
-
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;

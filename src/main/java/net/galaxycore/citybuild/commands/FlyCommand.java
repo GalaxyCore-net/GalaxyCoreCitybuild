@@ -23,13 +23,10 @@ public class FlyCommand implements CommandExecutor {
                 player.setAllowFlight(true);
                 player.setFlying(true);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.on"));
-
             } else {
-
                 player.setAllowFlight(false);
                 player.setFlying(false);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.fly.off"));
-
             }
         } else if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.fly.other")) {
@@ -46,17 +43,13 @@ public class FlyCommand implements CommandExecutor {
                 target.setFlying(true);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.on.other"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.set.on"), new LuckPermsApiWrapper(target)));
-
-
             } else {
-
                 target.setAllowFlight(false);
                 target.setFlying(false);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.off.other"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.set.off"), new LuckPermsApiWrapper(target)));
-
             }
         }
-        return false;
+        return true;
     }
 }

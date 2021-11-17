@@ -24,10 +24,8 @@ public class GodCommand implements CommandExecutor {
                 return true;
             }
             if (godMode.contains(player)) {
-
                 godMode.remove(player);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.god.off"));
-
             } else {
                 godMode.add(player);
                 player.setHealth(20);
@@ -35,7 +33,6 @@ public class GodCommand implements CommandExecutor {
                 player.setFireTicks(0);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.god.on"));
             }
-
         } else if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.god.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
@@ -45,17 +42,13 @@ public class GodCommand implements CommandExecutor {
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
-
             }
             if (godMode.contains(target)) {
-
-
                 godMode.remove(target);
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.god.off.other"), new LuckPermsApiWrapper(target)));
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.god.off.other.notify"), new LuckPermsApiWrapper(player)));
-
             } else {
-                godMode.remove(target);
+                godMode.add(target);
                 target.setHealth(20);
                 target.setFoodLevel(20);
                 target.setFireTicks(0);
@@ -63,10 +56,8 @@ public class GodCommand implements CommandExecutor {
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.god.on.other.notify"), new LuckPermsApiWrapper(player)));
             }
         } else {
-
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
         }
-
         return true;
     }
 }

@@ -16,8 +16,6 @@ public class AnvilCommand implements CommandExecutor {
             return true;
         }
         player.openAnvil(null, true);
-
         return false;
-
     }
 }

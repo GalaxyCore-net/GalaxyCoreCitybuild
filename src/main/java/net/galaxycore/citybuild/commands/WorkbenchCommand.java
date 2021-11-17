@@ -16,7 +16,6 @@ public class WorkbenchCommand implements CommandExecutor {
             return true;
         }
         player.openWorkbench(null, true);
-
-        return false;
+        return true;
     }
 }

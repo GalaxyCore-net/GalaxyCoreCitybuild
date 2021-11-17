@@ -45,10 +45,10 @@ public class DayCommand implements CommandExecutor {
         player.sendMessage(I18N.getByPlayer(player, "citybuild.time.day"));
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (onlinePlayer != player)
-                onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.day.global"), new LuckPermsApiWrapper(player)));
+                if (player.getLocation().getWorld() == onlinePlayer.getLocation().getWorld())
+                    onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.day.global"), new LuckPermsApiWrapper(player)));
         }
         dayCooldown.put(player, System.currentTimeMillis() + 600000); // 600000ms = 10m
-
         return true;
     }
 }

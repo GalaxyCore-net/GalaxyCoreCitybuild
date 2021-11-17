@@ -39,17 +39,14 @@ public class NightCommand implements CommandExecutor {
                 }
             }
         }
-
         player.getLocation().getWorld().setTime(18000);
         player.sendMessage(I18N.getByPlayer(player, "citybuild.time.night"));
         nightCooldown.put(player, System.currentTimeMillis() + 600000); // 600000ms = 10m
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (onlinePlayer != player)
-                onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.night.global"), new LuckPermsApiWrapper(player)));
+                if (player.getLocation().getWorld() == onlinePlayer.getLocation().getWorld())
+                    onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.night.global"), new LuckPermsApiWrapper(player)));
         }
-
-
         return true;
     }
-
 }

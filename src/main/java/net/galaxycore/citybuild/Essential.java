@@ -1,9 +1,7 @@
 package net.galaxycore.citybuild;
 
 import net.galaxycore.citybuild.commands.*;
-import net.galaxycore.citybuild.listeners.DamageListener;
-import net.galaxycore.citybuild.listeners.FoodLevelChangeListener;
-import net.galaxycore.citybuild.listeners.PlayerJoinListener;
+import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -101,6 +99,41 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.spawn.self", "§cDu hast dich zum Spawn teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.spawn.other", "§cDu wurdest von %player% zum Spawn teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.spawn.other.notify", "§cDu hast %player% zum Spawn teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpa.self.request", "§cDu kannst dir nicht selber eine Anfrage schicken!");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpa.self.accept", "§c%player% hat deine Anfrage angenommen und wird in 5 Sekunden zu dir teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpa.self.deny", "§c%player% hat deine Anfrage abgelehnt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpa.load", "§cTeleportiere ...");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.1.self", "§cDu hast dich in den Speedmodus 1 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.2.self", "§cDu hast dich in den Speedmodus 2 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.3.self", "§cDu hast dich in den Speedmodus 3 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.4.self", "§cDu hast dich in den Speedmodus 4 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.5.self", "§cDu hast dich in den Speedmodus 5 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.6.self", "§cDu hast dich in den Speedmodus 6 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.7.self", "§cDu hast dich in den Speedmodus 7 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.8.self", "§cDu hast dich in den Speedmodus 8 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.9.self", "§cDu hast dich in den Speedmodus 9 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.10.self", "§cDu hast dich in den Speedmodus 10 gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.1.other", "§cDu wurdest von %player% in den Speedmodus 1 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.1.other.notify", "§cDu hast %player% in den Speedmodus 1 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.2.other", "§cDu wurdest von %player% in den Speedmodus 2 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.2.other.notify", "§cDu hast %player% in den Speedmodus 2 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.3.other", "§cDu wurdest von %player% in den Speedmodus 3 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.3.other.notify", "§cDu hast %player% in den Speedmodus 3 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.4.other", "§cDu wurdest von %player% in den Speedmodus 4 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.4.other.notify", "§cDu hast %player% in den Speedmodus 4 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.5.other", "§cDu wurdest von %player% in den Speedmodus 5 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.5.other.notify", "§cDu hast %player% in den Speedmodus 5 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.6.other", "§cDu wurdest von %player% in den Speedmodus 6 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.6.other.notify", "§cDu hast %player% in den Speedmodus 6 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.7.other", "§cDu wurdest von %player% in den Speedmodus 7 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.7.other.notify", "§cDu hast %player% in den Speedmodus 7 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.8.other", "§cDu wurdest von %player% in den Speedmodus 8 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.8.other.notify", "§cDu hast %player% in den Speedmodus 8 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.9.other", "§cDu wurdest von %player% in den Speedmodus 9 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.9.other.notify", "§cDu hast %player% in den Speedmodus 9 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.10.other", "§cDu wurdest von %player% in den Speedmodus 10 gesetzt.");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.10.other.notify", "§cDu hast %player% in den Speedmodus 10 gesetzt.");
+
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -153,6 +186,40 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.spawn.self", "§cYou have teleported to the spawn.");
         I18N.setDefaultByLang("en_GB", "citybuild.spawn.other", "§cYou have been teleported to the spawn by %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.spawn.other.notify", "§cYou %target% teleported to the spawn.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpa.self.request", "§cYou can't send yourself a request!");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpa.self.accept", "§c%player% has accepted your request and will teleport to you in 3 seconds.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpa.self.deny", "§c%player% has rejected your request.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpa.load", "§cTeleporting...");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.1.self", "§cYou have set yourself to speed mode 1");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.2.self", "§cYou have set yourself to speed mode 2");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.3.self", "§cYou have set yourself to speed mode 3");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.4.self", "§cYou have set yourself to speed mode 4");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.5.self", "§cYou have set yourself to speed mode 5");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.6.self", "§cYou have set yourself to speed mode 6");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.7.self", "§cYou have set yourself to speed mode 7");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.8.self", "§cYou have set yourself to speed mode 8");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.9.self", "§cYou have set yourself to speed mode 9");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.10.self", "§cYou have set yourself to speed mode 10");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.1.other", "§cYou have been set to speed mode 1 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.1.other.notify", "§cYou have set %player% to speed mode 1.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.2.other", "§cYou have been set to speed mode 2 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.2.other.notify", "§cYou have set %player% to speed mode 2.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.3.other", "§cYou have been set to speed mode 3 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.3.other.notify", "§cYou have set %player% to speed mode 3.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.4.other", "§cYou have been set to speed mode 4 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.4.other.notify", "§cYou have set %player% to speed mode 4.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.5.other", "§cYou have been set to speed mode 5 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.5.other.notify", "§cYou have set %player% to speed mode 5.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.6.other", "§cYou have been set to speed mode 6 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.6.other.notify", "§cYou have set %player% to speed mode 6.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.7.other", "§cYou have been set to speed mode 7 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.7.other.notify", "§cYou have set %player% to speed mode 7.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.8.other", "§cYou have been set to speed mode 8 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.8.other.notify", "§cYou have set %player% to speed mode 8.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.9.other", "§cYou have been set to speed mode 9 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.9.other.notify", "§cYou have set %player% to speed mode 9.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.10.other", "§cYou have been set to speed mode 10 by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.10.other.notify", "§cYou have set %player% to speed mode 10.");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -168,10 +235,16 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("god")).setExecutor(new GodCommand());
         Objects.requireNonNull(getCommand("teleport")).setExecutor(new TeleportCommand());
         Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
+        Objects.requireNonNull(getCommand("testcommand")).setExecutor(new TestCommand());
+        Objects.requireNonNull(getCommand("enderchest")).setExecutor(new EnderChestCommand());
+        Objects.requireNonNull(getCommand("invsee")).setExecutor(new InvseeCommand());
+        Objects.requireNonNull(getCommand("speed")).setExecutor(new SpeedCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(getConfigNamespace()), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
 
     }
 

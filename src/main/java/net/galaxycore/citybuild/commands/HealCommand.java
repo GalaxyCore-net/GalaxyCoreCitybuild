@@ -15,13 +15,13 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class HealCommand implements CommandExecutor {
-    private HashMap<Player, Long> healCooldown = new HashMap<>();
+    private final HashMap<Player, Long> healCooldown = new HashMap<>();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (args.length == 0) {
             if (healCooldown.containsKey(player)) {
-                if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
+                if (!player.hasPermission("citybuild.command.heal.cooldown.bypass")) {
                     if (healCooldown.get(player) < System.currentTimeMillis()) {
                         healCooldown.remove(player);
                     } else {
@@ -42,7 +42,7 @@ public class HealCommand implements CommandExecutor {
             player.setFireTicks(0);
             player.setSaturation(20);
             player.setRemainingAir(15 * 20);
-            healCooldown.put(player, System.currentTimeMillis() + 14400000); // 14400000 = 4h
+            healCooldown.put(player, System.currentTimeMillis() + 1800000); // 1800000ms = 30m
         } else if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.heal.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));

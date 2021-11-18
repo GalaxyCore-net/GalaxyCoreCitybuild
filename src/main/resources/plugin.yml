@@ -41,4 +41,13 @@ commands:
     aliases: [ "tp" ]
   Spawn:
     description: Teleportiert dich zum Spawn
+  TestCommand:
+    description: Damit teste ich funktionen
+  Enderchest:
+    description: Öffnet deine Enderchest
+    aliases: [ "ec" ]
+  Invsee:
+    description: Öffnet dein und Spieler Inventar
+  Speed:
+    description:
 

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class FeedCommand implements CommandExecutor {
-    private HashMap<Player, Long> feedCooldown = new HashMap<>();
+    private final HashMap<Player, Long> feedCooldown = new HashMap<>();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
@@ -42,7 +42,7 @@ public class FeedCommand implements CommandExecutor {
             player.setFoodLevel(20);
             player.setSaturation(20);
             player.sendMessage(I18N.getByPlayer(player, "citybuild.feed"));
-            feedCooldown.put(player, System.currentTimeMillis() + 900000); // 900000ms = 15m
+            feedCooldown.put(player, System.currentTimeMillis() + 300000); // 300000ms = 5m
         } else if (args.length == 1) {
 
             if (!player.hasPermission("citybuild.command.feed.other")) {

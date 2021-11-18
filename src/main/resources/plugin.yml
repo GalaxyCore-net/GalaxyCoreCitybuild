@@ -37,6 +37,8 @@ commands:
   God:
     description: Setzt dich in einen unverwundbaren Modus
   Teleport:
-    description:
+    description: Teleportiert dich zu anderen Spielern
     aliases: [ "tp" ]
+  Spawn:
+    description: Teleportiert dich zum Spawn
 

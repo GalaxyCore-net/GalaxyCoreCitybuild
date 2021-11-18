@@ -3,7 +3,9 @@ package net.galaxycore.citybuild;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.DamageListener;
 import net.galaxycore.citybuild.listeners.FoodLevelChangeListener;
+import net.galaxycore.citybuild.listeners.PlayerJoinListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
+import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,12 +13,42 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public final class Essential extends JavaPlugin {
-    public static GalaxyCoreCore core;
+    private static Essential instance;
+    private static GalaxyCoreCore core;
+    private ConfigNamespace configNamespace;
+
+    public static Essential getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Essential instance) {
+        Essential.instance = instance;
+    }
+
+    public static GalaxyCoreCore getCore() {
+        return core;
+    }
+
+    public static void setCore(GalaxyCoreCore core) {
+        Essential.core = core;
+    }
+
+    public ConfigNamespace getConfigNamespace() {
+        return configNamespace;
+    }
 
     @Override
     public void onEnable() {
+        setInstance(this);
+        setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
-        core = getServer().getServicesManager().load(GalaxyCoreCore.class);
+        configNamespace = core.getDatabaseConfiguration().getNamespace("galaxycity");
+        configNamespace.setDefault("spawn.world", "world");
+        configNamespace.setDefault("spawn.x", "186");
+        configNamespace.setDefault("spawn.y", "65");
+        configNamespace.setDefault("spawn.z", "-278");
+        configNamespace.setDefault("spawn.yaw", "-90");
+        configNamespace.setDefault("spawn.pitch", "0");
 
         I18N.setDefaultByLang("de_DE", "citybuild.noperms", "§cDu hast keine Berechtigung für diesen Command.");
         I18N.setDefaultByLang("de_DE", "citybuild.noplayerfound", "§cDieser Spieler ist nicht online");
@@ -63,9 +95,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.god.usage", "§cBenutze: /god Player");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.self", "§cDu hast dich zu %player% teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.other", "§c%player% hat dich zu dir teleportiert.");
-        I18N.setDefaultByLang("de_DE", "citybuild.tp.target.tp.notify","§cDu hast %target1% zu %target2% teleportiert.");
-        I18N.setDefaultByLang("de_DE", "citybuild.tp.target1","§c%target2% wurde von %player% zu dir teleportiert.");
-        I18N.setDefaultByLang("de_DE", "citybuild.tp.target2","§cDu wurdest von %player% zu %target1% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target.tp.notify", "§cDu hast %target1% zu %target2% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target1", "§c%target2% wurde von %player% zu dir teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.target2", "§cDu wurdest von %player% zu %target1% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.spawn.self", "§cDu hast dich zum Spawn teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.spawn.other", "§cDu wurdest von %player% zum Spawn teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.spawn.other.notify", "§cDu hast %player% zum Spawn teleportiert.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -112,11 +147,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.god.usage", "§cUsage: /god Player");
         I18N.setDefaultByLang("en_GB", "citybuild.tp.self", "§cYou have teleported to %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.tp.other", "§c%player% teleported you to you.");
-        I18N.setDefaultByLang("en_GB", "citybuild.tp.target.tp.notify","§cYou teleported %target1% to %target2%."); // Command Executor
-        I18N.setDefaultByLang("en_GB", "citybuild.tp.target1","§%target2% was teleported to you by %player%."); // Player to you
-        I18N.setDefaultByLang("en_GB", "citybuild.tp.target2","§cYou have been teleported from %player% to %target1%."); // you to Player
-
-
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target.tp.notify", "§cYou teleported %target1% to %target2%."); // Command Executor
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target1", "§%target2% was teleported to you by %player%."); // Player to you
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.target2", "§cYou have been teleported from %player% to %target1%."); // you to Player
+        I18N.setDefaultByLang("en_GB", "citybuild.spawn.self", "§cYou have teleported to the spawn.");
+        I18N.setDefaultByLang("en_GB", "citybuild.spawn.other", "§cYou have been teleported to the spawn by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.spawn.other.notify", "§cYou %target% teleported to the spawn.");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -131,9 +167,11 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("weather")).setExecutor(new WeatherCommand());
         Objects.requireNonNull(getCommand("god")).setExecutor(new GodCommand());
         Objects.requireNonNull(getCommand("teleport")).setExecutor(new TeleportCommand());
+        Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(getConfigNamespace()), this);
 
     }
 

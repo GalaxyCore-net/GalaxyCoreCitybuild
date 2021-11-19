@@ -25,7 +25,7 @@ public class FeedCommand implements CommandExecutor {
                 return true;
             }
             if (feedCooldown.containsKey(player)) {
-                if (!player.hasPermission("citybuild.command.day.cooldown.bypass")) {
+                if (!player.hasPermission("citybuild.command.feed.cooldown.bypass")) {
                     if (feedCooldown.get(player) < System.currentTimeMillis()) {
                         feedCooldown.remove(player);
                     } else {

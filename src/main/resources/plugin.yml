@@ -50,4 +50,8 @@ commands:
     description: Öffnet dein und Spieler Inventar
   Speed:
     description:
+  EcToggle:
+    description:
+  InvToggle:
+    description:
 

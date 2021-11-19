@@ -2,7 +2,10 @@ package net.galaxycore.citybuild.listeners;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.SneakyThrows;
+import net.galaxycore.citybuild.Essential;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -11,6 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Objects;
 
 @Getter
@@ -36,6 +41,7 @@ public class PlayerJoinListener implements Listener {
         spawnLoc = getSpawn();
     }
 
+    @SneakyThrows
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -43,6 +49,19 @@ public class PlayerJoinListener implements Listener {
         player.setGameMode(GameMode.SURVIVAL);
 
         player.teleport(spawnLoc);
+        // Every unregistered Player cannot be loaded here
+        if (PlayerLoader.load(player) == null) return;
+        PreparedStatement statementIsPlayerInDatabase = Essential.getCore().getDatabaseConfiguration().getConnection().prepareStatement("SELECT ID FROM galaxycity_playerdb where ID = ? ");
+        statementIsPlayerInDatabase.setInt(1, PlayerLoader.load(player).getId());
+        ResultSet resultIsPlayerInDatabase = statementIsPlayerInDatabase.executeQuery();
+        if (!resultIsPlayerInDatabase.next()) {
+            PreparedStatement statementAddPlayerToDatabase = Essential.getCore().getDatabaseConfiguration().getConnection().prepareStatement("INSERT INTO galaxycity_playerdb (ID) VALUES (?)");
+            statementAddPlayerToDatabase.setInt(1, PlayerLoader.load(player).getId());
+            statementAddPlayerToDatabase.executeUpdate();
+            statementAddPlayerToDatabase.close();
+        }
+        resultIsPlayerInDatabase.close();
+        statementIsPlayerInDatabase.close();
     }
 
     private Location getSpawn() {

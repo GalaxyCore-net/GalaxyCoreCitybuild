@@ -1,5 +1,6 @@
 package net.galaxycore.citybuild;
 
+import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
@@ -35,10 +36,13 @@ public final class Essential extends JavaPlugin {
         return configNamespace;
     }
 
+    @SneakyThrows
     @Override
     public void onEnable() {
         setInstance(this);
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
+
+        getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
 
         configNamespace = core.getDatabaseConfiguration().getNamespace("galaxycity");
         configNamespace.setDefault("spawn.world", "world");
@@ -133,7 +137,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.speed.9.other.notify", "§cDu hast %player% in den Speedmodus 9 gesetzt.");
         I18N.setDefaultByLang("de_DE", "citybuild.speed.10.other", "§cDu wurdest von %player% in den Speedmodus 10 gesetzt.");
         I18N.setDefaultByLang("de_DE", "citybuild.speed.10.other.notify", "§cDu hast %player% in den Speedmodus 10 gesetzt.");
-
+        I18N.setDefaultByLang("de_DE", "citybuild.ectoggle", "§cDiese Enderchest ist gesperrt");
+        I18N.setDefaultByLang("de_DE", "citybuild.invtoggle", "§cDieses Inventar ist gesperrt");
+        I18N.setDefaultByLang("de_DE", "citybuild.enderchest.open", "§cDeine Enderchest ist nun wieder offen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.enderchest.open", "§cDeine Enderchest ist nun geschlossen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -220,6 +229,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.speed.9.other.notify", "§cYou have set %player% to speed mode 9.");
         I18N.setDefaultByLang("en_GB", "citybuild.speed.10.other", "§cYou have been set to speed mode 10 by %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.speed.10.other.notify", "§cYou have set %player% to speed mode 10.");
+        I18N.setDefaultByLang("en_GB", "citybuild.ectoggle", "§cDiese Enderchest ist gesperrt");
+        I18N.setDefaultByLang("en_GB", "citybuild.invtoggle", "§cDieses Inventar ist gesperrt");
+        I18N.setDefaultByLang("en_GB", "citybuild.enderchest.open", "§cDeine Enderchest ist nun wieder offen.");
+        I18N.setDefaultByLang("en_GB", "citybuild.enderchest.open", "§cDeine Enderchest ist nun geschlossen.");
+        I18N.setDefaultByLang("en_GB", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
+        I18N.setDefaultByLang("en_GB", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -239,6 +254,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("enderchest")).setExecutor(new EnderChestCommand());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new InvseeCommand());
         Objects.requireNonNull(getCommand("speed")).setExecutor(new SpeedCommand());
+        Objects.requireNonNull(getCommand("ectoggle")).setExecutor(new EcToggleCommand());
+        Objects.requireNonNull(getCommand("invtoggle")).setExecutor(new InvToggleCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

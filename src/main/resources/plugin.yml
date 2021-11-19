@@ -54,4 +54,7 @@ commands:
     description:
   InvToggle:
     description:
+  Skull:
+    description:
+    aliases: [ "kopf" ]
 

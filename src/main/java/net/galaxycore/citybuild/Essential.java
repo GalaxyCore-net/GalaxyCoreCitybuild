@@ -63,8 +63,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.adventure", "§cDu bist nun im Adventuremodus");
         I18N.setDefaultByLang("de_DE", "citybuild.adventure.set", "§cDu hast %player% in den Adventuremodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.gamemode.usage", "§cBenutze: /gamemode <0|1|2|3>");
-        I18N.setDefaultByLang("de_DE", "citybuild.fly.on", "§cDu wurdest in den FlugModus gesetzt");
-        I18N.setDefaultByLang("de_DE", "citybuild.fly.off", "§cDu wurdest aus dem FlugModus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.fly.on", "§cDu wurdest in den Flugmodus gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.fly.off", "§cDu wurdest aus dem Flugmodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.on.other", "§cDu wurdest von %player% in den Flugmodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.off.other", "§cDu wurdest von %player% aus dem Flugmodus gesetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.fly.set.on", "§cDu hast %player% in den Flugmodus gesetzt");
@@ -256,6 +256,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("speed")).setExecutor(new SpeedCommand());
         Objects.requireNonNull(getCommand("ectoggle")).setExecutor(new EcToggleCommand());
         Objects.requireNonNull(getCommand("invtoggle")).setExecutor(new InvToggleCommand());
+        Objects.requireNonNull(getCommand("skull")).setExecutor(new SkullCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

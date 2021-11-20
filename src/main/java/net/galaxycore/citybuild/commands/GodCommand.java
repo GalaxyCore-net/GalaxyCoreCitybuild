@@ -56,7 +56,7 @@ public class GodCommand implements CommandExecutor {
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.god.on.other.notify"), new LuckPermsApiWrapper(player)));
             }
         } else {
-            player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.god.usage")));
         }
         return true;
     }

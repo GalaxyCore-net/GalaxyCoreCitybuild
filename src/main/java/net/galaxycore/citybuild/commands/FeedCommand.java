@@ -58,6 +58,8 @@ public class FeedCommand implements CommandExecutor {
             target.setSaturation(20);
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.feed.other.notify"), new LuckPermsApiWrapper(target)));
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.feed.usage")));
         }
         return true;
     }

@@ -29,7 +29,7 @@ public class InvseeCommand implements CommandExecutor {
             }
             player.openInventory(player.getInventory());
         }
-        if (args.length == 1) {
+        else if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.invsee.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
@@ -58,6 +58,8 @@ public class InvseeCommand implements CommandExecutor {
             if (!player.hasPermission("citybuild.command.invsee.other.modify") || (target.hasPermission("citybuild.command.invsee.other.modify.block") && !player.hasPermission("citybuild.command.invsee.other.modify.block.bypass")))
                 clickEvent.add(player);
 
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.invsee.usage")));
         }
 
         return true;

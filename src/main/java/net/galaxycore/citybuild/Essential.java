@@ -146,6 +146,18 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
         I18N.setDefaultByLang("de_DE", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
         I18N.setDefaultByLang("de_DE", "citybuild.tpoall", "§cDu hast alle zu dir Teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.ec.usage", "§cBenutze: §e/ec <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.feed.usage", "§cBenutze: §e/feed <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.fly.usage", "§cBenutze: §e/fly <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.god.usage", "§cBenutze: §e/god <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.heal.usage", "§cBenutze: §e/heal <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.invsee.usage", "§cBenutze: §e/invsee <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.skull.usage", "§cBenutze: §e/skull [Spieler]");
+        I18N.setDefaultByLang("de_DE", "citybuild.spawn.usage", "§cBenutze: §e/spawn <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.speed.usage", "§cBenutze: §e/speed [1-10] <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.teleport.usage", "§cBenutze: §e/teleport [Spieler] <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpo.usage", "§cBenutze: §e/tpo [Spieler] <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.weather.usage", "§cBenutze: §e/weather [clear|rain|thunder]");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -241,6 +253,18 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
         I18N.setDefaultByLang("en_GB", "citybuild.tpoall", "§cDu hast alle zu dir Teleportiert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.ec.usage", "§cBenutze: §e/ec <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.feed.usage", "§cBenutze: §e/feed <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.fly.usage", "§cBenutze: §e/fly <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.god.usage", "§cBenutze: §e/god <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.heal.usage", "§cBenutze: §e/heal <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.invsee.usage", "§cBenutze: §e/invsee <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.skull.usage", "§cBenutze: §e/skull [Spieler]");
+        I18N.setDefaultByLang("en_GB", "citybuild.spawn.usage", "§cBenutze: §e/spawn <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.speed.usage", "§cBenutze: §e/speed [1-10] <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.teleport.usage", "§cBenutze: §e/teleport [Spieler] <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpo.usage", "§cBenutze: §e/tpo [Spieler] <Spieler>");
+        I18N.setDefaultByLang("en_GB", "citybuild.weather.usage", "§cBenutze: §e/weather [clear|rain|thunder]");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

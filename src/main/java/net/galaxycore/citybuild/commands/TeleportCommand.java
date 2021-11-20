@@ -48,6 +48,8 @@ public class TeleportCommand implements CommandExecutor {
             targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)));
             targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target.tp.notify"), new LuckPermsApiWrapper(player)));
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.teleport.usage")));
         }
         return true;
     }

@@ -65,6 +65,8 @@ public class WeatherCommand implements CommandExecutor {
                     if (onlinePlayer != player)
                         onlinePlayer.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.weather.global.clear"), new LuckPermsApiWrapper(player)));
             }
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.weather.usage")));
         }
         return true;
     }

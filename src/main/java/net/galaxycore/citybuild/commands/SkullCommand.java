@@ -35,11 +35,14 @@ public class SkullCommand implements CommandExecutor {
                                                 I18N.getInstanceRef().get().getLanguages()
                                                         .get(I18N.getInstanceRef().get().getLocale(player)).getTimeFormat())
                                         .format(new Date(skullCooldown.get(player)))));
+                        return true;
                     }
                 }
             }
             player.getInventory().addItem(Skull.getPlayerSkull(args[0]));
             skullCooldown.put(player, System.currentTimeMillis() + 604800000); // 604.800000ms = 7T
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.skull.usage")));
         }
         return true;
     }

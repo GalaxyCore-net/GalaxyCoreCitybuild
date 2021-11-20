@@ -28,7 +28,7 @@ public class EnderChestCommand implements CommandExecutor {
                 return true;
             }
             player.openInventory(player.getEnderChest());
-        }
+        }else
         if (args.length == 1) {
             if (!player.hasPermission("citybuild.command.enderchest.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
@@ -58,6 +58,8 @@ public class EnderChestCommand implements CommandExecutor {
             if (!player.hasPermission("citybuild.command.enderchest.other.modify") || (target.hasPermission("citybuild.command.enderchest.other.modify.block") && !player.hasPermission("citybuild.command.enderchest.other.modify.block.bypass")))
                 clickEvent.add(player);
 
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.ec.usage")));
         }
 
         return true;

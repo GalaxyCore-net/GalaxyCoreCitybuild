@@ -45,6 +45,8 @@ public class TpoCommand implements CommandExecutor {
             }
             targetToTeleport.teleport(targetToTeleportTo);
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpo.target.tpo.notify"), new LuckPermsApiWrapper(player)));
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.tpo.usage")));
         }
         return true;
     }

@@ -59,8 +59,7 @@ public class SpeedCommand implements CommandExecutor {
                 player.setFlySpeed(1.0f);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.speed.10.self"));
             }
-        }
-        if (args.length == 2) {
+        } else if (args.length == 2) {
             if (!player.hasPermission("citybuild.command.gamemode.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
@@ -130,6 +129,8 @@ public class SpeedCommand implements CommandExecutor {
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.speed.10.other"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.speed.10.other.notify"), new LuckPermsApiWrapper(target)));
             }
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.speed.usage")));
         }
 
         return true;

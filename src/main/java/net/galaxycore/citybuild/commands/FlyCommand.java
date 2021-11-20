@@ -49,6 +49,8 @@ public class FlyCommand implements CommandExecutor {
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.off.other"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.fly.set.off"), new LuckPermsApiWrapper(target)));
             }
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.fly.usage")));
         }
         return true;
     }

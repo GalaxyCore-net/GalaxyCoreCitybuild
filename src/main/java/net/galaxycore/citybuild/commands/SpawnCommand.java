@@ -36,6 +36,8 @@ public class SpawnCommand implements CommandExecutor {
             target.teleport(PlayerJoinListener.getSpawnLoc());
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.spawn.other"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.spawn.other.notify"), new LuckPermsApiWrapper(target)));
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.spawn.usage")));
         }
 
 

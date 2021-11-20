@@ -60,6 +60,8 @@ public class HealCommand implements CommandExecutor {
             target.setRemainingAir(15 * 20);
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.heal.other.self"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.heal.other"), new LuckPermsApiWrapper(target)));
+        }else {
+            player.sendMessage((I18N.getByPlayer(player, "citybuild.heal.usage")));
         }
         return true;
     }

@@ -35,6 +35,7 @@ public class SkullCommand implements CommandExecutor {
                                                 I18N.getInstanceRef().get().getLanguages()
                                                         .get(I18N.getInstanceRef().get().getLocale(player)).getTimeFormat())
                                         .format(new Date(skullCooldown.get(player)))));
+                        return true;
                     }
                 }
             }

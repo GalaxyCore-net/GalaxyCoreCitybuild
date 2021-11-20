@@ -158,6 +158,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.teleport.usage", "§cBenutze: §e/teleport [Spieler] <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.tpo.usage", "§cBenutze: §e/tpo [Spieler] <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.weather.usage", "§cBenutze: §e/weather [clear|rain|thunder]");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.koordi.self", "§cDu hast dich zu den Koordinaten Teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tp.koordi.other", "§cDu wurdest zu bestimmten Koordinaten Teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.repair.self", "§cDas Item in deiner Hand wurde repariert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.repair.other", "§cDas Item in deiner Hand wurde von %player% repariert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.repair.other.notify", "§cDu hast das Item von %player% repariert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.repair.fail", "§cDu kannst dieses Item nicht reparieren.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -253,6 +259,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
         I18N.setDefaultByLang("en_GB", "citybuild.tpoall", "§cDu hast alle zu dir Teleportiert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.koordi.self", "§cDu hast dich zu den Koordinaten Teleportiert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tp.koordi.other", "§cDu wurdest zu bestimmten Koordinaten Teleportiert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.repair.self", "§cDas Item in deiner Hand wurde repariert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.repair.other", "§cDas Item in deiner Hand wurde von %player% repariert.");
+        I18N.setDefaultByLang("en_GB", "citybuild.repair.fail", "§cDu kannst dieses Item nicht reparieren.");
+        I18N.setDefaultByLang("en_GB", "citybuild.repair.other.notify", "§cDu hast das Item von %player% repariert.");
         I18N.setDefaultByLang("en_GB", "citybuild.ec.usage", "§cBenutze: §e/ec <Spieler>");
         I18N.setDefaultByLang("en_GB", "citybuild.feed.usage", "§cBenutze: §e/feed <Spieler>");
         I18N.setDefaultByLang("en_GB", "citybuild.fly.usage", "§cBenutze: §e/fly <Spieler>");
@@ -280,7 +292,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("god")).setExecutor(new GodCommand());
         Objects.requireNonNull(getCommand("teleport")).setExecutor(new TeleportCommand());
         Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
-        Objects.requireNonNull(getCommand("testcommand")).setExecutor(new TestCommand());
+        Objects.requireNonNull(getCommand("repair")).setExecutor(new RepairCommand());
         Objects.requireNonNull(getCommand("enderchest")).setExecutor(new EnderChestCommand());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new InvseeCommand());
         Objects.requireNonNull(getCommand("speed")).setExecutor(new SpeedCommand());

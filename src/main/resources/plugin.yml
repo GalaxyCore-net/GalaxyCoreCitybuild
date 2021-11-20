@@ -41,8 +41,8 @@ commands:
     aliases: [ "tp" ]
   Spawn:
     description: Teleportiert dich zum Spawn
-  TestCommand:
-    description: Damit teste ich funktionen
+  Repair:
+    description: Damit reaprierst du deine Tools
   Enderchest:
     description: Öffnet deine Enderchest
     aliases: [ "ec" ]

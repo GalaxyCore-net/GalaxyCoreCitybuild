@@ -154,6 +154,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.invsee.usage", "§cBenutze: §e/invsee <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.skull.usage", "§cBenutze: §e/skull [Spieler]");
         I18N.setDefaultByLang("de_DE", "citybuild.spawn.usage", "§cBenutze: §e/spawn <Spieler>");
+        I18N.setDefaultByLang("de_DE", "citybuild.repair.usage", "§cBenutze: §e/spawn <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.speed.usage", "§cBenutze: §e/speed [1-10] <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.teleport.usage", "§cBenutze: §e/teleport [Spieler] <Spieler>");
         I18N.setDefaultByLang("de_DE", "citybuild.tpo.usage", "§cBenutze: §e/tpo [Spieler] <Spieler>");
@@ -277,6 +278,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.teleport.usage", "§cBenutze: §e/teleport [Spieler] <Spieler>");
         I18N.setDefaultByLang("en_GB", "citybuild.tpo.usage", "§cBenutze: §e/tpo [Spieler] <Spieler>");
         I18N.setDefaultByLang("en_GB", "citybuild.weather.usage", "§cBenutze: §e/weather [clear|rain|thunder]");
+        I18N.setDefaultByLang("en_GB", "citybuild.repair.usage", "§cBenutze: §e/repair [Spieler]");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

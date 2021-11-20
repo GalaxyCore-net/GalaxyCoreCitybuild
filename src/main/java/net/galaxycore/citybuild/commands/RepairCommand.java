@@ -75,6 +75,8 @@ public class RepairCommand implements CommandExecutor {
             item.setItemMeta(itemMeta);
             target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.repair.other"), new LuckPermsApiWrapper(player)));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.repair.other.notify"), new LuckPermsApiWrapper(target)));
+        }else {
+            player.sendMessage(I18N.getByPlayer(player, "citybuild.repair.usage"));
         }
         return true;
     }

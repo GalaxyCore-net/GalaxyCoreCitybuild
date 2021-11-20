@@ -96,8 +96,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.god.off.other.notify", "§cDu hast %player% in den Gottmodus");
         I18N.setDefaultByLang("de_DE", "citybuild.god.usage", "§cBenutze: /god Player");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.self", "§cDu hast dich zu %player% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpo.self", "§cDu hast dich zu %player% teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.other", "§c%player% hat dich zu dir teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.target.tp.notify", "§cDu hast %target1% zu %target2% teleportiert.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpo.target.tpo.notify", "§cDu hast %target1% zu %target2% teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.target1", "§c%target2% wurde von %player% zu dir teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.tp.target2", "§cDu wurdest von %player% zu %target1% teleportiert.");
         I18N.setDefaultByLang("de_DE", "citybuild.spawn.self", "§cDu hast dich zum Spawn teleportiert.");
@@ -143,6 +145,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.enderchest.open", "§cDeine Enderchest ist nun geschlossen.");
         I18N.setDefaultByLang("de_DE", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
         I18N.setDefaultByLang("de_DE", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpoall", "§cDu hast alle zu dir Teleportiert.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -188,8 +191,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.god.off.other.notify", "§cYou have set %player% to god mode.");
         I18N.setDefaultByLang("en_GB", "citybuild.god.usage", "§cUsage: /god Player");
         I18N.setDefaultByLang("en_GB", "citybuild.tp.self", "§cYou have teleported to %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpo.self", "§cYou have teleported to %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.tp.other", "§c%player% teleported you to you.");
         I18N.setDefaultByLang("en_GB", "citybuild.tp.target.tp.notify", "§cYou teleported %target1% to %target2%."); // Command Executor
+        I18N.setDefaultByLang("en_GB", "citybuild.tpo.target.tpo.notify", "§cYou teleported %target1% to %target2%."); // Command Executor
         I18N.setDefaultByLang("en_GB", "citybuild.tp.target1", "§%target2% was teleported to you by %player%."); // Player to you
         I18N.setDefaultByLang("en_GB", "citybuild.tp.target2", "§cYou have been teleported from %player% to %target1%."); // you to Player
         I18N.setDefaultByLang("en_GB", "citybuild.spawn.self", "§cYou have teleported to the spawn.");
@@ -235,6 +240,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.enderchest.open", "§cDeine Enderchest ist nun geschlossen.");
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.close", "§cDein Inventar ist nun geschlossen.");
         I18N.setDefaultByLang("en_GB", "citybuild.inventar.open", "§cDein Inventar ist nun offen.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpoall", "§cDu hast alle zu dir Teleportiert.");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -257,6 +263,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("ectoggle")).setExecutor(new EcToggleCommand());
         Objects.requireNonNull(getCommand("invtoggle")).setExecutor(new InvToggleCommand());
         Objects.requireNonNull(getCommand("skull")).setExecutor(new SkullCommand());
+        Objects.requireNonNull(getCommand("tpo")).setExecutor(new TpoCommand());
+        Objects.requireNonNull(getCommand("tpoall")).setExecutor(new TpoAllCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

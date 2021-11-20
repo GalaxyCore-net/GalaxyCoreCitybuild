@@ -12,11 +12,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class TeleportCommand implements CommandExecutor {
+public class TpoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        if (!player.hasPermission("citybuild.command.tp")) {
+        if (!player.hasPermission("citybuild.command.tpo")) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
             return true;
         }
@@ -27,10 +27,9 @@ public class TeleportCommand implements CommandExecutor {
                 return true;
             }
             player.teleport(Objects.requireNonNull(target));
-            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.self"), new LuckPermsApiWrapper(target)));
-            target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.other"), new LuckPermsApiWrapper(player)));
+            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpo.self"), new LuckPermsApiWrapper(target)));
         } else if (args.length == 2) {
-            if (!player.hasPermission("citybuild.command.tp.other")) {
+            if (!player.hasPermission("citybuild.command.tpo.other")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
@@ -45,9 +44,7 @@ public class TeleportCommand implements CommandExecutor {
                 return true;
             }
             targetToTeleport.teleport(targetToTeleportTo);
-            targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)));
-            targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)));
-            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target.tp.notify"), new LuckPermsApiWrapper(player)));
+            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpo.target.tpo.notify"), new LuckPermsApiWrapper(player)));
         }
         return true;
     }

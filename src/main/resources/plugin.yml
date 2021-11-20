@@ -50,11 +50,16 @@ commands:
     description: Öffnet dein und Spieler Inventar
   Speed:
     description:
+    aliases: [ "sonic" ]
   EcToggle:
-    description:
+    description: Du versperrst deine Enderchest
   InvToggle:
-    description:
+    description: Du versperrst dein Inventar
   Skull:
-    description:
+    description: Du kannst dir verschiedene Köpfe geben
     aliases: [ "kopf" ]
+  Tpo:
+    description:
+  TpoAll:
+    description:
 

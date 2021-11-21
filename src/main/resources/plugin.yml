@@ -62,4 +62,5 @@ commands:
     description:
   TpoAll:
     description:
+  TestCommand:
 

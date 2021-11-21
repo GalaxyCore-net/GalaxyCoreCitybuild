@@ -303,6 +303,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("skull")).setExecutor(new SkullCommand());
         Objects.requireNonNull(getCommand("tpo")).setExecutor(new TpoCommand());
         Objects.requireNonNull(getCommand("tpoall")).setExecutor(new TpoAllCommand());
+        Objects.requireNonNull(getCommand("testcommand")).setExecutor(new TestCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

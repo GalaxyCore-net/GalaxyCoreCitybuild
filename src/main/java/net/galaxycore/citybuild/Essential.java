@@ -3,6 +3,7 @@ package net.galaxycore.citybuild;
 import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
+import net.galaxycore.citybuild.pmenu.PMenuDistributor;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -15,6 +16,7 @@ public final class Essential extends JavaPlugin {
     private static Essential instance;
     private static GalaxyCoreCore core;
     private ConfigNamespace configNamespace;
+    private PMenuDistributor pMenuDistributor;
 
     public static Essential getInstance() {
         return instance;
@@ -43,6 +45,8 @@ public final class Essential extends JavaPlugin {
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
+
+        pMenuDistributor = new PMenuDistributor();
 
         configNamespace = core.getDatabaseConfiguration().getNamespace("galaxycity");
         configNamespace.setDefault("spawn.world", "world");
@@ -310,10 +314,19 @@ public final class Essential extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
 
+        PMenuDistributor.init();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public PMenuDistributor getpMenuDistributor() {
+        return pMenuDistributor;
+    }
+
+    public void setpMenuDistributor(PMenuDistributor pMenuDistributor) {
+        this.pMenuDistributor = pMenuDistributor;
     }
 }

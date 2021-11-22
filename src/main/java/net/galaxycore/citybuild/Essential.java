@@ -167,6 +167,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.repair.fail", "§cDu kannst dieses Item nicht reparieren.");
         I18N.setDefaultByLang("de_DE", "citybuild.sign.success", "§cDieses Item wurde erfolgreich signiert");
         I18N.setDefaultByLang("de_DE", "citybuild.sign.text", "§7Signiert von §e%player% §7am §e%time%");
+        I18N.setDefaultByLang("de_DE", "citybuild.top.self", "§cDu wurdest auf den höchsten Block der Welt Teleportiert");
+        I18N.setDefaultByLang("de_DE", "citybuild.top.other", "§cDu wurdest von %player% auf den höchsten Block der Welt Teleportiert");
+        I18N.setDefaultByLang("de_DE", "citybuild.top.other.notify", "§cDu hast %player% auf den höchsten Block der Welt Teleportiert");
+        I18N.setDefaultByLang("de_DE", "citybuild.top.usage", "§cBenutze: /top [Spieler]");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -283,6 +287,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.sign.success", "§cThis item was successfully signed");
         I18N.setDefaultByLang("en_GB", "citybuild.sign.text", "§7Signed by §e%player% §7at §e%time%");
         I18N.setDefaultByLang("en_GB", "citybuild.repair.usage", "§cUsage: §e/repair [Player]");
+        I18N.setDefaultByLang("en_GB", "citybuild.top.self", "§cYou have been teleported to the Highest Block in the World");
+        I18N.setDefaultByLang("en_GB", "citybuild.top.other", "§cYou have been teleported to the highest block in the world by %player%.");
+        I18N.setDefaultByLang("en_GB", "citybuild.top.other.notify", "§cYou have teleported %player% to the highest block in the world.");
+        I18N.setDefaultByLang("en_GB", "citybuild.top.usage", "§cUsage: /top [Player]");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -308,6 +316,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpo")).setExecutor(new TpoCommand());
         Objects.requireNonNull(getCommand("tpoall")).setExecutor(new TpoAllCommand());
         Objects.requireNonNull(getCommand("sign")).setExecutor(new SignCommand());
+        Objects.requireNonNull(getCommand("top")).setExecutor(new TopCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

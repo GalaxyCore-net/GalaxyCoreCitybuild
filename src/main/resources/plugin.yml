@@ -64,4 +64,6 @@ commands:
     description:
   Sign:
     description: Hiermit kannst du Items signieren
+  Top:
+    description:
 

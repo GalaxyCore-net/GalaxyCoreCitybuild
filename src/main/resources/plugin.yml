@@ -62,5 +62,6 @@ commands:
     description:
   TpoAll:
     description:
-  TestCommand:
+  Sign:
+    description: Hiermit kannst du Items signieren
 

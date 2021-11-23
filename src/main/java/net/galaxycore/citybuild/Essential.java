@@ -171,6 +171,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.top.other", "§cDu wurdest von %player% auf den höchsten Block der Welt Teleportiert");
         I18N.setDefaultByLang("de_DE", "citybuild.top.other.notify", "§cDu hast %player% auf den höchsten Block der Welt Teleportiert");
         I18N.setDefaultByLang("de_DE", "citybuild.top.usage", "§cBenutze: /top [Spieler]");
+        I18N.setDefaultByLang("de_DE", "citybuild.tptoggle.open", "§cAb jetzt kann man sich wieder zu dir teleportieren.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tptoggle.close", "§cAb jetzt kann man sich nicht mehr zu dir teleportieren.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpatoggle.close", "§cAb jetzt kann man dir keine Tpa-Anfrage mehr senden.");
+        I18N.setDefaultByLang("de_DE", "citybuild.tpatoggle.open", "§cAb jetzt kann man dir wieder Tpa-Anfragen senden.");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§cYou're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§cThis Player isn't online");
@@ -291,6 +295,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.top.other", "§cYou have been teleported to the highest block in the world by %player%.");
         I18N.setDefaultByLang("en_GB", "citybuild.top.other.notify", "§cYou have teleported %player% to the highest block in the world.");
         I18N.setDefaultByLang("en_GB", "citybuild.top.usage", "§cUsage: /top [Player]");
+        I18N.setDefaultByLang("en_GB", "citybuild.tptoggle.open", "§cFrom now on you can be teleported to again.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tptoggle.close", "§cFrom now on it is no longer possible to teleport to you.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpatoggle.close", "§cFrom now on you can no longer be sent a Tpa request.");
+        I18N.setDefaultByLang("en_GB", "citybuild.tpatoggle.open", "§cFrom now on you can be sent Tpa requests again.");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

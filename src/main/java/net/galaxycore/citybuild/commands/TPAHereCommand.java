@@ -1,6 +1,5 @@
 package net.galaxycore.citybuild.commands;
 
-import lombok.Getter;
 import lombok.SneakyThrows;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.utils.TpaRequest;
@@ -19,18 +18,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 
-public class TPACommand implements CommandExecutor {
-    @Getter
-    private static final HashMap<Player, TpaRequest> tparequest = new HashMap<>();
+public class TPAHereCommand implements CommandExecutor {
 
     @SneakyThrows
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (args.length == 1) {
-            if (!player.hasPermission("citybuild.command.tpa")) {
+            if (!player.hasPermission("citybuild.command.tpahere")) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
@@ -52,11 +48,11 @@ public class TPACommand implements CommandExecutor {
                 resultIsPlayerLocked.close();
                 statementIsPlayerLocked.close();
             }
-            tparequest.put(target, new TpaRequest(target, player, true));
-            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpa.message2"), new LuckPermsApiWrapper(target)));
-            target.sendMessage(Component.text(StringUtils.replaceRelevant(I18N.getByPlayer(target, "citybuild.tpa.message1"), new LuckPermsApiWrapper(player))).append(Component.newline()).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.yes")).clickEvent(ClickEvent.runCommand("/tpaccept"))).append(Component.text(" ")).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.no")).clickEvent(ClickEvent.runCommand("/tpdeny"))));
+            TPACommand.getTparequest().put(target, new TpaRequest(target, player, false));
+            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpahere.message2"), new LuckPermsApiWrapper(target)));
+            target.sendMessage(Component.text(StringUtils.replaceRelevant(I18N.getByPlayer(target, "citybuild.tpahere.message1"), new LuckPermsApiWrapper(player))).append(Component.newline()).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.yes")).clickEvent(ClickEvent.runCommand("/tpaccept"))).append(Component.text(" ")).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.no")).clickEvent(ClickEvent.runCommand("/tpdeny"))));
         } else {
-            player.sendMessage(I18N.getByPlayer(player, "citybuild.tpa.usage"));
+            player.sendMessage(I18N.getByPlayer(player, "citybuild.tpahere.usage"));
         }
         return true;
     }

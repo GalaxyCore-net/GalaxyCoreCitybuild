@@ -78,4 +78,6 @@ commands:
     description: Erlaubt TPAs
   TPToggle:
     description: Erlaubt TPs
+  tpaall:
+    description: TPAt alle
 

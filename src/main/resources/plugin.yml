@@ -49,7 +49,7 @@ commands:
   Invsee:
     description: Öffnet dein und Spieler Inventar
   Speed:
-    description:
+    description: Beschleunigt dich
     aliases: [ "sonic" ]
   EcToggle:
     description: Du versperrst deine Enderchest
@@ -59,7 +59,25 @@ commands:
     description: Du kannst dir verschiedene Köpfe geben
     aliases: [ "kopf" ]
   Tpo:
-    description:
+    description: Teleportiert dich zu einem Spieler egal ob er gesperrt
   TpoAll:
-    description:
+    description: Teleportiert alle Spieler zu dir auch die die gesperrt
+  Sign:
+    description: Hiermit kannst du Items signieren
+  Top:
+    description: Teleportiert dich auf den Höchsten Punkt der Welt
+  Tpaccept:
+    description: Hiermit nimmst du TPA Anfragen
+  Tpdeny:
+    description: Hiermit lehnst du TPA Anfragen ab
+  TPAhere:
+    description: Hiermit sendest du dem Spieler eine Anfrage dich zu dir zu teleportieren
+  TPA:
+    description: Hiermit sendest du dem Spieler eine Anfrage dich zu ihm zu teleportieren
+  TPAToggle:
+    description: Erlaubt TPAs
+  TPToggle:
+    description: Erlaubt TPs
+  tpaall:
+    description: TPAt alle
 

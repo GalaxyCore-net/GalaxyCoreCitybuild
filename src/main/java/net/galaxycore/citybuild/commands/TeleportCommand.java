@@ -1,5 +1,8 @@
 package net.galaxycore.citybuild.commands;
 
+import lombok.SneakyThrows;
+import net.galaxycore.citybuild.Essential;
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
@@ -10,9 +13,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Objects;
 
 public class TeleportCommand implements CommandExecutor {
+    @SneakyThrows
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
@@ -25,6 +31,19 @@ public class TeleportCommand implements CommandExecutor {
             if (target == null) {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
+            }
+            PreparedStatement statementIsPlayerLocked = Essential.getCore().getDatabaseConfiguration().getConnection().prepareStatement("SELECT tptoggle FROM galaxycity_playerdb where ID = ? ");
+            statementIsPlayerLocked.setInt(1, PlayerLoader.load(target).getId());
+            ResultSet resultIsPlayerLocked = statementIsPlayerLocked.executeQuery();
+            if (resultIsPlayerLocked.next()) {
+                if (resultIsPlayerLocked.getBoolean("tptoggle")) {
+                    player.sendMessage((I18N.getByPlayer(player, "citybuild.tptoggle")));
+                    resultIsPlayerLocked.close();
+                    statementIsPlayerLocked.close();
+                    return true;
+                }
+                resultIsPlayerLocked.close();
+                statementIsPlayerLocked.close();
             }
             player.teleport(Objects.requireNonNull(target));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.self"), new LuckPermsApiWrapper(target)));
@@ -45,8 +64,8 @@ public class TeleportCommand implements CommandExecutor {
                 return true;
             }
             targetToTeleport.teleport(targetToTeleportTo);
-            targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)));
-            targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)));
+            targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)).replaceAll("%target1%", targetToTeleport.getName()).replaceAll("%target2%", targetToTeleportTo.getName()));
+            targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)).replaceAll("%target1%", targetToTeleport.getName()).replaceAll("%target2%", targetToTeleportTo.getName()));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target.tp.notify"), new LuckPermsApiWrapper(player)));
         }else {
             player.sendMessage((I18N.getByPlayer(player, "citybuild.teleport.usage")));

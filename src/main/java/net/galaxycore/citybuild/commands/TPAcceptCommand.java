@@ -19,7 +19,6 @@ public class TPAcceptCommand implements CommandExecutor {
         TpaRequest tpaRequest = TPACommand.getTparequest().get(player);
         TPACommand.getTparequest().remove(player);
         tpaRequest.delayedAccept();
-        player.sendMessage(I18N.getByPlayer(player, "citybuild.tpa.accept"));
         return true;
     }
 }

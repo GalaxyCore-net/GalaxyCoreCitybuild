@@ -17,29 +17,35 @@ public class TpaRequest {
     private final Player requested;
     @Getter
     private boolean reversed;
+    @Getter
+    private long timeOfCreation;
 
     public void accept() {
         if (reversed) {
-            requested.teleport(requester.getLocation());
+            requester.teleport(requested.getLocation());
             return;
         }
-        requester.teleport(requested.getLocation());
+        requested.teleport(requester.getLocation());
     }
 
     public void delayedAccept() {
-        //TODO Ablauf der Tpa nach 5 Minuten
+        if(timeOfCreation + (300000 /*300000ms = 5 min*/) < System.currentTimeMillis()) {
+            requested.sendMessage(I18N.getByPlayer(requested, "citybuild.tpa.expired"));
+            requester.sendMessage(I18N.getByPlayer(requester, "citybuild.tpa.expired"));
+            return;
+        }
         if (reversed) {
-            requester.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requester, "citybuild.tpahere.self.accept"), new LuckPermsApiWrapper(requested)));
-            requested.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requester, "citybuild.tpa.load"), new LuckPermsApiWrapper(requester)));
+            requested.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requested, "citybuild.tpahere.self.accept"), new LuckPermsApiWrapper(requester)));
+            requester.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requester, "citybuild.tpa.load"), new LuckPermsApiWrapper(requested)));
         } else {
-            requested.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requested, "citybuild.tpa.load"), new LuckPermsApiWrapper(requester)));
-            requester.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requester, "citybuild.tpa.self.accept"), new LuckPermsApiWrapper(requested)));
+            requester.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requester, "citybuild.tpa.load"), new LuckPermsApiWrapper(requested)));
+            requested.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(requested, "citybuild.tpa.self.accept"), new LuckPermsApiWrapper(requester)));
         }
         new BukkitRunnable() {
             @Override
             public void run() {
                 accept();
             }
-        }.runTaskLater(Essential.getInstance(), 90);
+        }.runTaskLater(Essential.getInstance(), 60);
     }
 }

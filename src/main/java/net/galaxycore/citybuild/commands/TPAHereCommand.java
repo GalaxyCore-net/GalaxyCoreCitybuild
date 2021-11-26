@@ -48,7 +48,7 @@ public class TPAHereCommand implements CommandExecutor {
                 resultIsPlayerLocked.close();
                 statementIsPlayerLocked.close();
             }
-            TPACommand.getTparequest().put(target, new TpaRequest(target, player, false));
+            TPACommand.getTparequest().put(target, new TpaRequest(target, player, true, System.currentTimeMillis()));
             player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tpahere.message2"), new LuckPermsApiWrapper(target)));
             target.sendMessage(Component.text(StringUtils.replaceRelevant(I18N.getByPlayer(target, "citybuild.tpahere.message1"), new LuckPermsApiWrapper(player))).append(Component.newline()).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.yes")).clickEvent(ClickEvent.runCommand("/tpaccept"))).append(Component.text(" ")).append(Component.text(I18N.getByPlayer(target, "citybuild.tpa.no")).clickEvent(ClickEvent.runCommand("/tpdeny"))));
         } else {

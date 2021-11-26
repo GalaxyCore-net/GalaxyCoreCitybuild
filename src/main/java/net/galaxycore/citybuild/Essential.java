@@ -361,6 +361,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpaccept")).setExecutor(new TPAcceptCommand());
         Objects.requireNonNull(getCommand("tpdeny")).setExecutor(new TPACommand());
         Objects.requireNonNull(getCommand("tpahere")).setExecutor(new TPAHereCommand());
+        Objects.requireNonNull(getCommand("tpatoggle")).setExecutor(new TpaToggleCommand());
+        Objects.requireNonNull(getCommand("tptoggle")).setExecutor(new TpToggleCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

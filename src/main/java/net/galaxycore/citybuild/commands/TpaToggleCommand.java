@@ -30,10 +30,10 @@ public class TpaToggleCommand implements CommandExecutor {
         if (resultIsPlayerLocked.next()) {
             if (resultIsPlayerLocked.getBoolean("tpatoggle")) {
                 statementUpdatePlayer.setBoolean(1, false);
-                player.sendMessage(I18N.getByPlayer(player, "citybuild.tpatoggle.close"));
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.tpatoggle.open"));
             } else {
                 statementUpdatePlayer.setBoolean(1, true);
-                player.sendMessage(I18N.getByPlayer(player, "citybuild.tpatoggle.open"));
+                player.sendMessage(I18N.getByPlayer(player, "citybuild.tpatoggle.close"));
             }
         }
         statementUpdatePlayer.executeUpdate();

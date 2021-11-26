@@ -74,4 +74,8 @@ commands:
     description: Hiermit sendest du dem Spieler eine Anfrage dich zu dir zu teleportieren
   TPA:
     description: Hiermit sendest du dem Spieler eine Anfrage dich zu ihm zu teleportieren
+  TPAToggle:
+    description: Erlaubt TPAs
+  TPToggle:
+    description: Erlaubt TPs
 

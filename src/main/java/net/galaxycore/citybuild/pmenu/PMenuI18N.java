@@ -4,7 +4,13 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.entity.Player;
 
 public enum PMenuI18N {
-    TITLE_MAIN("main.title", "§ePMenu", "§ePMenu");
+    TITLE_MAIN("main.title", "§ePMenu", "§ePMenu"),
+    MAIN_WARPS("main.warps", "§aWarp", "§aWarp"),
+    MAIN_PLOTS("main.plots", "§aMeine Plots", "§aMy Plots"),
+    MAIN_THIS("main.thisplot", "§aDieses Plot", "§aThis Plots"),
+    TITLE_WARP("warp.title", "§eWarps", "§eWarps"),
+    WARP_SUCCESS("warp.success", "§7Du wurdest teleportiert", "§7You were teleported"),
+    ;
 
     private final String key;
 

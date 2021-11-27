@@ -196,6 +196,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.tpatoggle.open", "§7Ab jetzt kann man dir wieder Tpa-Anfragen senden.");
         I18N.setDefaultByLang("de_DE", "citybuild.tpahere.usage", "§7Benutze: /tpahere [Player]");
         I18N.setDefaultByLang("de_DE", "citybuild.tpaall", "§7Du hast jedem eine TPA gesendet");
+        I18N.setDefaultByLang("de_DE", "citybuild.setwarp.usage", "§cBenutze: §e/setwarp [Name] [Pos] §cund halte ein Item in der Hand");
+        I18N.setDefaultByLang("de_DE", "citybuild.delwarp.usage", "§cBenutze: §e/delwarp [Pos]");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this");
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online");
@@ -337,6 +339,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.tpa.notfound", "§7This tpa was not found");
         I18N.setDefaultByLang("en_GB", "citybuild.tpahere.usage", "§7Usage: /tpahere [Player]");
         I18N.setDefaultByLang("en_GB", "citybuild.tpaall", "§7You sent everyone a TPA");
+        I18N.setDefaultByLang("en_GB", "citybuild.setwarp.usage", "§cPlease use: §e/setwarp [Name] [Pos] §cand hold an item in your hand");
+        I18N.setDefaultByLang("en_GB", "citybuild.delwarp.usage", "§cPlease use: §e/delwarp [Pos] ");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -370,6 +374,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpatoggle")).setExecutor(new TpaToggleCommand());
         Objects.requireNonNull(getCommand("tptoggle")).setExecutor(new TpToggleCommand());
         Objects.requireNonNull(getCommand("tpaall")).setExecutor(new TPAAllCommand());
+        Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
+        Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

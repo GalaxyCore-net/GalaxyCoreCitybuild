@@ -18,7 +18,7 @@ public class TPAAllCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
 
-        if(!player.hasPermission("citybuild.tpaall")) {
+        if (!player.hasPermission("citybuild.command.tpaall")) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
             return true;
         }

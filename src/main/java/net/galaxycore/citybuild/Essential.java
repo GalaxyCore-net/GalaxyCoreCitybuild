@@ -3,9 +3,11 @@ package net.galaxycore.citybuild;
 import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
+import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.scoreboards.ScoreBoardController;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -192,6 +194,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.tpatoggle.open", "§7Ab jetzt kann man dir wieder Tpa-Anfragen senden.", true);
         I18N.setDefaultByLang("de_DE", "citybuild.tpahere.usage", "§7Benutze: /tpahere [Player]", true);
         I18N.setDefaultByLang("de_DE", "citybuild.tpaall", "§7Du hast jedem eine TPA gesendet", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.score.rank", "§eRang:");
+        I18N.setDefaultByLang("de_DE", "citybuild.score.onlinetime", "§eSpielzeit:");
+        I18N.setDefaultByLang("de_DE", "citybuild.score.server", "§eServer:");
+        I18N.setDefaultByLang("de_DE", "citybuild.score.coins", "§eCoins:");
+        I18N.setDefaultByLang("de_DE", "citybuild.score.teamspeak", "§eTeamspeak:");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -333,6 +340,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.tpa.notfound", "§7This tpa was not found", true);
         I18N.setDefaultByLang("en_GB", "citybuild.tpahere.usage", "§7Usage: /tpahere [Player]", true);
         I18N.setDefaultByLang("en_GB", "citybuild.tpaall", "§7You sent everyone a TPA", true);
+        I18N.setDefaultByLang("en_GB", "citybuild.score.rank", "§eRank:");
+        I18N.setDefaultByLang("en_GB", "citybuild.score.onlinetime", "§ePlaytime:");
+        I18N.setDefaultByLang("en_GB", "citybuild.score.server", "§eServer:");
+        I18N.setDefaultByLang("en_GB", "citybuild.score.coins", "§eCoins:");
+        I18N.setDefaultByLang("en_GB", "citybuild.score.teamspeak", "§eTeamspeak:");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -373,6 +385,7 @@ public final class Essential extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
 
+        ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
     }
 
     @Override

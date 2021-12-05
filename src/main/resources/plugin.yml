@@ -1,14 +1,83 @@
 name: Essential
 version: '${project.version}'
-main: net.galaxycore.essential.Essential
+main: net.galaxycore.citybuild.Essential
 api-version: 1.16
+author: TheNick24
 description: CityBuild Plugin für GalaxyCore.net
+depend:
+  - GalaxyCoreCore
 commands:
   Debug:
+    description: Gibt dir eine Test Nachricht aus.
   Gamemode:
-    aliases: ["gm"]
+    description: Setzt dich in verschiedene Spielmodi.
+    aliases: [ "gm" ]
   Heal:
     description: Füllt dein Hunger und deine Herzen wieder auf.
   Fly:
-
+    description: Setzt dich oder andere Spieler in den Flugmodus
   Feed:
+    description: DU kannst deine oder andere Hungerleisten auffüllen
+  Workbench:
+    description: Öffnet eine Mobile Werkbank
+    aliases: [ "wb", "craft" ]
+  Anvil:
+    description: Öffnet einen Mobilen Amboss
+    aliases: [ "av" ]
+  Day:
+    description: Ändert die TagesZeit auf Tag
+    aliases: [ "d" ]
+  Night:
+    description: Ändert die TagesZeit auf Nacht
+    aliases: [ "n" ]
+  Hat:
+    description: Setzt dir das Item in deiner Hand auf deinen Kopf
+  Weather:
+    description: Ändert das Weather in 3 verschieden Möglichkeiten
+  God:
+    description: Setzt dich in einen unverwundbaren Modus
+  Teleport:
+    description: Teleportiert dich zu anderen Spielern
+    aliases: [ "tp" ]
+  Spawn:
+    description: Teleportiert dich zum Spawn
+  Repair:
+    description: Damit reaprierst du deine Tools
+  Enderchest:
+    description: Öffnet deine Enderchest
+    aliases: [ "ec" ]
+  Invsee:
+    description: Öffnet dein und Spieler Inventar
+  Speed:
+    description: Beschleunigt dich
+    aliases: [ "sonic" ]
+  EcToggle:
+    description: Du versperrst deine Enderchest
+  InvToggle:
+    description: Du versperrst dein Inventar
+  Skull:
+    description: Du kannst dir verschiedene Köpfe geben
+    aliases: [ "kopf" ]
+  Tpo:
+    description: Teleportiert dich zu einem Spieler egal ob er gesperrt
+  TpoAll:
+    description: Teleportiert alle Spieler zu dir auch die die gesperrt
+  Sign:
+    description: Hiermit kannst du Items signieren
+  Top:
+    description: Teleportiert dich auf den Höchsten Punkt der Welt
+  Tpaccept:
+    description: Hiermit nimmst du TPA Anfragen
+  Tpdeny:
+    description: Hiermit lehnst du TPA Anfragen ab
+  TPAhere:
+    description: Hiermit sendest du dem Spieler eine Anfrage dich zu dir zu teleportieren
+  TPA:
+    description: Hiermit sendest du dem Spieler eine Anfrage dich zu ihm zu teleportieren
+  TPAToggle:
+    description: Erlaubt TPAs
+  TPToggle:
+    description: Erlaubt TPs
+  tpaall:
+    description: TPAt alle
+

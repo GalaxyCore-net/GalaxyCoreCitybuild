@@ -10,6 +10,7 @@ public enum PMenuI18N {
     MAIN_THIS("main.thisplot", "§aDieses Plot", "§aThis Plots"),
     TITLE_WARP("warp.title", "§eWarps", "§eWarps"),
     WARP_SUCCESS("warp.success", "§7Du wurdest teleportiert", "§7You were teleported"),
+    TITLE_PLOTS("plots.title", "§eMeine Plots", "§eMy Plots"),
     ;
 
     private final String key;

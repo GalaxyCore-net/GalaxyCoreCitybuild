@@ -41,6 +41,7 @@ public final class Essential extends JavaPlugin {
     @SneakyThrows
     @Override
     public void onEnable() {
+        // Plugin start logic
         setInstance(this);
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
@@ -199,6 +200,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.score.server", "§eServer:");
         I18N.setDefaultByLang("de_DE", "citybuild.score.coins", "§eCoins:");
         I18N.setDefaultByLang("de_DE", "citybuild.score.teamspeak", "§eTeamspeak:");
+        I18N.setDefaultByLang("de_DE", "citybuild.score.onlinetime.sub", "%h%h %m%m");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -346,6 +348,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.score.server", "§eServer:");
         I18N.setDefaultByLang("en_GB", "citybuild.score.coins", "§eCoins:");
         I18N.setDefaultByLang("en_GB", "citybuild.score.teamspeak", "§eTeamspeak:");
+        I18N.setDefaultByLang("en_GB", "citybuild.score.onlinetime.sub", "%h%h %m%m");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

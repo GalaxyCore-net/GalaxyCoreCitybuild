@@ -21,7 +21,7 @@ public class CustomScoreBoardManager implements IScoreBoardCallback {
         if (id == 1)
             kv = new String[]{I18N.getByPlayer(player, "citybuild.score.coins"), "§7" + new CoinDAO(PlayerLoader.load(player), Essential.getInstance()).get(), ""};
         if (id == 2)
-            kv = new String[]{I18N.getByPlayer(player, "citybuild.score.onlinetime"), "§7" + I18N.getByPlayer(player, "citybuild.score.onlinetime.sub").replace("%h%", onlineTime.getHours() + "").replace("%h%", onlineTime.getMinutes() + ""), ""};
+            kv = new String[]{I18N.getByPlayer(player, "citybuild.score.onlinetime"), "§7" + I18N.getByPlayer(player, "citybuild.score.onlinetime.sub").replace("%h%", onlineTime.getHours() + "").replace("%m%", onlineTime.getMinutes() + ""), ""};
         if (id == 3)
             kv = new String[]{I18N.getByPlayer(player, "citybuild.score.server"), "§7" + ServerNameUtil.getName().substring(0, Math.min(ServerNameUtil.getName().length(), 12)), ""};
         if (id == 4)

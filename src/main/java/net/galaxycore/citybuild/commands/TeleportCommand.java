@@ -64,9 +64,9 @@ public class TeleportCommand implements CommandExecutor {
                 return true;
             }
             targetToTeleport.teleport(targetToTeleportTo);
-            targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)).replaceAll("%target1%", targetToTeleport.getName()).replaceAll("%target2%", targetToTeleportTo.getName()));
-            targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)).replaceAll("%target1%", targetToTeleport.getName()).replaceAll("%target2%", targetToTeleportTo.getName()));
-            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target.tp.notify"), new LuckPermsApiWrapper(player)));
+            targetToTeleport.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target2"), new LuckPermsApiWrapper(player)).replace("%target1%", targetToTeleport.getName()).replace("%target2%", targetToTeleportTo.getName()));
+            targetToTeleportTo.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target1"), new LuckPermsApiWrapper(player)).replace("%target1%", targetToTeleport.getName()).replace("%target2%", targetToTeleportTo.getName()));
+            player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.tp.target.tp.notify"), new LuckPermsApiWrapper(player)).replace("%target1%", targetToTeleport.getName()).replace("%target2%", targetToTeleportTo.getName()));
         }else {
             player.sendMessage((I18N.getByPlayer(player, "citybuild.teleport.usage")));
         }

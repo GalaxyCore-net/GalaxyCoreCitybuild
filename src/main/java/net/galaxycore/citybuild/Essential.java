@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
+import net.galaxycore.citybuild.pmenu.PMenuDistributor;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -17,6 +18,7 @@ public final class Essential extends JavaPlugin {
     private static Essential instance;
     private static GalaxyCoreCore core;
     private ConfigNamespace configNamespace;
+    private PMenuDistributor pMenuDistributor;
 
     public static Essential getInstance() {
         return instance;
@@ -45,6 +47,8 @@ public final class Essential extends JavaPlugin {
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
+
+        pMenuDistributor = new PMenuDistributor();
 
         configNamespace = core.getDatabaseConfiguration().getNamespace("galaxycity");
         configNamespace.setDefault("spawn.world", "world");
@@ -199,6 +203,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.score.server", "§eServer:");
         I18N.setDefaultByLang("de_DE", "citybuild.score.coins", "§eCoins:");
         I18N.setDefaultByLang("de_DE", "citybuild.score.teamspeak", "§eTeamspeak:");
+        I18N.setDefaultByLang("de_DE", "citybuild.setwarp.usage", "§cBenutze: §e/setwarp [Name] [Pos] §cund halte ein Item in der Hand", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.delwarp.usage", "§cBenutze: §e/delwarp [Pos]", true);
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -346,6 +352,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.score.server", "§eServer:");
         I18N.setDefaultByLang("en_GB", "citybuild.score.coins", "§eCoins:");
         I18N.setDefaultByLang("en_GB", "citybuild.score.teamspeak", "§eTeamspeak:");
+        I18N.setDefaultByLang("en_GB", "citybuild.setwarp.usage", "§cPlease use: §e/setwarp [Name] [Pos] §cand hold an item in your hand", true);
+        I18N.setDefaultByLang("en_GB", "citybuild.delwarp.usage", "§cPlease use: §e/delwarp [Pos] ", true);
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -379,6 +387,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpatoggle")).setExecutor(new TpaToggleCommand());
         Objects.requireNonNull(getCommand("tptoggle")).setExecutor(new TpToggleCommand());
         Objects.requireNonNull(getCommand("tpaall")).setExecutor(new TPAAllCommand());
+        Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
+        Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
@@ -387,10 +397,20 @@ public final class Essential extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
 
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
+
+      PMenuDistributor.init();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public PMenuDistributor getpMenuDistributor() {
+        return pMenuDistributor;
+    }
+
+    public void setpMenuDistributor(PMenuDistributor pMenuDistributor) {
+        this.pMenuDistributor = pMenuDistributor;
     }
 }

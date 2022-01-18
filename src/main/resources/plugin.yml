@@ -80,4 +80,8 @@ commands:
     description: Erlaubt TPs
   tpaall:
     description: TPAt alle
+  setwarp:
+    description: Setzt einen Warppunkt
+  delwarp:
+    description: Löscht einen Warppunkt
 

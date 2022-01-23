@@ -3,8 +3,8 @@ package net.galaxycore.citybuild;
 import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
-import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
+import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -398,7 +398,7 @@ public final class Essential extends JavaPlugin {
 
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
-      PMenuDistributor.init();
+        PMenuDistributor.init();
     }
 
     @Override
@@ -406,7 +406,7 @@ public final class Essential extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public PMenuDistributor getpMenuDistributor() {
+    public PMenuDistributor getPMenuDistributor() {
         return pMenuDistributor;
     }
 

@@ -84,4 +84,6 @@ commands:
     description: Setzt einen Warppunkt
   delwarp:
     description: Löscht einen Warppunkt
+  warp:
+    description: Öffne das Warp-Menu
 

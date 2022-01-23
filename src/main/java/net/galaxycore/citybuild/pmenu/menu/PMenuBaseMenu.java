@@ -48,10 +48,12 @@ public class PMenuBaseMenu extends Menu {
 
     private void openPlots() {
         player.closeInventory();
+        new PMenuPlotsMenu(player).open();
     }
 
     private void openThisPlot() {
         player.closeInventory();
+        new PMenuPlotInfoMenu(player, null).open();
     }
 
     @Override

@@ -25,7 +25,8 @@ public class PCommandListener implements Listener {
             "plotsquared:plotsquared",
             "plotsquared:p2",
             "plotsquared:2",
-            "plotsquared:plotme"
+            "plotsquared:plotme",
+            "warp"
     );
 
     @EventHandler
@@ -42,6 +43,7 @@ public class PCommandListener implements Listener {
 
         String[] argsWithCommand = event.getMessage().split(" ");
         String[] args = new String[argsWithCommand.length - 1];
+        String alias = "";
 
         boolean doCMD = false;
 
@@ -49,6 +51,7 @@ public class PCommandListener implements Listener {
 
         for (String arg : argsWithCommand) {
             if(!doCMD) {
+                alias = arg;
                 doCMD = true;
                 continue;
             }
@@ -59,6 +62,6 @@ public class PCommandListener implements Listener {
 
         Runtime.getRuntime().gc();
 
-        Essential.getInstance().getpMenuDistributor().distribute(event.getPlayer(), args);
+        Essential.getInstance().getPMenuDistributor().distribute(event.getPlayer(), alias, args);
     }
 }

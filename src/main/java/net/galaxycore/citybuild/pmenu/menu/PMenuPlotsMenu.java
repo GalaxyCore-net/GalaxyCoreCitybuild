@@ -6,6 +6,7 @@ import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+//TODO implement @Flo-mit-H
 public class PMenuPlotsMenu extends Menu {
     private final Player player;
 
@@ -21,7 +22,7 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 0;
+        return 9;
     }
 
     @Override

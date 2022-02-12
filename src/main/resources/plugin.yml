@@ -6,6 +6,7 @@ author: TheNick24
 description: CityBuild Plugin für GalaxyCore.net
 depend:
   - GalaxyCoreCore
+  - PlotSquared
 commands:
   Debug:
     description: Gibt dir eine Test Nachricht aus.

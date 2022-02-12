@@ -15,7 +15,7 @@ public class PCommandListener implements Listener {
             "plot",
             "ps",
             "plotsquared",
-            "p2",
+//            "p2",
             "2",
             "plotme",
             "plotsquared:plots",

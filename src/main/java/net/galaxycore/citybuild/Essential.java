@@ -57,6 +57,9 @@ public final class Essential extends JavaPlugin {
         configNamespace.setDefault("spawn.z", "-278");
         configNamespace.setDefault("spawn.yaw", "-90");
         configNamespace.setDefault("spawn.pitch", "0");
+        configNamespace.setDefault("plotwelt.plot_width", "50");
+        configNamespace.setDefault("plotwelt.road_width", "7");
+        configNamespace.setDefault("plotwelt.plot_tp_offset", "3|1|3|-45|0");
 
         I18N.setDefaultByLang("de_DE", "citybuild.noperms", "§7Du hast keine Berechtigung für diesen Command.", true);
         I18N.setDefaultByLang("de_DE", "citybuild.noplayerfound", "§7Dieser Spieler ist nicht online", true);
@@ -205,6 +208,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.score.teamspeak", "§eTeamspeak:");
         I18N.setDefaultByLang("de_DE", "citybuild.setwarp.usage", "§cBenutze: §e/setwarp [Name] [Pos] §cund halte ein Item in der Hand", true);
         I18N.setDefaultByLang("de_DE", "citybuild.delwarp.usage", "§cBenutze: §e/delwarp [Pos]", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.error_title", "§cBeim Anfragen der Grundstücke ist ein Fehler aufgetreten");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.error_lore", "§cBitte melde diesen Fehler bei einem Teammitglied");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_title", "§cDu hast bist jetzt noch keine Grundstücke");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_lore", "§cHol' dir eins mit /p claim");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -354,6 +361,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.score.teamspeak", "§eTeamspeak:");
         I18N.setDefaultByLang("en_GB", "citybuild.setwarp.usage", "§cPlease use: §e/setwarp [Name] [Pos] §cand hold an item in your hand", true);
         I18N.setDefaultByLang("en_GB", "citybuild.delwarp.usage", "§cPlease use: §e/delwarp [Pos] ", true);
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.error_title", "§cAn error occured while getting the plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.error_lore", "§cPlease report this error to a staff member");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_title", "§cYou don't have any plots yet");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_lore", "§cClaim one using /p claim");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

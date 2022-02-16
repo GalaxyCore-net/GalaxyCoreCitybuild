@@ -1,9 +1,7 @@
 package net.galaxycore.citybuild.pmenu;
 
 import net.galaxycore.citybuild.Essential;
-import net.galaxycore.citybuild.pmenu.menu.PMenuBaseMenu;
-import net.galaxycore.citybuild.pmenu.menu.PMenuPlotInfoMenu;
-import net.galaxycore.citybuild.pmenu.menu.PMenuWarpMenu;
+import net.galaxycore.citybuild.pmenu.menu.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -17,6 +15,12 @@ public class PMenuDistributor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
                 new PMenuPlotInfoMenu(player, null).open();
+            }
+            if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
+                new PMenuPlotsMenu(player).open();
+            }
+            if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
+                new PMenuHelpMenu(player).open();
             }
         }
 

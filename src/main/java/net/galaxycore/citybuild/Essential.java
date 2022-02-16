@@ -212,6 +212,16 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.error_lore", "§cBitte melde diesen Fehler bei einem Teammitglied");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_title", "§cDu hast bist jetzt noch keine Grundstücke");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_lore", "§cHol' dir eins mit /p claim");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.claiming", "§6Holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.teleport", "§6Teleportieren");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.settings", "§6Einstellungen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.chat", "§6Chat");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.schematic", "§6Schematics");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.appereance", "§6Aussehen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.info", "§6Info");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.debug", "§6Debug");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.administration", "§6Administration");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.title", "§6Hilfe");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -365,6 +375,17 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.error_lore", "§cPlease report this error to a staff member");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_title", "§cYou don't have any plots yet");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_lore", "§cClaim one using /p claim");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.claiming", "§6claiming");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.teleport", "§6teleport");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.settings", "§6settings");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.chat", "§6chat");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.schematic", "§6schematic");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.appereance", "§6appereance");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.info", "§6info");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.debug", "§6debug");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.administration", "§6administration");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.title", "§6Help");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.help", "§eHelp");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

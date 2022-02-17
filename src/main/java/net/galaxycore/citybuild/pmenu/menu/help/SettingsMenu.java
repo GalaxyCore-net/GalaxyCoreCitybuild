@@ -18,19 +18,19 @@ public class SettingsMenu extends Menu {
         registerCommandI18N("trust",
                 """
                         Allow a user to build\s
-                        in a plot and use WorldEdit\s
-                        while the plot owner is offline""",
+                        §7in a plot and use WorldEdit\s
+                        §7while the plot owner is offline""",
                 """
                         Erlaube einem Spieler auf einem Grundstück
-                        zu bauen und WorldEdit zu benutzen
-                        während der Ploteigentümer offline ist""");
+                        §7zu bauen und WorldEdit zu benutzen
+                        §7während der Ploteigentümer offline ist""");
         registerCommandI18N("add",
                 """
-                        Allow a user to build in a plot \n
-                        while the plot owner is online""",
+                        Allow a user to build in a plot
+                        §7while the plot owner is online""",
                 """
-                        Erlaube einem Spieler, auf einem Grundstück zu bauen, \n
-                        während der Eigentümer online ist""");
+                        Erlaube einem Spieler, auf einem Grundstück zu bauen,
+                        §7während der Eigentümer online ist""");
         registerCommandI18N("deny",
                 "Deny a user from entering a plot",
                 "Verbiete einem Spieler, ein Grundstück zu betreten");
@@ -45,18 +45,18 @@ public class SettingsMenu extends Menu {
                 "Verwalte Grundstückseigenschaften");
         registerCommandI18N("done",
                 """
-                        Continue a plot that was previously \n
-                        marked as done""",
+                        Continue a plot that was previously
+                        §7marked as done""",
                 """
-                        Fahre fort mit einem Grundstück, \n
-                        welches vorher als fertig markiert wurde""");
+                        Fahre fort mit einem Grundstück,
+                        §7welches vorher als fertig markiert wurde""");
         registerCommandI18N("continue",
                 """
-                        Continue a plot that was previously \n
-                        marked as done""",
+                        Continue a plot that was previously
+                        §7marked as done""",
                 """
-                        Fahre fort mit einem Grundstück, \n
-                        welches vorher als fertig markiert wurde""");
+                        Fahre fort mit einem Grundstück,
+                        §7welches vorher als fertig markiert wurde""");
         registerCommandI18N("alias",
                 "Set the plot alias",
                 "Setzte einen Spitznamen für das Grundstück");

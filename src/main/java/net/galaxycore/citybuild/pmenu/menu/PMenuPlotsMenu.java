@@ -7,9 +7,12 @@ import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -37,28 +40,35 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
-        if (inventoryClickEvent.getRawSlot() >= 9 && inventoryClickEvent.getRawSlot() <= 18)
+        if (!((inventoryClickEvent.getRawSlot() >= 9) && (inventoryClickEvent.getRawSlot() < 18))) {
             return;
+        }
+
+        if(inventoryClickEvent.getCurrentItem() == null) return;
+        if(inventoryClickEvent.getCurrentItem().getType() == Material.BARRIER) return;
+
+        String worldName = PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(inventoryClickEvent.getCurrentItem().lore()).get(0));
+
         int plotX = Integer.parseInt(ChatColor.stripColor(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()).split(",")[0]),
                 plotZ = Integer.parseInt(ChatColor.stripColor(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()).split(",")[1]);
         int offsetX, offsetY, offsetZ;
-        offsetX = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_tp_offset").split("\\|")[0]);
-        offsetY = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_tp_offset").split("\\|")[1]);
-        offsetZ = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_tp_offset").split("\\|")[2]);
+        offsetX = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_tp_offset").split("\\|")[0]);
+        offsetY = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_tp_offset").split("\\|")[1]);
+        offsetZ = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_tp_offset").split("\\|")[2]);
 
         int yaw, pitch;
-        yaw = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_tp_offset").split("\\|")[3]);
-        pitch = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_tp_offset").split("\\|")[4]);
+        yaw = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_tp_offset").split("\\|")[3]);
+        pitch = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_tp_offset").split("\\|")[4]);
 
-        int roadWidth = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".road_width"));
-        int plotWidth = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(player.getWorld().getName().toLowerCase() + ".plot_width"));
+        int roadWidth = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".road_width"));
+        int plotWidth = Integer.parseInt(Essential.getInstance().getConfigNamespace().get(worldName.toLowerCase() + ".plot_width"));
 
         int posX, posZ;
         posX = plotX * roadWidth + plotX * plotWidth + offsetX;
         posZ = plotZ * roadWidth + plotZ * plotWidth + offsetZ;
 
 
-        player.teleport(new Location(player.getWorld(), posX, (player.getWorld().getHighestBlockYAt(posX, posZ) + offsetY), posZ, yaw, pitch));
+        player.teleport(new Location(Bukkit.getWorld(worldName), posX, (player.getWorld().getHighestBlockYAt(posX, posZ) + offsetY), posZ, yaw, pitch));
     }
 
     @Override
@@ -72,10 +82,15 @@ public class PMenuPlotsMenu extends Menu {
         }
         boolean changed = false;
         for (Plot plot : plotAPI.getPlayerPlots(Objects.requireNonNull(plotAPI.wrapPlayer(player.getUniqueId())))) {
-            if (!Objects.requireNonNull(plot.getArea()).getWorldName().equals(player.getWorld().getName()))
-                continue;
             String plotID = plot.getId().toCommaSeparatedString();
-            inventory.addItem(makeItem(Material.GRASS_BLOCK, "§5" + plotID, Objects.requireNonNull(plot.getArea()).getWorldName()));
+            String alias = plot.getAlias();
+
+            // Can load whatever it wants, should be in side thread
+            @SuppressWarnings("deprecation") com.plotsquared.core.location.Location centerLocation = plot.getCenterSynchronous();
+            org.bukkit.Location bukkitCenterLocation = Objects.requireNonNull(Bukkit.getWorld(centerLocation.getWorldName())).getHighestBlockAt(centerLocation.getX(), centerLocation.getZ()).getLocation();
+            Biome biome = bukkitCenterLocation.getWorld().getBiome(bukkitCenterLocation.getBlockX(), bukkitCenterLocation.getBlockY(), bukkitCenterLocation.getBlockZ());
+
+            inventory.addItem(makeItem(PMenuPlotInfoMenu.getBiomeMaterials().getOrDefault(biome, Material.GRASS_BLOCK), "§5" + plotID, Objects.requireNonNull(plot.getArea()).getWorldName(), alias));
             changed = true;
         }
         if (!changed) {

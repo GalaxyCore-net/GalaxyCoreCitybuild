@@ -5,6 +5,7 @@ import com.plotsquared.core.location.Location;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
 import com.plotsquared.core.plot.flag.PlotFlag;
+import lombok.Getter;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PMenuPlotInfoMenu extends Menu {
+    @Getter
     private static HashMap<Biome, Material> biomeMaterials = new HashMap<>();
 
     static {
@@ -158,7 +160,9 @@ public class PMenuPlotInfoMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
-
+        switch (inventoryClickEvent.getRawSlot()) {
+            case 1 -> new PMenuFlagsMenu(player, plot).open();
+        }
     }
 
     @Override

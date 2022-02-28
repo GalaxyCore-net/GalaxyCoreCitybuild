@@ -24,6 +24,12 @@ public class PMenuDistributor {
             }
         }
 
+        if(args.length >= 1) {
+            if (args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("f")) {
+                new PMenuFlagsMenu(player).open();
+            }
+        }
+
         if ( args.length == 0 ) {
             new PMenuBaseMenu(player).open();
         }

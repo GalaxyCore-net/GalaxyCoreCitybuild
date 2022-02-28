@@ -32,12 +32,12 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 9;
+        return 9 * 3;
     }
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
-        if(inventoryClickEvent.getRawSlot() > getSlots())
+        if (inventoryClickEvent.getRawSlot() >= 9 && inventoryClickEvent.getRawSlot() <= 18)
             return;
         int plotX = Integer.parseInt(ChatColor.stripColor(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()).split(",")[0]),
                 plotZ = Integer.parseInt(ChatColor.stripColor(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()).split(",")[1]);
@@ -63,21 +63,25 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        if(plotAPI.wrapPlayer(player.getUniqueId()) == null) {
-            inventory.setItem(4, makeItem(Material.BARRIER, i18n("error_title"), i18n("error_lore")));
+        if (plotAPI.wrapPlayer(player.getUniqueId()) == null) {
+            inventory.setItem(13, makeItem(Material.BARRIER, i18n("error_title"), i18n("error_lore")));
             return;
         }
+        for (int i = 0; i < 9; i++) {
+            inventory.setItem(i, FILLER_GLASS);
+        }
         boolean changed = false;
-        for(Plot plot : plotAPI.getPlayerPlots(Objects.requireNonNull(plotAPI.wrapPlayer(player.getUniqueId())))) {
-            if(!Objects.requireNonNull(plot.getArea()).getWorldName().equals(player.getWorld().getName()))
+        for (Plot plot : plotAPI.getPlayerPlots(Objects.requireNonNull(plotAPI.wrapPlayer(player.getUniqueId())))) {
+            if (!Objects.requireNonNull(plot.getArea()).getWorldName().equals(player.getWorld().getName()))
                 continue;
             String plotID = plot.getId().toCommaSeparatedString();
             inventory.addItem(makeItem(Material.GRASS_BLOCK, "§5" + plotID, Objects.requireNonNull(plot.getArea()).getWorldName()));
             changed = true;
         }
-        if(!changed) {
-            inventory.setItem(4, makeItem(Material.BARRIER, i18n("no_plots_title"), i18n("no_plots_lore")));
+        if (!changed) {
+            inventory.setItem(13, makeItem(Material.BARRIER, i18n("no_plots_title"), i18n("no_plots_lore")));
         }
+        setFillerGlass();
     }
 
     private String i18n(String key) {

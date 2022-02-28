@@ -4,6 +4,11 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.entity.Player;
 
 public enum PMenuI18N {
+    BACK("back", "§eZurück", "§eBack", false),
+    NEXT("next", "§eNächste Seite", "§eNext Page", false),
+    PREV("prev", "§eVorherige Seite", "§eLast Page", false),
+    PAGE("page", "§eSeite ", "§ePage ", false),
+    SEARCH("search", "§eSuchen", "§eSuchen", false),
     TITLE_MAIN("main.title", "§ePMenu", "§ePMenu", false),
     MAIN_WARPS("main.warps", "§aWarp", "§aWarp", false),
     MAIN_PLOTS("main.plots", "§aMeine Plots", "§aMy Plots", false),
@@ -17,8 +22,9 @@ public enum PMenuI18N {
     TITLE_PLOTS("plots.title", "§eMeine Plots", "§eMy Plots", false),
     NOT_ON_A_PLOT("err.notonaplot", "§cDu befindest dich nicht auf einem Plot!", "§cYou are not on a plot!", true),
     PLOT_NOT_CLAIMED("err.plotnotclaimed", "§cDieses Plot gehört niemandem. Beanspruche es mit §e/p claim§c!", "§cThis plot is not owned by anyone. Claim it using §e/p claim§c!", true),
+    NO_PLOT_PERMISSIONS("err.pnoperms", "§cDu hast keine Rechte, dieses Plot zu bearbeiten!", "§cYou do not have enough permissions to edit this plot!", true),
     TITLE_PLOTINFO("plotinfo.title", "§ePlotinfo", "§ePlotinfo", false),
-    PLOTINFO_FLAGS("plotinfo.flags", "§eFlags", "§eFlags", false),
+    PLOTINFO_FLAGS("plotinfo.flags", "§eEigenschaften", "§eFlags", false),
     PLOTINFO_FLAGS_NONE("plotinfo.flags.none", "§7Keine", "§7None", false),
     PLOTINFO_SOMEONES_PLOT("plotinfo.someonesplot", "§e%p%'s Plot", "§e%p%'s Plot", false),
     PLOTINFO_SOMEONES_PLOT_ID("plotinfo.someonesplot.id", "§eID: ", "§eID: ", false),
@@ -30,6 +36,7 @@ public enum PMenuI18N {
     PLOTINFO_PEOPLE_MEMBER("plotinfo.people.member", "§eMitglieder:", "§eMembers:", false),
     PLOTINFO_PEOPLE_BANNED("plotinfo.people.banned", "§eVerboten:", "§eBanned:", false),
     PLOTINFO_PEOPLE_NONE("plotinfo.people.none", "Keine", "None", false),
+    FLAGS_TITLE("flags.edit.title", "§eEigenschaften bearbeiten", "§eModify Flags", false)
     ;
 
     private final String key;

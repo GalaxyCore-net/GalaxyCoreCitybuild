@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Arrays;
 
 public class PMenuWarpMenu extends Menu {
     private final Player player;
@@ -35,8 +36,9 @@ public class PMenuWarpMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
-        if (inventoryClickEvent.getRawSlot() >= 9 && inventoryClickEvent.getRawSlot() <= 18)
+        if (!((inventoryClickEvent.getRawSlot() >= 9) && (inventoryClickEvent.getRawSlot() < 18))) {
             return;
+        }
         Warp warp = mapping[inventoryClickEvent.getRawSlot() - 9];
         if (warp == null) return;
         player.closeInventory();

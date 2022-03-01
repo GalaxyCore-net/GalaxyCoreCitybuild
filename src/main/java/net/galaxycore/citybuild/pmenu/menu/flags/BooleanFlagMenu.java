@@ -8,6 +8,7 @@ import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.citybuild.pmenu.menu.PMenuFlagsMenu;
+import net.galaxycore.citybuild.utils.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -37,7 +38,7 @@ public class BooleanFlagMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 9*3;
+        return 9 * 3;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class BooleanFlagMenu extends Menu {
                     plot.removeFlag(flagClass);
         }
 
-        if(List.of(12, 14, 18).contains(inventoryClickEvent.getRawSlot())) {
+        if (List.of(12, 14, 18).contains(inventoryClickEvent.getRawSlot())) {
             player.closeInventory();
             new PMenuFlagsMenu(player, plot).open();
         }
@@ -61,8 +62,10 @@ public class BooleanFlagMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        inventory.setItem(12, makeItem(Material.LIME_STAINED_GLASS, PMenuI18N.FLAGS_ACTIVATE.get(player)));
-        inventory.setItem(14, makeItem(Material.RED_STAINED_GLASS, PMenuI18N.FLAGS_DEACTIVATE.get(player)));
+        boolean value = plot.getFlag(flagClass);
+
+        inventory.setItem(12, ItemStackUtils.glimmerIf(makeItem(Material.LIME_STAINED_GLASS, PMenuI18N.FLAGS_ACTIVATE.get(player)), value));
+        inventory.setItem(14, ItemStackUtils.glimmerIf(makeItem(Material.RED_STAINED_GLASS, PMenuI18N.FLAGS_DEACTIVATE.get(player)), !value));
         inventory.setItem(18, makeItem(Material.BARRIER, PMenuI18N.RESET.get(player)));
     }
 }

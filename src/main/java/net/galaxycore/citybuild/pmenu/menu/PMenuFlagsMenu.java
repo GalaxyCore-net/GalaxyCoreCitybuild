@@ -12,6 +12,7 @@ import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import java.util.Optional;
 
@@ -97,5 +98,9 @@ public class PMenuFlagsMenu extends Menu {
 
         inventory.setItem(27+9, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
         setFillerGlass();
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }

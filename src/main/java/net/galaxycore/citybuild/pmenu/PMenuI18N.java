@@ -41,6 +41,7 @@ public enum PMenuI18N {
     FLAGS_EDIT("flags.edit", "§eEigenschaft Editieren", "§eEdit Flag", false),
     FLAGS_ACTIVATE("flags.activate", "§aAktivieren", "§aActivate", false),
     FLAGS_DEACTIVATE("flags.deactivate", "§cDeaktivieren", "§cDeactivate", false),
+    FLAGS_CHANGE("flags.change", "§cÄndern", "§cChange", false),
     RESET("reset", "§cZurücksetzen", "§cReset", false);
 
     private final String key;

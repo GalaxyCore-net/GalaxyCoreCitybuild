@@ -28,6 +28,10 @@ public class PMenuDistributor {
             if (args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("f")) {
                 new PMenuFlagsMenu(player).open();
             }
+
+            if (args[0].equalsIgnoreCase("home") || args[0].equalsIgnoreCase("h")) {
+                new PMenuPlotsMenu(player).open();
+            }
         }
 
         if ( args.length == 0 ) {

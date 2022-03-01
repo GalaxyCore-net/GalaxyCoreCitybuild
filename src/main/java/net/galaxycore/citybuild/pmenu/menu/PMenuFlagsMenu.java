@@ -4,12 +4,11 @@ import com.plotsquared.core.PlotAPI;
 import com.plotsquared.core.location.Location;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
+import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,19 +18,13 @@ import java.util.Optional;
 @Getter
 public class PMenuFlagsMenu extends Menu {
     private final Player player;
-    private final FlagMenuData data;
     private Plot plot;
     private boolean open = true;
 
-    public PMenuFlagsMenu(Player player, Plot plot, FlagMenuData data) {
+    public PMenuFlagsMenu(Player player, Plot plot) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
         this.plot = plot;
-        this.data = data;
-    }
-
-    public PMenuFlagsMenu(Player player, Plot plot) {
-        this(player, plot, new FlagMenuData());
     }
 
     public PMenuFlagsMenu(Player player) {
@@ -81,29 +74,28 @@ public class PMenuFlagsMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 9*6;
+        return 9*5;
     }
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
+        if(inventoryClickEvent.getRawSlot() == 27+9) {
+            new PMenuPlotInfoMenu(player, plot).open();
+            return;
+        }
 
+        if(inventoryClickEvent.getRawSlot() > 26) return;
+        Flag flag = Flag.values()[inventoryClickEvent.getRawSlot()];
+        flag.openUI(player, plot);
     }
 
     @Override
     public void setMenuItems() {
+        for (Flag value : Flag.values()) {
+            inventory.addItem(value.item(plot, player));
+        }
 
-        inventory.setItem(45, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
-        inventory.setItem(48, makeItem(Material.OAK_BUTTON, PMenuI18N.PREV.get(player)));
-        inventory.setItem(49, makeItem(Material.PAPER, PMenuI18N.PAGE.get(player) + (data.page+1)));
-        inventory.setItem(50, makeItem(Material.OAK_BUTTON, PMenuI18N.NEXT.get(player)));
-        inventory.setItem(53, makeItem(Material.SPRUCE_SIGN, PMenuI18N.SEARCH.get(player)));
-
+        inventory.setItem(27+9, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
         setFillerGlass();
-    }
-
-    @Data
-    public static class FlagMenuData {
-        private int page = 0;
-        private String query = "";
     }
 }

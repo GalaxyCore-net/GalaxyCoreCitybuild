@@ -36,8 +36,12 @@ public enum PMenuI18N {
     PLOTINFO_PEOPLE_MEMBER("plotinfo.people.member", "§eMitglieder:", "§eMembers:", false),
     PLOTINFO_PEOPLE_BANNED("plotinfo.people.banned", "§eVerboten:", "§eBanned:", false),
     PLOTINFO_PEOPLE_NONE("plotinfo.people.none", "Keine", "None", false),
-    FLAGS_TITLE("flags.edit.title", "§eEigenschaften bearbeiten", "§eModify Flags", false)
-    ;
+    FLAGS_TITLE("flags.edit.title", "§eEigenschaften bearbeiten", "§eModify Flags", false),
+    FLAGS_CURRENTVAL("flags.currentval", "§eAktueller Wert: ", "§eCurrent Value: ", false),
+    FLAGS_EDIT("flags.edit", "§eEigenschaft Editieren", "§eEdit Flag", false),
+    FLAGS_ACTIVATE("flags.activate", "§aAktivieren", "§aActivate", false),
+    FLAGS_DEACTIVATE("flags.deactivate", "§cDeaktivieren", "§cDeactivate", false),
+    RESET("reset", "§cZurücksetzen", "§cReset", false);
 
     private final String key;
 

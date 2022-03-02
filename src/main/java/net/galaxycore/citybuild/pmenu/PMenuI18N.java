@@ -44,6 +44,7 @@ public enum PMenuI18N {
     FLAGS_CHANGE("flags.change", "§cÄndern", "§cChange", false),
     FLAGS_SUN("flags.sun", "§cSonne", "§cSun", false),
     FLAGS_RAIN("flags.rain", "§cRegen", "§cRain", false),
+    FLAGS_NFE("flags.nfe", "§cDas ist keine Zahl", "§cThat's not a number", false),
     RESET("reset", "§cZurücksetzen", "§cReset", false);
 
     private final String key;

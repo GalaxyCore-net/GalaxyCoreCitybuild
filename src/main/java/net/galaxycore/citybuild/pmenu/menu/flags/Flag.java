@@ -5,6 +5,7 @@ import com.plotsquared.core.plot.flag.PlotFlag;
 import com.plotsquared.core.plot.flag.implementations.*;
 import com.plotsquared.core.plot.flag.types.BlockTypeListFlag;
 import com.plotsquared.core.plot.flag.types.BooleanFlag;
+import com.plotsquared.core.plot.flag.types.LongFlag;
 import com.plotsquared.core.plot.flag.types.StringFlag;
 import lombok.Getter;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
@@ -101,6 +102,8 @@ public enum Flag {
             new StringFlagMenu(player, plot, this).open();
         } else if (superclass == PlotFlag.class) {
             new WeatherFlagMenu(player, plot, this).open();
+        } else if (superclass == LongFlag.class) {
+            new LongFlagMenu(player, plot, this).open();
         } else if (superclass == BlockTypeListFlag.class) {
 
         }

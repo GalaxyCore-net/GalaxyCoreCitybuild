@@ -42,6 +42,8 @@ public enum PMenuI18N {
     FLAGS_ACTIVATE("flags.activate", "§aAktivieren", "§aActivate", false),
     FLAGS_DEACTIVATE("flags.deactivate", "§cDeaktivieren", "§cDeactivate", false),
     FLAGS_CHANGE("flags.change", "§cÄndern", "§cChange", false),
+    FLAGS_SUN("flags.sun", "§cSonne", "§cSun", false),
+    FLAGS_RAIN("flags.rain", "§cRegen", "§cRain", false),
     RESET("reset", "§cZurücksetzen", "§cReset", false);
 
     private final String key;

@@ -100,7 +100,7 @@ public enum Flag {
         } else if (superclass == StringFlag.class) {
             new StringFlagMenu(player, plot, this).open();
         } else if (superclass == PlotFlag.class) {
-
+            new WeatherFlagMenu(player, plot, this).open();
         } else if (superclass == BlockTypeListFlag.class) {
 
         }

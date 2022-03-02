@@ -2,6 +2,7 @@ package net.galaxycore.citybuild.pmenu;
 
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
+import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -43,5 +44,7 @@ public class PMenuDistributor {
         Bukkit.getPluginManager().registerEvents(new PCommandListener(), Essential.getInstance());
 
         PMenuI18N.TITLE_MAIN.__call__();
+        //noinspection ResultOfMethodCallIgnored Registration Statement
+        Flag.ANIMAL_ATTACK.getDescEn();
     }
 }

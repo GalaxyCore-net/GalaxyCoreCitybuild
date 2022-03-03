@@ -1,20 +1,13 @@
 package net.galaxycore.citybuild.pmenu.menu.flags;
 
 import com.plotsquared.core.plot.Plot;
-import com.plotsquared.core.plot.flag.GlobalFlagContainer;
-import com.plotsquared.core.plot.flag.PlotFlag;
 import com.plotsquared.core.plot.flag.types.BlockTypeWrapper;
 import com.plotsquared.core.plot.flag.types.ListFlag;
 import lombok.Getter;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
-import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.citybuild.pmenu.menu.PMenuFlagsMenu;
-import net.kyori.adventure.text.Component;
-import net.wesjd.anvilgui.AnvilGUI;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -54,7 +47,7 @@ public class BlockListFlagMenu extends Menu {
 
         switch (inventoryClickEvent.getRawSlot()) {
             case 15 -> // edit
-                    new BlockListMenu(player, plot, this).open();
+                    new BlockListMenu(player, plot, this, 0).open();
 
             case 11 -> // Reset
                     plot.removeFlag(flagClass);

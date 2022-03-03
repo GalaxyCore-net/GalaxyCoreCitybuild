@@ -8,6 +8,7 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
+import net.galaxycore.citybuild.utils.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,25 +19,35 @@ import java.util.List;
 import java.util.Objects;
 
 public class BlockListMenu extends Menu {
-    public static final int PIVOT = 5 * 9 + 1;
+    public static final int PIVOT = 5 * 9;
     private final Player player;
     private final Plot plot;
-    private int page = 0;
     private final List<ItemStack> itemStacks = new ArrayList<>();
+    private final List<Boolean> highlight = new ArrayList<>();
     private final BlockListFlagMenu blockListFlagMenu;
+    private int page;
 
-
-    public BlockListMenu(Player player, Plot plot, BlockListFlagMenu blockListFlagMenu) {
+    public BlockListMenu(Player player, Plot plot, BlockListFlagMenu blockListFlagMenu, int page) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
         this.plot = plot;
         this.blockListFlagMenu = blockListFlagMenu;
+        this.page = page;
         itemStacks.clear();
+        highlight.clear();
+
+        List<BlockTypeWrapper> blockTypeWrappers = new ArrayList<>(plot.getFlag(blockListFlagMenu.getFlagClass()));
 
         for (Material value : Material.values()) {
             if (!value.isBlock()) continue;
             if (value.isAir()) continue;
+            //noinspection deprecation Filter
+            if (value.isLegacy()) continue;
+            if (!value.isItem()) continue;
+            if (value.name().contains("WALL")) continue;
             itemStacks.add(new ItemStack(value, 1));
+            BlockType type = BlockTypes.parse(value.name());
+            highlight.add(blockTypeWrappers.stream().anyMatch(blockTypeWrapper -> Objects.equals(blockTypeWrapper.getBlockType(), type)));
         }
     }
 
@@ -73,37 +84,43 @@ public class BlockListMenu extends Menu {
         ItemStack item = inventoryClickEvent.getCurrentItem();
         if (item == null) return;
 
-        List<BlockTypeWrapper> blockTypeWrappers = plot.getFlag(blockListFlagMenu.getFlagClass());
+        List<BlockTypeWrapper> blockTypeWrappers = new ArrayList<>(plot.getFlag(blockListFlagMenu.getFlagClass()));
         BlockType type = BlockTypes.parse(item.getType().name());
 
-        if (blockTypeWrappers.stream().anyMatch(blockTypeWrapper -> Objects.equals(blockTypeWrapper.getBlockType(), type))) {
+        if (blockTypeWrappers.stream().noneMatch(blockTypeWrapper -> Objects.equals(blockTypeWrapper.getBlockType(), type))) {
             blockTypeWrappers.add(BlockTypeWrapper.get(type));
         } else {
             blockTypeWrappers.remove(BlockTypeWrapper.get(type));
         }
 
         plot.setFlag(GlobalFlagContainer.getInstance().getFlag(blockListFlagMenu.getFlagClass()).createFlagInstance(blockTypeWrappers));
+        plot.getFlag(blockListFlagMenu.getFlagClass());
+        new BlockListMenu(player, plot, blockListFlagMenu, page).open();
     }
 
     @Override
     public void setMenuItems() {
-        int len = itemStacks.size();
         int start = page * PIVOT;
-        int end = Math.min(((page + 1) * PIVOT) - 1, len - (page * PIVOT));
-        while (start > end) {
+        int end = (page + 1) * PIVOT;
+        while (start >= itemStacks.size()) {
             page--;
             start = page * PIVOT;
-            end = Math.min(((page + 1) * PIVOT) - 1, len - (page * PIVOT));
+            end = (page + 1) * PIVOT;
         }
-
         for (int i = start; i < end; i++) {
-            inventory.addItem(itemStacks.get(i));
+            if (i < itemStacks.size()) {
+                inventory.addItem(ItemStackUtils.glimmerIf(itemStacks.get(i), highlight.get(i)));
+            }
         }
 
         inventory.setItem(5 * 9, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
+        inventory.setItem(5 * 9 + 1, FILLER_GLASS);
+        inventory.setItem(5 * 9 + 2, FILLER_GLASS);
         inventory.setItem(5 * 9 + 3, makeItem(Material.ARROW, PMenuI18N.PREV.get(player)));
         inventory.setItem(5 * 9 + 4, makeItem(Material.PAPER, PMenuI18N.PAGE.get(player) + (page + 1)));
         inventory.setItem(5 * 9 + 5, makeItem(Material.ARROW, PMenuI18N.NEXT.get(player)));
-        setFillerGlass();
+        inventory.setItem(5 * 9 + 6, FILLER_GLASS);
+        inventory.setItem(5 * 9 + 7, FILLER_GLASS);
+        inventory.setItem(5 * 9 + 8, FILLER_GLASS);
     }
 }

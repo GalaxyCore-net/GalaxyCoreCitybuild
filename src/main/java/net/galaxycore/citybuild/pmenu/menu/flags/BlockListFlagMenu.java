@@ -54,7 +54,7 @@ public class BlockListFlagMenu extends Menu {
 
         switch (inventoryClickEvent.getRawSlot()) {
             case 15 -> // edit
-                    new BlockListMenu(player, plot, flag, this).open();
+                    new BlockListMenu(player, plot, this).open();
 
             case 11 -> // Reset
                     plot.removeFlag(flagClass);

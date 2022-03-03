@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Getter
@@ -26,6 +27,11 @@ public class PMenuFlagsMenu extends Menu {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
         this.plot = plot;
+
+        if(plot != null && !Objects.requireNonNull(plot.getOwner()).toString().equals(player.getUniqueId().toString()) && open) {
+            open = false;
+            PMenuI18N.NO_PLOT_PERMISSIONS.send(player);
+        }
     }
 
     public PMenuFlagsMenu(Player player) {
@@ -57,7 +63,6 @@ public class PMenuFlagsMenu extends Menu {
 
         if(plot != null && !plot.getOwner().toString().equals(player.getUniqueId().toString()) && open) {
             open = false;
-            System.out.println(plot.getOwner());
             PMenuI18N.NO_PLOT_PERMISSIONS.send(player);
         }
     }

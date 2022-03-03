@@ -44,6 +44,7 @@ public enum PMenuI18N {
     FLAGS_CHANGE("flags.change", "§cÄndern", "§cChange", false),
     FLAGS_SUN("flags.sun", "§cSonne", "§cSun", false),
     FLAGS_RAIN("flags.rain", "§cRegen", "§cRain", false),
+    FLAGS_TIP_ADD("flags.tip.add", "§7Hinweis: Klicke auf einen Block um ihn zur Liste hinzuzufügen oder zu entfernen", "§7Notice: Click on a block to add or remove it from the final list", false),
     FLAGS_NFE("flags.nfe", "§cDas ist keine Zahl", "§cThat's not a number", false),
     RESET("reset", "§cZurücksetzen", "§cReset", false);
 

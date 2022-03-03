@@ -105,7 +105,7 @@ public enum Flag {
         } else if (superclass == LongFlag.class) {
             new LongFlagMenu(player, plot, this).open();
         } else if (superclass == BlockTypeListFlag.class) {
-
+            new BlockListFlagMenu(player, plot, this).open();
         }
     }
 }

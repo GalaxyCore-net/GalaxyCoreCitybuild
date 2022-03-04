@@ -43,7 +43,7 @@ public class PMenuBaseMenu extends Menu {
 
     private void openPlots() {
         player.closeInventory();
-        new PMenuPlotsMenu(player).open();
+        new PMenuPlotsMenu(player, player.getUniqueId()).open();
     }
 
     private void openThisPlot() {

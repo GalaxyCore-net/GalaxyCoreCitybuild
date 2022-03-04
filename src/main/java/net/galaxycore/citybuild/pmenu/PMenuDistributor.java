@@ -1,10 +1,15 @@
 package net.galaxycore.citybuild.pmenu;
 
+import com.plotsquared.core.PlotAPI;
+import com.plotsquared.core.player.PlotPlayer;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
 import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class PMenuDistributor {
     public void distribute(Player player, String alias, String[] args) {
@@ -18,7 +23,7 @@ public class PMenuDistributor {
                 new PMenuPlotInfoMenu(player, null).open();
             }
             if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
-                new PMenuPlotsMenu(player).open();
+                new PMenuPlotsMenu(player, player.getUniqueId()).open();
             }
             if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
                 new PMenuHelpMenu(player).open();
@@ -31,7 +36,18 @@ public class PMenuDistributor {
             }
 
             if (args[0].equalsIgnoreCase("home") || args[0].equalsIgnoreCase("h")) {
-                new PMenuPlotsMenu(player).open();
+                UUID toOpen = player.getUniqueId();
+                if(args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if(plotPlayer == null) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toOpen = plotPlayer.getUUID();
+                }
+                new PMenuPlotsMenu(player, toOpen).open();
             }
         }
 

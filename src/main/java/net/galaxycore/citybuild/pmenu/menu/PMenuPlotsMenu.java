@@ -1,6 +1,7 @@
 package net.galaxycore.citybuild.pmenu.menu;
 
 import com.plotsquared.core.PlotAPI;
+import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
@@ -17,15 +18,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class PMenuPlotsMenu extends Menu {
     private final Player player;
     private final PlotAPI plotAPI;
+    private final PlotPlayer<?> toOpenFor;
 
-    public PMenuPlotsMenu(Player player) {
+    public PMenuPlotsMenu(Player player, UUID toOpen) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
         this.plotAPI = new PlotAPI();
+        toOpenFor = plotAPI.wrapPlayer(toOpen);
     }
 
     @Override

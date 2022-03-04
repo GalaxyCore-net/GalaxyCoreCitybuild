@@ -31,7 +31,6 @@ public class PMenuBaseMenu extends Menu {
             case 11 -> openWarp();
             case 22 -> openPlots();
             case 15 -> openThisPlot();
-            case 29 -> openHelp();
         }
     }
 
@@ -49,11 +48,6 @@ public class PMenuBaseMenu extends Menu {
     private void openThisPlot() {
         player.closeInventory();
         new PMenuPlotInfoMenu(player, null).open();
-    }
-
-    private void openHelp() {
-        player.closeInventory();
-        new PMenuHelpMenu(player).open();
     }
 
     @Override

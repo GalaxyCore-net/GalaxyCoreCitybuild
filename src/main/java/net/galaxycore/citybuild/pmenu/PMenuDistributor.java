@@ -5,7 +5,6 @@ import com.plotsquared.core.player.PlotPlayer;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
 import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
-import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -24,9 +23,6 @@ public class PMenuDistributor {
             }
             if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
                 new PMenuPlotsMenu(player, player.getUniqueId()).open();
-            }
-            if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
-                new PMenuHelpMenu(player).open();
             }
         }
 

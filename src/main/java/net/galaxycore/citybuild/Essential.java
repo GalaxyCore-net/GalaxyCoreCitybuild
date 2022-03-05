@@ -230,6 +230,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_lore", "§aDies wird dein %plot% Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.title", "§6Grundstück holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -401,6 +402,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claim_lore", "§aThis will be your %plot% plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.cancel", "§cCancel");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.title", "§6Claim");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claimed_successfully", "§aPlot claimed successfully");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

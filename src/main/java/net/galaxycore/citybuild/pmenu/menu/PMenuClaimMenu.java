@@ -7,6 +7,7 @@ import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -15,11 +16,18 @@ public class PMenuClaimMenu extends Menu {
 
     private final Player player;
     private final PlotAPI plotAPI;
+    private final PlotPlayer<?> plotPlayer;
+    private final Plot currentPlot;
 
     public PMenuClaimMenu(Player player) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
         this.plotAPI = new PlotAPI();
+        plotPlayer = plotAPI.wrapPlayer(player.getUniqueId());
+        if (plotPlayer != null)
+            currentPlot = plotPlayer.getCurrentPlot();
+        else
+            currentPlot = null;
     }
 
     @Override
@@ -35,17 +43,26 @@ public class PMenuClaimMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
 
+        switch (inventoryClickEvent.getRawSlot()) {
+            case 9 + 3 -> claimPlot();
+            case 9 + 5 -> player.closeInventory();
+        }
+
+    }
+
+    private void claimPlot() {
+        plotPlayer.getCurrentPlot().setOwner(player.getUniqueId());
+        player.sendMessage(Component.text(i18n("claimed_successfully")));
+        player.closeInventory();
     }
 
     @Override
     public void setMenuItems() {
 
-        PlotPlayer<?> plotPlayer = plotAPI.wrapPlayer(player.getUniqueId());
         if (plotPlayer == null) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("fipoewjfweopijfewpoijfewpoifjweopfijwe"))); // Key won't be found, so it will say "§c§lERROR"
             return;
         }
-        Plot currentPlot = plotPlayer.getCurrentPlot();
 
         if (currentPlot == null) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("not_on_plot")));

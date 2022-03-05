@@ -47,7 +47,8 @@ public enum PMenuI18N {
     FLAGS_TIP_ADD("flags.tip.add", "§7Hinweis: Klicke auf einen Block um ihn zur Liste hinzuzufügen oder zu entfernen", "§7Notice: Click on a block to add or remove it from the final list", false),
     FLAGS_NFE("flags.nfe", "§cDas ist keine Zahl", "§cThat's not a number", false),
     PLAYERNOTFOUND("player404", "§cDieser Spieler wurde nicht gefunden", "§cThis player was not found", true),
-    RESET("reset", "§cZurücksetzen", "§cReset", false);
+    RESET("reset", "§cZurücksetzen", "§cReset", false),
+    TELEPORTED("tp", "§7Du wurdest teleportiert.", "§7You were teleported", true);
 
     private final String key;
 

@@ -60,6 +60,7 @@ public final class Essential extends JavaPlugin {
         configNamespace.setDefault("plotwelt.plot_width", "50");
         configNamespace.setDefault("plotwelt.road_width", "7");
         configNamespace.setDefault("plotwelt.plot_tp_offset", "3|1|3|-45|0");
+        configNamespace.setDefault("max_player_plots", "5");
 
         I18N.setDefaultByLang("de_DE", "citybuild.noperms", "§7Du hast keine Berechtigung für diesen Command.", true);
         I18N.setDefaultByLang("de_DE", "citybuild.noplayerfound", "§7Dieser Spieler ist nicht online", true);
@@ -222,6 +223,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.debug", "§6Debug");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.administration", "§6Administration");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.title", "§6Hilfe");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_title", "§aHole dir dieses Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.title", "§6Grundstück holen");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -386,6 +394,13 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.administration", "§6administration");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.title", "§6Help");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.help", "§eHelp");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.plot_already_claimed", "§CThis plot is already claimed");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claim_title", "§aClaim this plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claim_lore", "§aThis will be your %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.title", "§6Claim");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

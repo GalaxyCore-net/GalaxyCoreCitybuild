@@ -21,8 +21,11 @@ public class PMenuDistributor {
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
                 new PMenuPlotInfoMenu(player, null).open();
             }
-            if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
+            if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
                 new PMenuPlotsMenu(player, player.getUniqueId()).open();
+            }
+            if (args[0].equalsIgnoreCase("claim") || args[0].equalsIgnoreCase("c")) {
+                new PMenuClaimMenu(player).open();
             }
         }
 

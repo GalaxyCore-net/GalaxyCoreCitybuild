@@ -116,6 +116,22 @@ public class PMenuDistributor {
                 new PMenuRemoveMenu(player, toRemove).open();
             }
 
+            if (List.of("deny", "d", "ban").contains(args[0])) {
+                PlotPlayer<?> toDeny = new PlotAPI().wrapPlayer(player.getUniqueId());
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null && !args[1].equalsIgnoreCase("*")) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toDeny = plotPlayer;
+                }
+
+                new PMenuDenyMenu(player, toDeny).open();
+            }
+
         }
 
         if ( args.length == 0 ) {

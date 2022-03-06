@@ -27,6 +27,9 @@ public class PMenuDistributor {
             if (args[0].equalsIgnoreCase("claim") || args[0].equalsIgnoreCase("c")) {
                 new PMenuClaimMenu(player).open();
             }
+            if (args[0].equalsIgnoreCase("auto") || args[0].equalsIgnoreCase("a")) {
+                new PMenuAutoMenu(player).open();
+            }
         }
 
         if(args.length >= 1) {

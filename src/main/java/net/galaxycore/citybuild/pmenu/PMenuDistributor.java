@@ -132,22 +132,6 @@ public class PMenuDistributor {
                 new PMenuDenyMenu(player, toDeny).open();
             }
 
-            if (args[0].equalsIgnoreCase("grant")) {
-                UUID toGrant = player.getUniqueId();
-                if (args.length > 1) {
-                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
-
-                    if (plotPlayer == null) {
-                        PMenuI18N.PLAYERNOTFOUND.send(player);
-                        return;
-                    }
-
-                    toGrant = plotPlayer.getUUID();
-                }
-
-                new PMenuGrantMenu(player, toGrant).open();
-            }
-
         }
 
         if ( args.length == 0 ) {

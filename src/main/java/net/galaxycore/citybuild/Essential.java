@@ -269,10 +269,6 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.not_your_plot", "§cDies ist nicht dein Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.deny_title", "§aVerbiete %name% von deinem Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.cancel", "§cAbbrechen");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.grant.title", "§6Grant");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.grant.set_title", "§6Setze");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.grant.check_title", "§6Überprüfe");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.grant.set_successfully", "§aErfolgreich gesetzt");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -483,10 +479,6 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.deny_title", "§aDeny %name% from your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.cancel", "§cCancel");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.grant.title", "§6Grant");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.grant.set_title", "§6Set");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.grant.check_title", "§6Check");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.grant.set_successfully", "§aSet Successfully");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

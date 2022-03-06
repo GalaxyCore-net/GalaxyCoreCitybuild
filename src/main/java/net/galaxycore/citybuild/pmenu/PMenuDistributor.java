@@ -73,7 +73,7 @@ public class PMenuDistributor {
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
-                    if (plotPlayer == null) {
+                    if (plotPlayer == null && !args[1].equalsIgnoreCase("*")) {
                         PMenuI18N.PLAYERNOTFOUND.send(player);
                         return;
                     }
@@ -82,6 +82,22 @@ public class PMenuDistributor {
                 }
 
                 new PMenuAddMenu(player, toAdd).open();
+            }
+
+            if (List.of("trust", "t").contains(args[0])) {
+                PlotPlayer<?> toTrust = new PlotAPI().wrapPlayer(player.getUniqueId());
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPLayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPLayer == null && !args[1].equalsIgnoreCase("*")) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toTrust = plotPLayer;
+                }
+
+                new PMenuTrustMenu(player, toTrust).open();
             }
 
         }

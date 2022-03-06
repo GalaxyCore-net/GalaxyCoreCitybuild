@@ -443,6 +443,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.add_title", "§aAdd %name% to your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.cancel", "§cCancel");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.title", "§6Trust");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trusted_successfully", "§aUser trusted successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trust_title", "§aTrust %name% on your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.cancel", "§cCancel");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

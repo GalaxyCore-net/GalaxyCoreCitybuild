@@ -11,16 +11,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class PMenuAddMenu extends Menu {
+public class PMenuTrustMenu extends Menu {
 
     private final Player player;
-    private final PlotPlayer<?> toAdd;
+    private final PlotPlayer<?> toTrust;
     private final PlotPlayer<?> plotPlayer;
 
-    public PMenuAddMenu(Player player, PlotPlayer<?> toAdd) {
+    public PMenuTrustMenu(Player player, PlotPlayer<?> toTrust) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
-        this.toAdd = toAdd;
+        this.toTrust = toTrust;
         this.plotPlayer = new PlotAPI().wrapPlayer(player.getUniqueId());
     }
 
@@ -38,15 +38,15 @@ public class PMenuAddMenu extends Menu {
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
 
         switch (inventoryClickEvent.getRawSlot()) {
-            case 9 + 3 -> add();
+            case 9 + 3 -> trust();
             case 9 + 5 -> player.closeInventory();
         }
 
     }
 
-    private void add() {
-        plotPlayer.getCurrentPlot().addMember(toAdd != null ? toAdd.getUUID() : DBFunc.EVERYONE);
-        player.sendMessage(Component.text(i18n("added_successfully")));
+    private void trust() {
+        plotPlayer.getCurrentPlot().addTrusted(toTrust != null ? toTrust.getUUID() : DBFunc.EVERYONE);
+        player.sendMessage(Component.text(i18n("trusted_successfully")));
         player.closeInventory();
     }
 
@@ -58,22 +58,22 @@ public class PMenuAddMenu extends Menu {
             return;
         }
 
-        if (plotPlayer.getCurrentPlot().getOwner() != player.getUniqueId() && !player.hasPermission("plots.admin.command.add")) {
+        if (plotPlayer.getCurrentPlot().getOwner() != player.getUniqueId() && !player.hasPermission("plots.admin.command.trust")) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("not_your_plot")));
             return;
         }
 
-        inventory.setItem(9 + 3, makeItem(Material.GREEN_CONCRETE, i18n("add_title")
-                .replace("%name%", toAdd != null ? toAdd.getName() : "everyone")));
+        inventory.setItem(9 + 3, makeItem(Material.GREEN_CONCRETE, i18n("trust_title")
+                .replace("%name%", toTrust != null ? toTrust.getName() : "everyone")));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
 
     }
 
     private String i18n(String key) {
-        String i18n = I18N.getByPlayer(player, "citybuild.pmenu.add." + key);
+        String i18n = I18N.getByPlayer(player, "citybuild.pmenu.trust." + key);
         if (i18n == null) {
-            i18n = I18N.getByLang("en_GB", "citybuild.pmenu.add." + key);
+            i18n = I18N.getByLang("en_GB", "citybuild.pmenu.trust." + key);
         }
         if (i18n == null) {
             i18n = "§c§lERROR";

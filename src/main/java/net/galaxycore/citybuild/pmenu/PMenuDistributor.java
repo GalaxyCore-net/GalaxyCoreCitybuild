@@ -68,6 +68,22 @@ public class PMenuDistributor {
                 new PMenuSetOwnerMenu(player, newOwner).open();
             }
 
+            if (args[0].equalsIgnoreCase("add")) {
+                PlotPlayer<?> toAdd = new PlotAPI().wrapPlayer(player.getUniqueId());
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toAdd = plotPlayer;
+                }
+
+                new PMenuAddMenu(player, toAdd).open();
+            }
+
         }
 
         if ( args.length == 0 ) {

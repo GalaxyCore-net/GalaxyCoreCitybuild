@@ -245,6 +245,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.not_your_plot", "§cDies ist nicht dein Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowmer_title", "§a§lSetze den neuen Besitzer");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.title", "§6Add");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.add_title", "§aFüge %name% zu deinem Grundstück hinzu");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.added_successfully", "§aNutzer erfolgreich hinzugefügt");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -431,6 +437,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.setowner_title", "§a§lSet the new owner");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.title", "§6Add");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.add_title", "§aAdd %name% to your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

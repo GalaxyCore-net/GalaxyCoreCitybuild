@@ -251,6 +251,18 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.add_title", "§aFüge %name% zu deinem Grundstück hinzu");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.added_successfully", "§aNutzer erfolgreich hinzugefügt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.title", "§6Trust");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.trusted_successfully", "§aBenutzer erfolgreich vertraut");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.trust_title", "§aVertraue %name% auf deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.title", "§6Remove");
+        I18N.setDefaultByLang("de_DE", "citbuild.pmenu.remove.removed_successfully", "§aBenutzer erfoldreich entfernt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.not_your_plot", "§cDies ist nciht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pemnu.remove.remove_title", "§aEntferne %name% von deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.cancel", "§cAbbrechen");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -449,6 +461,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trust_title", "§aTrust %name% on your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.title", "§6Remove");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.removed_successfully", "§aUser removed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.remove_title", "§aRemove %name% from your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.cancel", "§cCancel");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

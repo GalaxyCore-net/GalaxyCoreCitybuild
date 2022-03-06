@@ -100,6 +100,22 @@ public class PMenuDistributor {
                 new PMenuTrustMenu(player, toTrust).open();
             }
 
+            if (List.of("remove", "r", "untrust", "ut", "undeny", "ud", "unban").contains(args[0])) {
+                PlotPlayer<?> toRemove = new PlotAPI().wrapPlayer(player.getUniqueId());
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null && !args[1].equalsIgnoreCase("*")) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toRemove = plotPlayer;
+                }
+
+                new PMenuRemoveMenu(player, toRemove).open();
+            }
+
         }
 
         if ( args.length == 0 ) {

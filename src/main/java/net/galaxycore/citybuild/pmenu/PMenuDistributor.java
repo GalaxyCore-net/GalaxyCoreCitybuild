@@ -8,6 +8,7 @@ import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PMenuDistributor {
@@ -42,7 +43,7 @@ public class PMenuDistributor {
                 if(args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
-                    if(plotPlayer == null) {
+                    if (plotPlayer == null) {
                         PMenuI18N.PLAYERNOTFOUND.send(player);
                         return;
                     }
@@ -51,6 +52,22 @@ public class PMenuDistributor {
                 }
                 new PMenuPlotsMenu(player, toOpen).open();
             }
+            if (List.of("setowner", "owner", "so", "seto").contains(args[0])) {
+                UUID newOwner = player.getUniqueId();
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    newOwner = plotPlayer.getUUID();
+
+                }
+                new PMenuSetOwnerMenu(player, newOwner).open();
+            }
+
         }
 
         if ( args.length == 0 ) {

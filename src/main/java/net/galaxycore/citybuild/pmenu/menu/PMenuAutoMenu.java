@@ -38,6 +38,15 @@ public class PMenuAutoMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
 
+
+        switch (inventoryClickEvent.getRawSlot()) {
+            case 9 + 3 -> autoPlot();
+            case 9 + 5 -> player.closeInventory();
+        }
+
+    }
+
+    private void autoPlot() {
         PlotArea area = plotPlayer.getPlotAreaAbs();
         if (area == null) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("plot_area_not_found")));
@@ -54,7 +63,6 @@ public class PMenuAutoMenu extends Menu {
             player.sendMessage(Component.text(i18n("no_plot_found")));
         }
         player.closeInventory();
-
     }
 
     @Override

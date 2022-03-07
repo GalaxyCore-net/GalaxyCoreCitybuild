@@ -269,6 +269,14 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.not_your_plot", "§cDies ist nicht dein Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.deny_title", "§aVerbiete %name% von deinem Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.title", "§6Kick");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicked_no_spawn", "§cDu wurdest gekickt, da der Server keinen geladenen Spawnpunkt konfiguriert hat");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicked_successfully", "§cDu wurdest von dem Grundstück gekickt, auf dem du gestanden hast");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kick_title", "§aWerfe %name% von deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicking_players", "§cWerfe Spieler vom Grundstück runter.... Dies kann eine Weile dauern, je nachdem wie viele Spieler sich auf dem Grundstück befinden");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -479,6 +487,14 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.deny_title", "§aDeny %name% from your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.title", "§6Kick");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicked_no_spawn", "§cBecause this server has no loaded spawn configured, you got kicked");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicked_successfully", "§cYou got kicked from the plot you were standing on");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kick_title", "§aKick %name% from your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicking_players", "§cKicking Players from the plot, this might take a while depending on how many players are on the plot");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

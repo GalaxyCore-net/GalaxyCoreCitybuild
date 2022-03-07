@@ -1,6 +1,7 @@
 package net.galaxycore.citybuild.pmenu;
 
 import com.plotsquared.core.PlotAPI;
+import com.plotsquared.core.database.DBFunc;
 import com.plotsquared.core.player.PlotPlayer;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
@@ -130,6 +131,22 @@ public class PMenuDistributor {
                 }
 
                 new PMenuDenyMenu(player, toDeny).open();
+            }
+
+            if (List.of("kick", "k").contains(args[0])) {
+                UUID toKick = player.getUniqueId();
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null && !args[1].equalsIgnoreCase("*")) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+
+                    toKick = plotPlayer != null ? plotPlayer.getUUID() : DBFunc.EVERYONE;
+                }
+
+                new PMenuKickMenu(player, toKick).open();
             }
 
         }

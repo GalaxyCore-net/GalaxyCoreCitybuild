@@ -32,6 +32,9 @@ public class PMenuDistributor {
             if (args[0].equalsIgnoreCase("auto") || args[0].equalsIgnoreCase("a")) {
                 new PMenuAutoMenu(player).open();
             }
+            if (List.of("sethome", "sh", "seth").contains(args[0])) {
+                new PMenuSetHomeMenu(player).open();
+            }
         }
 
         if(args.length >= 1) {

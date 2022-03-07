@@ -277,6 +277,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kick_title", "§aWerfe %name% von deinem Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicking_players", "§cWerfe Spieler vom Grundstück runter.... Dies kann eine Weile dauern, je nachdem wie viele Spieler sich auf dem Grundstück befinden");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.title", "§6Set Home");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.sethome_successfully", "§aNeues Zuhause erfolgreich gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.sethome_title", "§aSetze das neue Zuhause");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.cancel", "§cAbbrechen");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -495,6 +501,12 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kick_title", "§aKick %name% from your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.cancel", "§cCancel");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicking_players", "§cKicking Players from the plot, this might take a while depending on how many players are on the plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.title", "§6Set Home");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.sethome_successfully", "§aSet new home successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.sethome_title", "§aSet the new home");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.cancel", "§cCancel");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

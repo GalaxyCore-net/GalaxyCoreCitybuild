@@ -47,7 +47,7 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
             if(!dataHashMap.containsKey(getKey(chunk))) {loadChunk(chunk);}
             ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
             Player player = event.getPlayer();
-            shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getX() * 16)));
+            shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getZ() * 16)));
             shopChunkData.save();
         }
 

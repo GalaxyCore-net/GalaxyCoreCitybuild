@@ -2,7 +2,10 @@ name: Essential
 version: '${project.version}'
 main: net.galaxycore.citybuild.Essential
 api-version: 1.16
-author: TheNick24
+authors:
+  - TheNick24
+  - Bloeckchengrafik
+  - Flo_Mit_H_
 description: CityBuild Plugin für GalaxyCore.net
 depend:
   - GalaxyCoreCore

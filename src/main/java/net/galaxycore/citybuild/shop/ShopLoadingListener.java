@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -45,7 +46,8 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
             Chunk chunk = event.getPlayer().getChunk();
             if(!dataHashMap.containsKey(getKey(chunk))) {loadChunk(chunk);}
             ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
-            shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, event.getPlayer().getInventory().getItemInMainHand().serialize(), 1, 1, 1, 1));
+            Player player = event.getPlayer();
+            shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getX() * 16)));
             shopChunkData.save();
         }
 

@@ -2,21 +2,28 @@ package net.galaxycore.citybuild.shop;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.galaxycore.citybuild.Essential;
+import net.galaxycore.citybuild.utils.Both;
 import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class ShopLoadingListener extends BukkitRunnable implements Listener{
+public class ShopLoadingListener extends BukkitRunnable implements Listener {
     private final Essential essential;
     private final HashMap<String, ShopChunkData> dataHashMap = new HashMap<>();
 
@@ -25,7 +32,11 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
 
         loadSnapshot();
 
-        this.runTaskTimerAsynchronously(essential, 20*60, 20*60);
+        this.runTaskTimerAsynchronously(essential, 20 * 60, 20 * 60);
+    }
+
+    private static String getKey(Chunk chunk) {
+        return chunk.getWorld().getUID() + "." + chunk.getChunkKey();
     }
 
     @EventHandler
@@ -39,21 +50,88 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
     }
 
     @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        Location from = event.getFrom();
+        Location to = event.getTo();
+        to = to.toBlockLocation();
+        from = from.toBlockLocation();
+
+        if (from.distance(to) < 1)
+            return;
+
+        List<Both<Location, Shop>> shopsInDistanceTo = getShopsInDistance(to);
+        List<Both<Location, Shop>> shopsInDistanceFrom = getShopsInDistance(from);
+
+        if (shopsInDistanceTo.size() == 0 && shopsInDistanceFrom.size() == 0) return;
+
+        AtomicReference<Stream<Both<Location, Shop>>> streamTo = new AtomicReference<>(shopsInDistanceTo.stream());
+        AtomicReference<Stream<Both<Location, Shop>>> streamFrom = new AtomicReference<>(shopsInDistanceFrom.stream());
+        shopsInDistanceFrom.forEach(locationShopBoth -> streamTo.set(streamTo.get().filter(filterBoth -> !filterBoth.getT().equals(locationShopBoth.getT()))));
+        shopsInDistanceTo.forEach(locationShopBoth -> streamFrom.set(streamFrom.get().filter(filterBoth -> !filterBoth.getT().equals(locationShopBoth.getT()))));
+
+        List<Both<Location, Shop>> load = streamTo.get().collect(Collectors.toList());
+        List<Both<Location, Shop>> unload = streamFrom.get().collect(Collectors.toList());
+
+        if(load.size() != 0) {
+            load.forEach(locationShopBoth -> new ShopAnimation(event.getPlayer(), locationShopBoth).open());
+        }
+
+        if(unload.size() != 0) {
+            unload.forEach(locationShopBoth -> new ShopAnimation(event.getPlayer(), locationShopBoth).close());
+        }
+    }
+
+    private List<Both<Location, Shop>> getShopsInDistance(Location location) {
+        List<Both<Location, Shop>> shops = new ArrayList<>();
+        List<Chunk> chunks = List.of
+                (
+                        location.getChunk(),
+                        location.clone().add(16, 0, -16).getChunk(),
+                        location.clone().add(16, 0, 0).getChunk(),
+                        location.clone().add(16, 0, 16).getChunk(),
+                        location.clone().add(0, 0, -16).getChunk(),
+                        location.clone().add(0, 0, 16).getChunk(),
+                        location.clone().add(-16, 0, -16).getChunk(),
+                        location.clone().add(-16, 0, 0).getChunk(),
+                        location.clone().add(-16, 0, 16).getChunk()
+                );
+
+        chunks.forEach(chunk -> {
+            if (dataHashMap.containsKey(getKey(chunk))) {
+                dataHashMap.get(getKey(chunk)).getShopsInThisChunk().forEach(shop -> {
+                    Location shopLocation = new Location(chunk.getWorld(), (chunk.getX() * 16) + shop.getCx(), shop.getCy(), (chunk.getZ() * 16) + shop.getCz());
+                    if (shopLocation.distance(location) > 7) {
+                        return;
+                    }
+
+                    shops.add(new Both<>(shopLocation, shop));
+                });
+            }
+        });
+
+        return shops;
+    }
+
+    @EventHandler
     public void onChat(AsyncChatEvent event) {
         String serialized = PlainComponentSerializer.plain().serialize(event.message());
 
-        if(serialized.equalsIgnoreCase("set")) {
+        if (serialized.equalsIgnoreCase("set")) {
             Chunk chunk = event.getPlayer().getChunk();
-            if(!dataHashMap.containsKey(getKey(chunk))) {loadChunk(chunk);}
+            if (!dataHashMap.containsKey(getKey(chunk))) {
+                loadChunk(chunk);
+            }
             ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
             Player player = event.getPlayer();
             shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getZ() * 16)));
             shopChunkData.save();
         }
 
-        if(serialized.equalsIgnoreCase("get")) {
+        if (serialized.equalsIgnoreCase("get")) {
             Chunk chunk = event.getPlayer().getChunk();
-            if(!dataHashMap.containsKey(getKey(chunk))) {loadChunk(chunk);}
+            if (!dataHashMap.containsKey(getKey(chunk))) {
+                loadChunk(chunk);
+            }
             ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
             System.out.println(shopChunkData.getShopsInThisChunk());
         }
@@ -85,7 +163,7 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
 
     public void loadChunk(Chunk chunk) {
         ShopChunkData shopChunkData = new ShopChunkData(new File(essential.getDataFolder(), parseName(chunk)), chunk);
-        if(dataHashMap.containsKey(getKey(chunk)) || !hasChunk(chunk)) {
+        if (dataHashMap.containsKey(getKey(chunk)) || !hasChunk(chunk)) {
             saveChunk(chunk);
         }
         shopChunkData.load();
@@ -97,10 +175,6 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener{
         ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
 
         shopChunkData.save();
-    }
-
-    private static String getKey(Chunk chunk) {
-        return chunk.getWorld().getUID() + "." + chunk.getChunkKey();
     }
 
     /**

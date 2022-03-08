@@ -3,8 +3,9 @@ package net.galaxycore.citybuild;
 import lombok.SneakyThrows;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
-import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
+import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
+import net.galaxycore.citybuild.shop.ShopLoadingListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -19,6 +20,7 @@ public final class Essential extends JavaPlugin {
     private static GalaxyCoreCore core;
     private ConfigNamespace configNamespace;
     private PMenuDistributor pMenuDistributor;
+    private ShopLoadingListener shopLoadingListener;
 
     public static Essential getInstance() {
         return instance;
@@ -47,6 +49,11 @@ public final class Essential extends JavaPlugin {
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
+
+        if (!getDataFolder().exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            getDataFolder().mkdirs();
+        }
 
         pMenuDistributor = new PMenuDistributor();
 
@@ -390,20 +397,24 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
         Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
 
+        shopLoadingListener = new ShopLoadingListener();
+
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(getConfigNamespace()), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
+        Bukkit.getPluginManager().registerEvents(shopLoadingListener, this);
 
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
-      PMenuDistributor.init();
+        PMenuDistributor.init();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        shopLoadingListener.saveSnapshot();
     }
 
     public PMenuDistributor getpMenuDistributor() {

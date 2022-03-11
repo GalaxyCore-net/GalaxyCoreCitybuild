@@ -9,6 +9,7 @@ authors:
 description: CityBuild Plugin für GalaxyCore.net
 depend:
   - GalaxyCoreCore
+  - ProtocolLib
 commands:
   Debug:
     description: Gibt dir eine Test Nachricht aus.

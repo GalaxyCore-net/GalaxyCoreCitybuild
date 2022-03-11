@@ -1,19 +1,19 @@
 package net.galaxycore.citybuild.shop;
 
+import com.comphenix.packetwrapper.WrapperPlayServerBlockAction;
+import com.comphenix.protocol.wrappers.BlockPosition;
 import lombok.Getter;
-import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.utils.Both;
 import net.galaxycore.citybuild.utils.RenderUtilities;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
-public class ShopAnimation extends BukkitRunnable {
+public class ShopAnimation {
     private final Player player;
     private final Both<Location, Shop> shop;
-    private int anim;
 
     public ShopAnimation(Player player, Both<Location, Shop> shop) {
         this.player = player;
@@ -21,41 +21,21 @@ public class ShopAnimation extends BukkitRunnable {
     }
 
     public void open() {
-        anim = 1;
-        this.runTaskTimerAsynchronously(Essential.getInstance(), 0, 1);
+        RenderUtilities.highlightBlock(shop.getT(), Color.GREEN);
+
+        // https://wiki.vg/Protocol#Block_Action
+        WrapperPlayServerBlockAction packetWrapperOpen = new WrapperPlayServerBlockAction();
+        packetWrapperOpen.setLocation(new BlockPosition(shop.getT().getBlock().getLocation().toVector()));
+        packetWrapperOpen.setBlockType(Material.CHEST);
+
+        // https://wiki.vg/Block_Actions#Chest
+        packetWrapperOpen.setByte1(1); // Action 1 (There is only one for a chest)
+        packetWrapperOpen.setByte2(1); // Action Parameter 1 (Open)
     }
 
     public void close() {
-        anim = 0;
-        this.runTaskTimerAsynchronously(Essential.getInstance(), 0, 1);
-    }
-
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-        if(anim == 0)
-            animationStepClose();
-         else
-             animationStepOpen();
-    }
-
-    private void animationStepOpen() {
-        RenderUtilities.highlightBlock(shop.getT(), Color.GREEN);
-        this.cancel();
-    }
-
-    private void animationStepClose() {
         RenderUtilities.highlightBlock(shop.getT(), Color.RED);
-        this.cancel();
     }
+
+    private WrapperPlayServerBlockAction getWrapperFor(Location location, )
 }

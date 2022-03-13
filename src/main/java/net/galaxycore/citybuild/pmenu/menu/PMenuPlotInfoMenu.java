@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class PMenuPlotInfoMenu extends Menu {
     @Getter
-    private static HashMap<Biome, Material> biomeMaterials = new HashMap<>();
+    private static final HashMap<Biome, Material> biomeMaterials = new HashMap<>();
 
     static {
         biomeMaterials.put(Biome.OCEAN, Material.TRIDENT);
@@ -107,7 +107,6 @@ public class PMenuPlotInfoMenu extends Menu {
     }
 
     private final Player player;
-    private final PlotAPI plotApi;
     private Plot plot;
     private boolean open = true;
 
@@ -116,7 +115,7 @@ public class PMenuPlotInfoMenu extends Menu {
         this.player = player;
         this.plot = plot;
 
-        plotApi = new PlotAPI();
+        PlotAPI plotApi = new PlotAPI();
 
         if (plot == null) {
             Optional<PlotArea> possiblePlotRegion = plotApi.getPlotAreas(player.getWorld().getName()).stream().filter(plotArea -> plotArea.contains(player.getLocation().getBlockX(), player.getLocation().getBlockY())).findFirst();
@@ -162,6 +161,7 @@ public class PMenuPlotInfoMenu extends Menu {
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
         switch (inventoryClickEvent.getRawSlot()) {
             case 1 -> new PMenuFlagsMenu(player, plot).open();
+            case 7 -> new PMenuPlotInfoPlayerMenu(player, plot).open();
         }
     }
 
@@ -180,7 +180,7 @@ public class PMenuPlotInfoMenu extends Menu {
          * - Flags
          * - Beschreibung
          * */
-        List<PlotFlag<?, ?>> flags = plot.getFlags().stream().collect(Collectors.toList());
+        List<PlotFlag<?, ?>> flags = plot.getFlags().stream().toList();
         String[] flagsRender = new String[Math.max(flags.size(), 1)];
 
         for (int i = 0; i < flags.size(); i++) {

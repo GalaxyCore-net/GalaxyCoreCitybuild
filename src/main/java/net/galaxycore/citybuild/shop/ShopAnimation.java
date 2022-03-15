@@ -2,13 +2,18 @@ package net.galaxycore.citybuild.shop;
 
 import com.comphenix.packetwrapper.WrapperPlayServerBlockAction;
 import com.comphenix.protocol.wrappers.BlockPosition;
+import com.github.unldenis.hologram.Hologram;
+import com.github.unldenis.hologram.HologramAccessor;
+import com.github.unldenis.hologram.animation.Animation;
 import lombok.Getter;
 import net.galaxycore.citybuild.utils.Both;
 import net.galaxycore.citybuild.utils.RenderUtilities;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 @Getter
 public class ShopAnimation {
@@ -21,21 +26,35 @@ public class ShopAnimation {
     }
 
     public void open() {
-        RenderUtilities.highlightBlock(shop.getT(), Color.GREEN);
+        getWrapperFor(shop.getT(), true).sendPacket(player);
+        final Hologram hologram = Hologram.builder()
+                .location(shop.getT().toCenterLocation().subtract(0, 1, 0))
+                .addLine("§eShop")
+                .addLine(ItemStack.deserialize(shop.getR().getItemStack()))
+                .build(ShopLoadingListener.getHologramPool());
+        hologram.setAnimation(1, Animation.CIRCLE);
 
-        // https://wiki.vg/Protocol#Block_Action
-        WrapperPlayServerBlockAction packetWrapperOpen = new WrapperPlayServerBlockAction();
-        packetWrapperOpen.setLocation(new BlockPosition(shop.getT().getBlock().getLocation().toVector()));
-        packetWrapperOpen.setBlockType(Material.CHEST);
-
-        // https://wiki.vg/Block_Actions#Chest
-        packetWrapperOpen.setByte1(1); // Action 1 (There is only one for a chest)
-        packetWrapperOpen.setByte2(1); // Action Parameter 1 (Open)
+        Bukkit.getOnlinePlayers().forEach(player1 -> HologramAccessor.hide(hologram, player1));
+        ShopLoadingListener.getHologramsPerShop().put(new Both<>(shop.getR(), player), hologram);
     }
 
     public void close() {
-        RenderUtilities.highlightBlock(shop.getT(), Color.RED);
+        getWrapperFor(shop.getT(), false).sendPacket(player);
+
+        ShopLoadingListener.getHologramPool().remove(ShopLoadingListener.getHologramsPerShop().get(new Both<>(shop.getR(), player)));
+        ShopLoadingListener.getHologramsPerShop().remove(new Both<>(shop.getR(), player));
     }
 
-    private WrapperPlayServerBlockAction getWrapperFor(Location location, )
+    private WrapperPlayServerBlockAction getWrapperFor(Location location, boolean open) {
+        // https://wiki.vg/Protocol#Block_Action
+        WrapperPlayServerBlockAction packetWrapper = new WrapperPlayServerBlockAction();
+        packetWrapper.setLocation(new BlockPosition(location.getBlock().getLocation().toVector()));
+        packetWrapper.setBlockType(Material.CHEST);
+
+        // https://wiki.vg/Block_Actions#Chest
+        packetWrapper.setByte1(1); // Action 1 (There is only one for a chest)
+        packetWrapper.setByte2(open ? 1 : 0 ); // Action Parameter 1 (Open)
+
+        return packetWrapper;
+    }
 }

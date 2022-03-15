@@ -1,8 +1,7 @@
 package net.galaxycore.citybuild.shop;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.github.unldenis.hologram.Hologram;
+import com.github.unldenis.hologram.HologramAccessor;
 import com.github.unldenis.hologram.HologramPool;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import lombok.Getter;
@@ -16,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -30,19 +30,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ShopLoadingListener extends BukkitRunnable implements Listener {
-    private final Essential essential;
-    private final HashMap<String, ShopChunkData> dataHashMap = new HashMap<>();
     @Getter
     private static final HashMap<Both<Shop, Player>, Hologram> hologramsPerShop = new HashMap<>();
     @Getter
-    private static HologramPool hologramPool;
+    private static Essential essential;
     @Getter
-    private static ProtocolManager protocolManager;
+    private static HologramPool hologramPool;
+    private final HashMap<String, ShopChunkData> dataHashMap = new HashMap<>();
 
     public ShopLoadingListener() {
         essential = Essential.getInstance();
         hologramPool = new HologramPool(essential, 7);
-        protocolManager = ProtocolLibrary.getProtocolManager();
 
         loadSnapshot();
 
@@ -101,7 +99,12 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener {
 
         if (shopsInDistance.size() == 0) return;
 
-        shopsInDistance.forEach(locationShopBoth -> hologramsPerShop.remove(new Both<>(locationShopBoth.getR(), event.getPlayer())));
+        shopsInDistance.forEach(locationShopBoth -> hologramPool.remove(hologramsPerShop.remove(new Both<>(locationShopBoth.getR(), event.getPlayer()))));
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        hologramsPerShop.values().forEach(hologram -> HologramAccessor.hide(hologram, event.getPlayer()));
     }
 
     private List<Both<Location, Shop>> getShopsInDistance(Location location) {
@@ -146,8 +149,10 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener {
             }
             ShopChunkData shopChunkData = dataHashMap.get(getKey(chunk));
             Player player = event.getPlayer();
-            shopChunkData.getShopsInThisChunk().add(new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getZ() * 16)));
+            Shop shop = new Shop(1, 100, player.getInventory().getItemInMainHand().serialize(), 27, player.getLocation().getBlockX() - (chunk.getX() * 16), player.getLocation().getBlockY(), player.getLocation().getBlockZ() - (chunk.getZ() * 16));
+            shopChunkData.getShopsInThisChunk().add(shop);
             shopChunkData.save();
+            new ShopAnimation(event.getPlayer(), new Both<>(player.getLocation().toCenterLocation(), shop)).open();
         }
 
         if (serialized.equalsIgnoreCase("get")) {

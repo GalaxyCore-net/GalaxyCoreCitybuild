@@ -191,7 +191,7 @@ public class ShopLoadingListener extends BukkitRunnable implements Listener {
 
     public void loadChunk(Chunk chunk) {
         ShopChunkData shopChunkData = new ShopChunkData(new File(essential.getDataFolder(), parseName(chunk)), chunk);
-        if (dataHashMap.containsKey(getKey(chunk)) || !hasChunk(chunk)) {
+        if (!hasChunk(chunk)) {
             saveChunk(chunk);
         }
         shopChunkData.load();

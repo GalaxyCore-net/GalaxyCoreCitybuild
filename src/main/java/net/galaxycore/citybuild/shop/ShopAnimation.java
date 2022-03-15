@@ -7,9 +7,7 @@ import com.github.unldenis.hologram.HologramAccessor;
 import com.github.unldenis.hologram.animation.Animation;
 import lombok.Getter;
 import net.galaxycore.citybuild.utils.Both;
-import net.galaxycore.citybuild.utils.RenderUtilities;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,10 +27,9 @@ public class ShopAnimation {
         getWrapperFor(shop.getT(), true).sendPacket(player);
         final Hologram hologram = Hologram.builder()
                 .location(shop.getT().toCenterLocation().subtract(0, 1, 0))
-                .addLine("§eShop")
                 .addLine(ItemStack.deserialize(shop.getR().getItemStack()))
                 .build(ShopLoadingListener.getHologramPool());
-        hologram.setAnimation(1, Animation.CIRCLE);
+        hologram.setAnimation(0, Animation.CIRCLE);
 
         Bukkit.getOnlinePlayers().forEach(player1 -> HologramAccessor.hide(hologram, player1));
         ShopLoadingListener.getHologramsPerShop().put(new Both<>(shop.getR(), player), hologram);

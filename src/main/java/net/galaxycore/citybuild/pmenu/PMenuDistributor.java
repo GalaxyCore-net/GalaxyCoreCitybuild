@@ -164,6 +164,14 @@ public class PMenuDistributor {
                 }
             }
 
+            if (List.of("setdescription", "desc", "setdesc", "setd", "description").contains(args[0])) {
+                if (args.length > 1) {
+                    new PMenuSetDescriptionMenu(player, args[1]).open();
+                } else {
+                    new PMenuSetDescriptionMenu(player, null).open();
+                }
+            }
+
         }
 
         if ( args.length == 0 ) {

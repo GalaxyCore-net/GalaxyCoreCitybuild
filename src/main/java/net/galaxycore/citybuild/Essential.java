@@ -294,6 +294,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.what_new_alias", "§6Was solte der neue Alias sein?");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.set", "§aSetze den neuen Alias");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.remove", "§cEntferne den aktuellen Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setdescription.title", "§6Setze Beschreibung");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setdescription.what_new_description", "§6Was soll die neue Beschreibung sein??");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setdescription.description_unset", "§cBeschreibung entfernt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setdescription.description_not_set", "§6Beschreibung aufgrund eines Fehlers nicht gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setdescription.description_set", "§aNeue Beschreibung erfolgreich gesetzt");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -529,6 +534,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.what_new_alias", "§6What should be the new alias?");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.set", "§aSet the new alias");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.remove", "§cRemove the existing alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setdescription.title", "§6Set Description");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setdescription.what_new_description", "§6What should be the new description?");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setdescription.description_unset", "§cDescription unset");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setdescription.description_not_set", "§6Description not set because of error");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setdescription.description_set", "§aNew description set successfully");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

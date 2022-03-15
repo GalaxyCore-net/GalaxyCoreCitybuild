@@ -48,4 +48,4 @@ steps:
         from_secret: NEXUS_DEV_PWD
     commands:
       - cp workflow_settings.xml ~/.m2/settings.xml
-      - qodana scan
+      - qodana

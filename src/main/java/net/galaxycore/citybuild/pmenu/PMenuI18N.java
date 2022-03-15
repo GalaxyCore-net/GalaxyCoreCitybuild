@@ -48,12 +48,15 @@ public enum PMenuI18N {
     FLAGS_NFE("flags.nfe", "§cDas ist keine Zahl", "§cThat's not a number", false),
     PLAYERNOTFOUND("player404", "§cDieser Spieler wurde nicht gefunden", "§cThis player was not found", true),
     RESET("reset", "§cZurücksetzen", "§cReset", false),
-    TELEPORTED("tp", "§7Du wurdest teleportiert.", "§7You were teleported", true);
+    TELEPORTED("tp", "§7Du wurdest teleportiert.", "§7You were teleported", true),
+    NOT_ON_PLOT("not_on_plot", "§cDu befindest dich nicht auf einem Grundstück", "§cYou're not on a plot", false),
+    NOT_YOUR_PLOT("not_your_plot", "§cDies ist nicht dein Grundstück", "§cThis is not your plot", false),
+    FETCHING_PLAYERS_TIMEOUT("fetching_players_timeout", "§cFehler beim Herunterladen der Spielerdaten", "§cError while fetching player data", false);
 
     private final String key;
 
-    PMenuI18N(String key, String de, String en, boolean prefix){
-        this.key =  "citybuild.pmenu." + key;
+    PMenuI18N(String key, String de, String en, boolean prefix) {
+        this.key = "citybuild.pmenu." + key;
         I18N.setDefaultByLang("de_DE", this.key, de, prefix);
         I18N.setDefaultByLang("en_GB", this.key, en, prefix);
     }

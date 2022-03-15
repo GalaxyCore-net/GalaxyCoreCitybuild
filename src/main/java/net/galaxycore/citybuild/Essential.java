@@ -283,6 +283,17 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.not_your_plot", "§cDies ist nicht dein Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.sethome_title", "§aSetze das neue Zuhause");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.title", "§6Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pemnu.alias.empty_alias", "§cDer Alias darf nicht leer sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_too_long", "§cDer Alias darf maximal 50 Zeichen lang sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_integer", "§cDer Alias darf keine Zahl sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_taken", "§cDieser Alias wird bereits benutzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_set_successfully", "§aDer Alias wurde erfolgreich gesetzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_removed", "§aDer Alias wurde erfolgreich entfernt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.no_alias_set", "§cEs wurde noch kein Alias gesetzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.what_new_alias", "§6Was solte der neue Alias sein?");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.set", "§aSetze den neuen Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.remove", "§cEntferne den aktuellen Alias");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -507,6 +518,17 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.sethome_title", "§aSet the new home");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.title", "§6Alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pemnu.alias.empty_alias", "§cThe alias can't be empty!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_too_long", "§cThe alias can't be longer than 50 characters!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_integer", "§cThe alias can't be a number!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_taken", "§cThe alias is already in use!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_set_successfully", "§aThe alias was set successfully!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_removed", "§aThe alias was removed successfully!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.no_alias_set", "§cThere was no alias set!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.what_new_alias", "§6What should be the new alias?");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.set", "§aSet the new alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.remove", "§cRemove the existing alias");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

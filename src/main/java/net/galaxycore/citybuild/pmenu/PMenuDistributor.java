@@ -152,6 +152,18 @@ public class PMenuDistributor {
                 new PMenuKickMenu(player, toKick).open();
             }
 
+            if (List.of("alias", "setalias", "sa", "name", "rename", "setname", "seta", "nameplot").contains(args[0])) {
+                if (args.length > 1) {
+                    String newAlias = null;
+                    if (args.length > 2) {
+                        newAlias = args[2];
+                    }
+                    new PMenuAliasMenu(player, args[1], newAlias).open();
+                } else {
+                    new PMenuAliasMenu(player, null, null).open();
+                }
+            }
+
         }
 
         if ( args.length == 0 ) {

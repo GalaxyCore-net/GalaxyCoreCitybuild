@@ -26,7 +26,9 @@ public class PCommandListener implements Listener {
             "plotsquared:p2",
             "plotsquared:2",
             "plotsquared:plotme",
-            "warp"
+            "warp",
+            "lizenz",
+            "licence"
     );
 
     @EventHandler

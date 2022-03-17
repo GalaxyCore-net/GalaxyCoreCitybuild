@@ -87,4 +87,6 @@ commands:
     description: Löscht einen Warppunkt
   warp:
     description: Öffne das Warp-Menu
-
+  lizenz:
+    aliases:
+      - license

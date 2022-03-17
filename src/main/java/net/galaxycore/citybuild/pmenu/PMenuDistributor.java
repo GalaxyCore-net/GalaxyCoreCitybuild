@@ -18,6 +18,11 @@ public class PMenuDistributor {
             new PMenuWarpMenu(player).open();
             return;
         }
+        if (alias.equalsIgnoreCase("/licence") || alias.equalsIgnoreCase("/lizenz")) {
+            new PMenuLizenzMenu(player).open();
+            return;
+        }
+
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {

@@ -164,6 +164,14 @@ public class PMenuDistributor {
                 }
             }
 
+            if (List.of("setbiome", "biome", "sb", "setb", "b").contains(args[0])) {
+                if (args.length > 1) {
+                    new PMenuSetBiomeMenu(player, args[1]).open();
+                } else {
+                    new PMenuSetBiomeMenu(player, "null").open();
+                }
+            }
+
         }
 
         if ( args.length == 0 ) {

@@ -294,6 +294,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.what_new_alias", "§6Was solte der neue Alias sein?");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.set", "§aSetze den neuen Alias");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.remove", "§cEntferne den aktuellen Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.title", "§6Set Biome");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.need_biome", "§cBitte gebe ein Biom an");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.wait_for_timer", "§cBitte warte auf das Ende des aktuell laufenden Prozesses");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.schematic_too_large", "§cDieses Schematic ist zu groß");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -529,6 +534,11 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.what_new_alias", "§6What should be the new alias?");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.set", "§aSet the new alias");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.remove", "§cRemove the existing alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.title", "§6Set Biome");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.need_biome", "§cPlease provide a biome");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.wait_for_timer", "§cPlease wait for the currently running task to end");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.schematic_too_large", "§cThis Schematic is too large");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());

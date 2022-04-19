@@ -9,8 +9,8 @@ import java.util.Objects;
 @Getter
 @ToString
 public class Both<T, R> {
-    private final T t;
-    private final R r;
+    public final T t;
+    public final R r;
 
     public Both(T t, R r) {
         this.t = t;

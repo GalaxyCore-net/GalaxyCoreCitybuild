@@ -5,7 +5,7 @@ import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
-import net.galaxycore.citybuild.shop.ShopLoadingListener;
+import net.galaxycore.citybuild.shop.ShopListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -20,7 +20,7 @@ public final class Essential extends JavaPlugin {
     private static GalaxyCoreCore core;
     private ConfigNamespace configNamespace;
     private PMenuDistributor pMenuDistributor;
-    private ShopLoadingListener shopLoadingListener;
+    private ShopListener shopLoadingListener;
 
     public static Essential getInstance() {
         return instance;
@@ -397,7 +397,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
         Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
 
-        shopLoadingListener = new ShopLoadingListener();
+        shopLoadingListener = new ShopListener();
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

@@ -55,13 +55,14 @@ class ShopListener : BukkitRunnable(), Listener {
         if (!dataHashMap.containsKey(getKey(chunk))) {
             loadChunk(chunk)
         }
-        ShopCreateGUI(event.player).open()
-        val shopChunkData = dataHashMap[getKey(chunk)]
-        val player = event.player
-        val shop = Shop(1, 100, player.inventory.itemInMainHand.serialize(), 27, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16)
-        shopChunkData!!.shopsInThisChunk += shop
-        shopChunkData!!.save()
-        ShopAnimation(event.player, Both(location, shop)).open()
+        ShopCreateGUI(event.player).open{
+            val shopChunkData = dataHashMap[getKey(chunk)]
+            val player = event.player
+            val shop = Shop(1, 100, player.inventory.itemInMainHand.serialize(), 27, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16)
+            shopChunkData!!.shopsInThisChunk += shop
+            shopChunkData!!.save()
+            ShopAnimation(event.player, Both(location, shop)).open()
+        }
     }
 
     @EventHandler

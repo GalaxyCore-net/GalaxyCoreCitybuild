@@ -11,7 +11,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 @Getter
 class ShopAnimation(private val player: Player, private val shop: Both<Location, Shop>) {
@@ -19,20 +18,19 @@ class ShopAnimation(private val player: Player, private val shop: Both<Location,
         getWrapperFor(shop.t, true).sendPacket(player)
         val hologram = Hologram.builder()
                 .location(shop.t.toCenterLocation().subtract(0.0, 1.0, 0.0))
-                .addLine(ItemStack.deserialize(shop.r.itemStack))
+                .addLine(shop.r.itemStack)
                 .build(ShopListener.hologramPool)
         hologram.setAnimation(0, Animation.CIRCLE)
         Bukkit.getOnlinePlayers().forEach { player1: Player? -> HologramAccessor.hide(hologram, player1) }
-        ShopListener.hologramsPerShop[Both(shop.r, player)] = hologram
+        ShopListener.animationData[Both(player, shop.r)] = hologram
     }
 
     fun close() {
         getWrapperFor(shop.t, false).sendPacket(player)
-        val hologram = ShopListener.hologramsPerShop[Both(shop.r, player)]
-        if (hologram != null) {
-            ShopListener.hologramPool.remove(hologram)
+        ShopListener.animationData.keys.filter { it.t == player && it.r == shop.r }[0].let {
+                ShopListener.hologramPool.remove(ShopListener.animationData[it]!!)
+                ShopListener.animationData.remove(it)
         }
-        ShopListener.hologramsPerShop.remove(Both(shop.r, player))
     }
 
     private fun getWrapperFor(location: Location, open: Boolean): WrapperPlayServerBlockAction {

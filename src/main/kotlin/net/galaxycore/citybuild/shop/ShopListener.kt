@@ -1,10 +1,13 @@
 package net.galaxycore.citybuild.shop
 
+import com.comphenix.protocol.PacketType.Play
 import com.github.unldenis.hologram.Hologram
-import com.github.unldenis.hologram.HologramAccessor
 import com.github.unldenis.hologram.HologramPool
+import com.github.unldenis.hologram.event.PlayerHologramHideEvent
 import net.galaxycore.citybuild.Essential
 import net.galaxycore.citybuild.utils.Both
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader
+import net.galaxycore.galaxycorecore.spice.KBlockData
 import net.kyori.adventure.text.Component
 import org.bukkit.*
 import org.bukkit.entity.Player
@@ -15,32 +18,20 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.event.world.ChunkLoadEvent
-import org.bukkit.scheduler.BukkitRunnable
-import java.io.File
+import org.bukkit.persistence.PersistentDataType
+import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Consumer
 import java.util.stream.Collectors
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-class ShopListener : BukkitRunnable(), Listener {
-    private val dataHashMap = HashMap<String, ShopChunkData>()
+class ShopListener : Listener {
+    private val namespacedKey = NamespacedKey(Essential.getInstance(), "shops")
 
     init {
         essential = Essential.getInstance()
         hologramPool = HologramPool(essential, 7.0)
-        hologramsPerShop = HashMap()
-        loadSnapshot()
-        runTaskTimerAsynchronously(essential, (20 * 60).toLong(), (20 * 60).toLong())
-    }
-
-    @EventHandler
-    fun onChunkLoad(event: ChunkLoadEvent) {
-        loadChunk(event.chunk)
-    }
-
-    @EventHandler
-    fun onChunkUnload(event: ChunkLoadEvent) {
-        saveChunk(event.chunk)
     }
 
     private fun onCreate(event: PlayerInteractEvent) {
@@ -52,16 +43,20 @@ class ShopListener : BukkitRunnable(), Listener {
 
         // TODO: check if player is allowed to create another shop
         val chunk = event.player.chunk
-        if (!dataHashMap.containsKey(getKey(chunk))) {
-            loadChunk(chunk)
+
+        // Check if Player has non-null and non-air item in hand
+        if (event.player.inventory.itemInMainHand.type == Material.AIR) {
+            event.player.sendMessage(ChatColor.RED.toString() + "You need to hold an item in your hand!")
+            return
         }
-        ShopCreateGUI(event.player).open{
-            val shopChunkData = dataHashMap[getKey(chunk)]
+
+        ShopCreateGUI(event.player, event.player.inventory.itemInMainHand).open{
             val player = event.player
-            val shop = Shop(1, 100, player.inventory.itemInMainHand.serialize(), 27, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16)
-            shopChunkData!!.shopsInThisChunk += shop
-            shopChunkData!!.save()
+            val loadedPlayer: PlayerLoader = PlayerLoader.load(player)
+            val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16)
             ShopAnimation(event.player, Both(location, shop)).open()
+            val blockdata = KBlockData(event.clickedBlock!!, Essential.getInstance())
+            blockdata.set(namespacedKey, PersistentDataType.BYTE_ARRAY, shop.compact())
         }
     }
 
@@ -76,10 +71,6 @@ class ShopListener : BukkitRunnable(), Listener {
             return
         }
         val location = event.clickedBlock!!.location
-        val chunk = location.chunk
-        if (!dataHashMap.containsKey(getKey(chunk))) {
-            loadChunk(chunk)
-        }
         val shopsInDistance = getShopsInDistance(location, 0.5)
         if (shopsInDistance.isEmpty()) return
         val shop = shopsInDistance[0]
@@ -118,13 +109,11 @@ class ShopListener : BukkitRunnable(), Listener {
     fun onQuit(event: PlayerQuitEvent) {
         val shopsInDistance = getShopsInDistance(event.player.location, 7.0)
         if (shopsInDistance.isEmpty()) return
-        shopsInDistance.forEach(Consumer { locationShopBoth: Both<Location, Shop> -> hologramPool.remove(hologramsPerShop.remove(Both(locationShopBoth.r, event.player))!!) })
     }
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        hologramsPerShop.values.forEach(Consumer { hologram: Hologram? -> HologramAccessor.hide(hologram, event.player) })
-        onMove(PlayerMoveEvent(event.player, event.player.location, event.player.location))
+        onMove(PlayerMoveEvent(event.player, event.player.world.getBlockAt(0, 0, 0).location, event.player.location))
     }
 
     private fun getShopsInDistance(location: Location, distance: Double): List<Both<Location, Shop>> {
@@ -140,81 +129,27 @@ class ShopListener : BukkitRunnable(), Listener {
                 location.clone().add(-16.0, 0.0, 0.0).chunk,
                 location.clone().add(-16.0, 0.0, 16.0).chunk
         )
-        chunks.forEach(Consumer { chunk: Chunk ->
-            if (dataHashMap.containsKey(getKey(chunk))) {
-                dataHashMap[getKey(chunk)]!!.shopsInThisChunk.forEach(Consumer Shopper@ { shop: Shop ->
-                    val shopLocation = Location(chunk.world, (chunk.x * 16 + shop.cx).toDouble(), shop.cy.toDouble(), (chunk.z * 16 + shop.cz).toDouble())
-                    if (shopLocation.toBlockLocation().distance(location) > distance) {
-                        return@Shopper
-                    }
-                    shops.add(Both(shopLocation, shop))
-                })
+
+        val essential: Essential = Essential.getInstance()
+        val data = KBlockData(location.block, essential)
+
+        chunks.forEach(Consumer { chunk ->
+            data.getBlocksWithCustomData(essential, chunk)?.forEach {
+                if (it == null) return@forEach
+                val shop = KBlockData(it, essential)
+                val realShopLocation = it.location
+                if (realShopLocation.distance(location) <= distance) {
+                    val raw = shop.get(namespacedKey, PersistentDataType.BYTE_ARRAY) ?: return@forEach
+                    shops.add(Both(it.location, Shop.disect(raw)))
+                }
             }
         })
         return shops
     }
 
-    fun saveSnapshot() {
-        for (world in Bukkit.getWorlds()) {
-            for (loadedChunk in world.loadedChunks) {
-                saveChunk(loadedChunk)
-            }
-        }
-    }
-
-    private fun loadSnapshot() {
-        for (world in Bukkit.getWorlds()) {
-            for (loadedChunk in world.loadedChunks) {
-                loadChunk(loadedChunk)
-            }
-        }
-    }
-
-    private fun parseName(chunk: Chunk): String {
-        return chunk.world.name + "." + chunk.x + "." + chunk.z
-    }
-
-    private fun hasChunk(chunk: Chunk): Boolean {
-        return File(essential.dataFolder, parseName(chunk)).exists()
-    }
-
-    private fun loadChunk(chunk: Chunk) {
-        val shopChunkData = ShopChunkData(File(essential.dataFolder, parseName(chunk)), chunk)
-        if (!hasChunk(chunk)) {
-            saveChunk(chunk)
-        }
-        shopChunkData.load()
-        dataHashMap[getKey(chunk)] = shopChunkData
-    }
-
-    private fun saveChunk(chunk: Chunk) {
-        dataHashMap.computeIfAbsent(getKey(chunk)) { ShopChunkData(File(essential.dataFolder, parseName(chunk)), chunk) }
-        val shopChunkData = dataHashMap[getKey(chunk)]
-        shopChunkData!!.save()
-    }
-
-    /**
-     * When an object implementing interface `Runnable` is used
-     * to create a thread, starting the thread causes the object's
-     * `run` method to be called in that separately executing
-     * thread.
-     *
-     *
-     * The general contract of the method `run` is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread.run
-     */
-    override fun run() {
-        saveSnapshot()
-    }
-
     companion object {
-        lateinit var hologramsPerShop: HashMap<Both<Shop, Player>, Hologram>
         lateinit var essential: Essential
         lateinit var hologramPool: HologramPool
-        fun getKey(chunk: Chunk): String {
-            return chunk.world.uid.toString() + "." + chunk.chunkKey
-        }
+        var animationData = HashMap<Both<Player, Shop>, Hologram>()
     }
 }

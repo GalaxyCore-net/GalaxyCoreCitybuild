@@ -3,6 +3,7 @@ package net.galaxycore.citybuild.utils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
+import net.kyori.adventure.text.Component;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -118,6 +119,19 @@ public enum Skull {
         meta.setOwner(id);
         itemStack.setItemMeta(meta);
         return itemStack;
+    }
+
+    public ItemStack getSkull(Component name) {
+        ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
+        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        meta.setOwner(id);
+        meta.displayName(name);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
+    public ItemStack getSkull(String name) {
+        return getSkull(Component.text(name));
     }
 
 }

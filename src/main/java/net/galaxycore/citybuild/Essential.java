@@ -1,6 +1,7 @@
 package net.galaxycore.citybuild;
 
 import lombok.SneakyThrows;
+import net.galaxycore.citybuild.bb.BBCommand;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
@@ -396,6 +397,8 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpaall")).setExecutor(new TPAAllCommand());
         Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
         Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
+        Objects.requireNonNull(getCommand("bb")).setExecutor(new BBCommand());
+        Objects.requireNonNull(getCommand("bb")).setTabCompleter(new BBCommand());
 
         shopLoadingListener = new ShopListener();
 
@@ -409,12 +412,6 @@ public final class Essential extends JavaPlugin {
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
         PMenuDistributor.init();
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-        shopLoadingListener.saveSnapshot();
     }
 
     public PMenuDistributor getpMenuDistributor() {

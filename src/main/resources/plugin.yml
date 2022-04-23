@@ -88,4 +88,7 @@ commands:
     description: Setzt einen Warppunkt
   delwarp:
     description: Löscht einen Warppunkt
+  bb:
+    description: Get Bitwise Blockdata Output
+    permission: essentials.bb
 

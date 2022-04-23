@@ -17,6 +17,6 @@ class ShopGUI(player: Player, private val shop: Shop) : Menu(PlayerMenuUtility.g
     override fun handleMenu(inventoryClickEvent: InventoryClickEvent) {}
     override fun setMenuItems() {
         inventory.addItem(makeItem(Material.TOTEM_OF_UNDYING, "Price: " + shop.price))
-        inventory.addItem(ItemStack.deserialize(shop.itemStack))
+        inventory.addItem(shop.itemStack)
     }
 }

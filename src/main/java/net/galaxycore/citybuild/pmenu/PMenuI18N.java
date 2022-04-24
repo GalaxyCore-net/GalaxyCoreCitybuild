@@ -65,7 +65,7 @@ public enum PMenuI18N {
     SHOPC2("shopc2", "§7-500 Shop Kisten", "§7-500 Shop Chests", false),
     SHOPC3("shopc3", "§7-9% Steuern pro Transaktion über den Shop", "§7-9% tax per transaction through the store", false),
     COINSPOOR("coinsyoupoor", "§7Du hast §4nicht §7genügend Coins", "§7You §4don't §7have enough money", true),
-    LIZENZMENU("lizenzname", "§7Shoplizenzen", "Shoplicences", false),
+    LIZENZMENU("lizenzname", "§aShoplizenzen", "§aShoplicences", false),
     NOT_ON_PLOT("not_on_plot", "§cDu befindest dich nicht auf einem Grundstück", "§cYou're not on a plot", false),
     NOT_YOUR_PLOT("not_your_plot", "§cDies ist nicht dein Grundstück", "§cThis is not your plot", false),
     FETCHING_PLAYERS_TIMEOUT("fetching_players_timeout", "§cFehler beim Herunterladen der Spielerdaten", "§cError while fetching player data", false),

@@ -40,11 +40,11 @@ public class PMenuLizenzMenu extends Menu {
     }
 
     private int getMaxAllowedShops(Player paramPlayer) {
-        for (int c = 25000; c >= '\000'; c--) {
-            if (paramPlayer.hasPermission("citybuild.shop.limit." + c))
+        for (int c = 25000; c >= 0; c--) {
+            if (paramPlayer.hasPermission("citybuild.shop." + c))
                 return c;
         }
-        return Integer.MAX_VALUE;
+        return 0;
     }
 
     @Override
@@ -63,12 +63,12 @@ public class PMenuLizenzMenu extends Menu {
         switch (inventoryClickEvent.getRawSlot()) {
             case 11 -> {
                 int maxShops = getMaxAllowedShops(player);
-                if (maxShops >= 150) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.get(player);
+                if (maxShops >= 50) {
+                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
                     return;
                 }
                 try {
-                    coinDAO.transact(null, -60000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":1");
+                    coinDAO.transact(null, 60000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":1");
                     addPermission(player.getUniqueId(), "citybuild.shop.50");
                     addPermission(player.getUniqueId(), "citybuild.licence.1");
                 } catch (PlayerTransactionError ignored) {
@@ -78,15 +78,15 @@ public class PMenuLizenzMenu extends Menu {
             case 13 -> {
                 int maxShops = getMaxAllowedShops(player);
                 if (maxShops < 50) {
-                    PMenuI18N.NOTPAYINGBUTSAYIN.get(player);
+                    PMenuI18N.NOTPAYINGBUTSAYIN.send(player);
                     return;
                 }
                 if (maxShops >= 150) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.get(player);
+                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
                     return;
                 }
                 try {
-                    coinDAO.transact(null, -180000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":2");
+                    coinDAO.transact(null, 180000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":2");
                     addPermission(player.getUniqueId(), "citybuild.shop.150");
                     addPermission(player.getUniqueId(), "citybuild.licence.2");
                 } catch (PlayerTransactionError ignored) {
@@ -96,15 +96,15 @@ public class PMenuLizenzMenu extends Menu {
             case 15 -> {
                 int maxShops = getMaxAllowedShops(player);
                 if (maxShops < 150) {
-                    PMenuI18N.NOTPAYINGBUTSAYIN.get(player);
+                    PMenuI18N.NOTPAYINGBUTSAYIN.send(player);
                     return;
                 }
                 if (maxShops >= 500) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.get(player);
+                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
                     return;
                 }
                 try {
-                    coinDAO.transact(null, -300000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":3");
+                    coinDAO.transact(null, 300000, "ESSENTIAL:LIC:" + System.currentTimeMillis() + ":3");
                     addPermission(player.getUniqueId(), "citybuild.shop.500");
                     addPermission(player.getUniqueId(), "citybuild.licence.3");
                 } catch (PlayerTransactionError ignored) {

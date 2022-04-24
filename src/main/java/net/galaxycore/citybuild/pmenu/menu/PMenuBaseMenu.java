@@ -28,6 +28,7 @@ public class PMenuBaseMenu extends Menu {
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
         switch (inventoryClickEvent.getRawSlot()) {
+            case 4 -> openLizenz();
             case 11 -> openWarp();
             case 22 -> openPlots();
             case 15 -> openThisPlot();
@@ -48,6 +49,11 @@ public class PMenuBaseMenu extends Menu {
     private void openThisPlot() {
         player.closeInventory();
         new PMenuPlotInfoMenu(player, null).open();
+    }
+
+    private void openLizenz() {
+        player.closeInventory();
+        new PMenuLizenzMenu(player).open();
     }
 
     @Override

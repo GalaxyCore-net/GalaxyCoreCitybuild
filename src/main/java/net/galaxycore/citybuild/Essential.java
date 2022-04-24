@@ -47,6 +47,7 @@ public final class Essential extends JavaPlugin {
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
+        getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_warps(pos int NOT NULL, loc varchar(100), name varchar(100), display varchar(100));").executeUpdate();
 
         pMenuDistributor = new PMenuDistributor();
 

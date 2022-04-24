@@ -72,7 +72,12 @@ class ShopListener : Listener {
         if (shopsInDistance.isEmpty()) return
         val shop = shopsInDistance[0]
         event.isCancelled = true
-        ShopGUI(event.player, shop.r).open()
+        val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
+        if (shop.r.player == loadedPlayer.id) {
+            ShopGUI(event.player, shop.r).open()
+        } else {
+            ShopEditGUI(event.player, shop.r).open(event.player)
+        }
     }
 
     @EventHandler

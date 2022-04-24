@@ -10,12 +10,13 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 import java.lang.reflect.Method
+import java.util.BitSet
 
 class BBCommand : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Require three int and two str args
-        if (args.size != 5 && args.size != 6) {
-            sender.sendMessage("§cUsage: /bb <x> <y> <z> <data> <datatype> [deserializer]")
+        if (args.size != 5 && args.size != 6 && args.size != 7 && args.size != 9) {
+            sender.sendMessage("§cUsage: /bb <x> <y> <z> <data> <datatype> [deserializer] [mod|clear] [and|or] [value]")
             return true
         }
 
@@ -60,11 +61,68 @@ class BBCommand : CommandExecutor, TabCompleter {
             return true
         }
 
+        if (args.size == 7) {
+            if (args[6] == "clear") {
+                pdc.remove(NamespacedKey(Essential.getInstance(), data))
+                sender.sendMessage("§aCleared data")
+            }
+        }
+
+        if (args.size == 9) {
+            if (args[6] == "mod") {
+                if (datatype != PersistentDataType.BYTE_ARRAY) {
+                    sender.sendMessage("§cModifying data is only supported for byte arrays")
+                    return true
+                }
+
+                val rawValue = rawData as ByteArray
+                val toEdit = args[8].split("shr")
+                val editablelong = toEdit[0].toLong()
+                val editable = ByteArray(Long.SIZE_BYTES)
+                for (i in 0 until Long.SIZE_BYTES) {
+                    editable[i] = editablelong.toByte()
+                }
+
+                val editableByteArray = ByteArray(rawValue.size)
+
+                if(toEdit.size == 2) {
+                    val shift = toEdit[1].toInt()
+                    System.arraycopy(editable, 0, editableByteArray, shift, editable.size)
+                }
+
+                val value = when (args[7]) {
+                    "and" -> {
+                        val a: BitSet = BitSet.valueOf(rawValue)
+                        val b: BitSet = BitSet.valueOf(editable)
+                        a.and(b)
+                        a.toByteArray()
+                    }
+                    "or" -> {
+                        val a: BitSet = BitSet.valueOf(rawValue)
+                        val b: BitSet = BitSet.valueOf(editable)
+                        a.or(b)
+                        a.toByteArray()
+                    }
+                    else -> {
+                        sender.sendMessage("§cInvalid operator: ${args[8]}")
+                        return true
+                    }
+                }
+
+                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE_ARRAY] = value
+                sender.sendMessage("§aSet!")
+            }
+        }
+
         try {
             val result = method.invoke(null, rawData)
             sender.sendMessage("§aResult: $result")
         } catch (e: Exception) {
-            sender.sendMessage("§cFailed to deserialize: ${e.message}")
+            if (e.message == "null") {
+                sender.sendMessage("§aResult: Data is null")
+            } else {
+                sender.sendMessage("§cFailed to deserialize: ${e.message}")
+            }
         }
         return true
     }
@@ -106,6 +164,23 @@ class BBCommand : CommandExecutor, TabCompleter {
             )
             return possibilities.filter { it.startsWith(args[5]) }.toMutableList()
         }
+
+        if (args.size == 7) {
+            val possibilities = mutableListOf(
+                "clear",
+                "mod"
+            )
+            return possibilities.filter { it.startsWith(args[6]) }.toMutableList()
+        }
+
+        if (args.size == 8) {
+            val possibilities = mutableListOf(
+                "and",
+                "or"
+            )
+            return possibilities.filter { it.startsWith(args[7]) }.toMutableList()
+        }
+
         return mutableListOf()
     }
 

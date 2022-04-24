@@ -1,9 +1,7 @@
 package net.galaxycore.citybuild.shop
 
-import com.comphenix.protocol.PacketType.Play
 import com.github.unldenis.hologram.Hologram
 import com.github.unldenis.hologram.HologramPool
-import com.github.unldenis.hologram.event.PlayerHologramHideEvent
 import net.galaxycore.citybuild.Essential
 import net.galaxycore.citybuild.utils.Both
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader
@@ -19,7 +17,6 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.persistence.PersistentDataType
-import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -50,10 +47,10 @@ class ShopListener : Listener {
             return
         }
 
-        ShopCreateGUI(event.player, event.player.inventory.itemInMainHand).open{
+        ShopCreateGUI(event.player, event.player.inventory.itemInMainHand.clone()).open{
             val player = event.player
             val loadedPlayer: PlayerLoader = PlayerLoader.load(player)
-            val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16)
+            val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16, Shop.STATE_BUY)
             ShopAnimation(event.player, Both(location, shop)).open()
             val blockdata = KBlockData(event.clickedBlock!!, Essential.getInstance())
             blockdata.set(namespacedKey, PersistentDataType.BYTE_ARRAY, shop.compact())
@@ -140,7 +137,12 @@ class ShopListener : Listener {
                 val realShopLocation = it.location
                 if (realShopLocation.distance(location) <= distance) {
                     val raw = shop.get(namespacedKey, PersistentDataType.BYTE_ARRAY) ?: return@forEach
-                    shops.add(Both(it.location, Shop.disect(raw)))
+                    try {
+                        shops.add(Both(it.location, Shop.disect(raw)))
+                    } catch (e: Exception) {
+                        println("Error while disecting shop at ${it.location}")
+                        e.printStackTrace()
+                    }
                 }
             }
         })

@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack
 class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu() {
     private lateinit var callback: (ShopCreateGUI) -> Unit
     private val priceItem: KMenu.KMenuItem = item(22, itemStack)
-
     private val up: KMenu.KMenuItem = item(13, Skull.ARROW_UP.skull)
     private val down: KMenu.KMenuItem = item(31, Skull.ARROW_DOWN.skull)
     var price: Long = 1
@@ -24,7 +23,6 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
             price += change
             updatePriceOn(this.up)
             updatePriceOn(this.down)
-            updatePriceOn(this.priceItem)
         }
         down.then {
             val change = if (it.clickType.isRightClick) 10 else 1
@@ -33,7 +31,6 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
 
             updatePriceOn(this.up)
             updatePriceOn(this.down)
-            updatePriceOn(this.priceItem)
         }
 
         item(28, Material.LIME_STAINED_GLASS, "§a§lCreate shop").then {
@@ -45,9 +42,6 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
             player.closeInventory()
         }
 
-        updatePriceOn(this.up)
-        updatePriceOn(this.down)
-        updatePriceOn(this.priceItem)
     }
 
     private fun updatePriceOn(item: KMenu.KMenuItem) {
@@ -65,5 +59,8 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
     fun open(callback: (ShopCreateGUI) -> Unit) {
         this.callback = callback
         open(player)
+
+        updatePriceOn(this.up)
+        updatePriceOn(this.down)
     }
 }

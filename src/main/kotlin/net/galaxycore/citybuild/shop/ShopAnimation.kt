@@ -27,10 +27,12 @@ class ShopAnimation(private val player: Player, private val shop: Both<Location,
 
     fun close() {
         getWrapperFor(shop.t, false).sendPacket(player)
-        ShopListener.animationData.keys.filter { it.t == player && it.r == shop.r }[0].let {
+        try {
+            ShopListener.animationData.keys.filter { it.t == player && it.r == shop.r }[0].let {
                 ShopListener.hologramPool.remove(ShopListener.animationData[it]!!)
                 ShopListener.animationData.remove(it)
-        }
+            }
+        }catch (_: Exception) {}
     }
 
     private fun getWrapperFor(location: Location, open: Boolean): WrapperPlayServerBlockAction {

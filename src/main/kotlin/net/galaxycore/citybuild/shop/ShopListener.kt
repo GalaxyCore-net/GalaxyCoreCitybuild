@@ -50,7 +50,7 @@ class ShopListener : Listener {
         ShopCreateGUI(event.player, event.player.inventory.itemInMainHand.clone()).open{
             val player = event.player
             val loadedPlayer: PlayerLoader = PlayerLoader.load(player)
-            val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16, Shop.STATE_BUY)
+            val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16, it.state.value)
             ShopAnimation(event.player, Both(location, shop)).open()
             val blockdata = KBlockData(event.clickedBlock!!, Essential.getInstance())
             blockdata.set(namespacedKey, PersistentDataType.BYTE_ARRAY, shop.compact())

@@ -6,6 +6,7 @@ import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
+import net.galaxycore.citybuild.shop.ShopI18N;
 import net.galaxycore.citybuild.shop.ShopListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
@@ -21,7 +22,6 @@ public final class Essential extends JavaPlugin {
     private static GalaxyCoreCore core;
     private ConfigNamespace configNamespace;
     private PMenuDistributor pMenuDistributor;
-    private ShopListener shopLoadingListener;
 
     public static Essential getInstance() {
         return instance;
@@ -363,6 +363,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.setwarp.usage", "§cPlease use: §e/setwarp [Name] [Pos] §cand hold an item in your hand", true);
         I18N.setDefaultByLang("en_GB", "citybuild.delwarp.usage", "§cPlease use: §e/delwarp [Pos] ", true);
 
+        ShopI18N.Companion.registerDefaults();
+
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
         Objects.requireNonNull(getCommand("heal")).setExecutor(new HealCommand());
@@ -400,7 +402,7 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("bb")).setExecutor(new BBCommand());
         Objects.requireNonNull(getCommand("bb")).setTabCompleter(new BBCommand());
 
-        shopLoadingListener = new ShopListener();
+        ShopListener shopLoadingListener = new ShopListener();
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);

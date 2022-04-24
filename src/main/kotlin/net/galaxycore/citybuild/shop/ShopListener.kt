@@ -12,6 +12,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.block.BlockEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
@@ -34,7 +35,7 @@ class ShopListener : Listener {
     private fun onCreate(event: PlayerInteractEvent) {
         val location = event.clickedBlock!!.location.toCenterLocation()
         if (getShopsInDistance(location.toBlockLocation(), 0.5).isNotEmpty()) {
-            event.player.sendMessage(ChatColor.RED.toString() + "There is already a shop in this area!")
+            event.player.sendMessage(ShopI18N.get<ShopListener>(event.player, "shopalreadyinarea"))
             return
         }
 
@@ -43,7 +44,7 @@ class ShopListener : Listener {
 
         // Check if Player has non-null and non-air item in hand
         if (event.player.inventory.itemInMainHand.type == Material.AIR) {
-            event.player.sendMessage(ChatColor.RED.toString() + "You need to hold an item in your hand!")
+            event.player.sendMessage(ShopI18N.get<ShopListener>(event.player, "needtoholdanitem"))
             return
         }
 
@@ -74,9 +75,9 @@ class ShopListener : Listener {
         event.isCancelled = true
         val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
         if (shop.r.player == loadedPlayer.id) {
-            ShopGUI(event.player, shop.r).open()
-        } else {
             ShopEditGUI(event.player, shop.r).open(event.player)
+        } else {
+            ShopGUI(event.player, shop.r).open()
         }
     }
 
@@ -87,7 +88,7 @@ class ShopListener : Listener {
         to = to.toBlockLocation()
         from = from.toBlockLocation()
         if (event.player.isSneaking) {
-            event.player.sendActionBar(Component.text(ChatColor.GREEN.toString() + "Sneak and interact with a chest to create a shop!"))
+            event.player.sendActionBar(Component.text(ShopI18N.get<ShopListener>(event.player, "sneakandinteracttocreateashop")))
         }
         if (from.distance(to) < 1) return
         val shopsInDistanceTo = getShopsInDistance(to, 7.0)
@@ -104,6 +105,19 @@ class ShopListener : Listener {
         }
         if (unload.size != 0) {
             unload.forEach(Consumer { locationShopBoth: Both<Location, Shop>? -> ShopAnimation(event.player, locationShopBoth!!).close() })
+        }
+    }
+
+    @EventHandler
+    fun onBlockBreak(event: BlockEvent) {
+        if (event.block.type != Material.CHEST && event.block.type != Material.TRAPPED_CHEST) return
+        val shopsInDistance = getShopsInDistance(event.block.location, 0.5)
+        if (shopsInDistance.isEmpty()) return
+        val shop = shopsInDistance[0]
+        val blockData = KBlockData(event.block, Essential.getInstance())
+        blockData.remove(namespacedKey)
+        event.block.location.getNearbyPlayers(7.0).forEach {
+            ShopAnimation(it, shop).close()
         }
     }
 
@@ -145,7 +159,7 @@ class ShopListener : Listener {
                     try {
                         shops.add(Both(it.location, Shop.disect(raw)))
                     } catch (e: Exception) {
-                        println("Error while disecting shop at ${it.location}")
+                        println("Error while disecting shop at ${it.location}. Probably someone tampered with the data. Please don't do that. That's evil. Like you.")
                         e.printStackTrace()
                     }
                 }

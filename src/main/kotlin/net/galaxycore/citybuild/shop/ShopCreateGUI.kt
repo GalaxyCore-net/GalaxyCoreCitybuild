@@ -18,7 +18,7 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
     var state: Reactive<Int> = Reactive(Shop.STATE_BUY)
 
     override fun getSize() = 5*9
-    override fun getNameI18NKey() ="Shop create GUI lol :D"
+    override fun getNameI18NKey() ="citybuild.shop.ShopCreateGUI.title"
 
     init {
         item(22, itemStack)
@@ -37,24 +37,24 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
             updatePriceOn(this.down)
         }
 
-        item(28, Material.LIME_STAINED_GLASS, "§a§lCreate shop").then {
+        item(28, Material.LIME_STAINED_GLASS, ShopI18N.get<ShopCreateGUI>(player, "create")).then {
             player.closeInventory()
             callback(this)
         }
 
-        item(34, Material.RED_STAINED_GLASS, "§c§lCancel").then {
+        item(34, Material.RED_STAINED_GLASS, ShopI18N.get<ShopCreateGUI>(player, "cancel")).then {
             player.closeInventory()
         }
 
-        val buyState = item(6, Material.SUNFLOWER, "§a§lBuy").then {
+        val buyState = item(6, Material.SUNFLOWER, ShopI18N.get<ShopCreateGUI>(player, "buy")).then {
             state.setItem(Shop.STATE_BUY)
         }
 
-        val sellState = item(7, Material.ARROW, "§a§lSell").then {
+        val sellState = item(7, Material.ARROW, ShopI18N.get<ShopCreateGUI>(player, "sell")).then {
             state.setItem(Shop.STATE_SELL)
         }
 
-        val bothState = item(8, Material.GOLD_INGOT, "§a§lBuy and Sell").then {
+        val bothState = item(8, Material.GOLD_INGOT, ShopI18N.get<ShopCreateGUI>(player, "buyandsell")).then {
             state.setItem(Shop.STATE_BTH)
         }
 
@@ -81,7 +81,7 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
     }
 
 
-    private fun buildPriceComponent() = Component.text("Price: $price Coins")
+    private fun buildPriceComponent() = Component.text(ShopI18N.get<ShopCreateGUI>(player, "price").replace("%d", price.toString()))
 
     fun open(callback: (ShopCreateGUI) -> Unit) {
         this.callback = callback

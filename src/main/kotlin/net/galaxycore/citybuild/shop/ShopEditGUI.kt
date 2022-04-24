@@ -10,21 +10,21 @@ class ShopEditGUI(player: Player, r: Shop) : KMenu(){
     private val state = Reactive(r.state)
 
     init {
-        val buyState = item(6, Material.SUNFLOWER, "§a§lBuy").then {
+        val buyState = item(6, Material.SUNFLOWER, ShopI18N.get<ShopEditGUI>(player, "buy")).then {
             state.setItem(Shop.STATE_BUY)
         }
 
-        val sellState = item(7, Material.ARROW, "§a§lSell").then {
+        val sellState = item(7, Material.ARROW, ShopI18N.get<ShopEditGUI>(player, "sell")).then {
             state.setItem(Shop.STATE_SELL)
         }
 
-        val bothState = item(8, Material.GOLD_INGOT, "§a§lBuy and Sell").then {
+        val bothState = item(8, Material.GOLD_INGOT, ShopI18N.get<ShopEditGUI>(player, "buyandsell")).then {
             state.setItem(Shop.STATE_BTH)
         }
-        item(11, Material.STONE_BUTTON, "Refill")
+        item(11, Material.STONE_BUTTON, ShopI18N.get<ShopEditGUI>(player, "refill"))
         item(13, r.itemStack)
-        item(15, Material.IRON_AXE, "Change Price")
-        item(18, Material.TNT, "Adminshop")
+        item(15, Material.IRON_AXE, ShopI18N.get<ShopEditGUI>(player, "changeprice"))
+        item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop"))
 
 
         state.updatelistener {item ->
@@ -42,6 +42,6 @@ class ShopEditGUI(player: Player, r: Shop) : KMenu(){
     }
 
 
-    override fun getNameI18NKey() = "shop.edit.title"
+    override fun getNameI18NKey() = "galaxycore.citybuild.shop.ShopEditGUI.title"
     override fun getSize() = 3*9
 }

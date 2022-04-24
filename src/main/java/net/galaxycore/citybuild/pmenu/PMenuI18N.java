@@ -66,10 +66,11 @@ public enum PMenuI18N {
     SHOPC3("shopc3", "§7-9% Steuern pro Transaktion über den Shop", "§7-9% tax per transaction through the store", false),
     COINSPOOR("coinsyoupoor", "§7Du hast §4nicht §7genügend Coins", "§7You §4don't §7have enough money", true),
     LIZENZMENU("lizenzname", "§7Shoplizenzen", "Shoplicences", false),
-    TELEPORTED("tp", "§7Du wurdest teleportiert.", "§7You were teleported", true),
     NOT_ON_PLOT("not_on_plot", "§cDu befindest dich nicht auf einem Grundstück", "§cYou're not on a plot", false),
     NOT_YOUR_PLOT("not_your_plot", "§cDies ist nicht dein Grundstück", "§cThis is not your plot", false),
-    FETCHING_PLAYERS_TIMEOUT("fetching_players_timeout", "§cFehler beim Herunterladen der Spielerdaten", "§cError while fetching player data", false);
+    FETCHING_PLAYERS_TIMEOUT("fetching_players_timeout", "§cFehler beim Herunterladen der Spielerdaten", "§cError while fetching player data", false),
+    NOTPAYINGBUTSAYIN("notpayingbutsayin", "Du musst die vorherige Lizenz erstkaufen", "You have to buy the previous license", true),
+    YOUHAVEITYOUIDIOT("alreadypurchased", "Du hast diese Lizenz bereits gekauft", "You have already purchased this license", true);
 
     private final String key;
 

@@ -58,31 +58,16 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
             state.setItem(Shop.STATE_BTH)
         }
 
-        state.updatelistener {
+        state.updatelistener {item ->
             buyState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_BUY)
-                it
+                enchantIfStateMatch(it, Shop.STATE_BUY, item)
             }
             sellState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_SELL)
-                it
+                enchantIfStateMatch(it, Shop.STATE_SELL, item)
             }
             bothState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_BTH)
-                it
+                enchantIfStateMatch(it, Shop.STATE_BTH, item)
             }
-        }
-    }
-
-    private fun enchantIfStateMatch(itemStack: ItemStack, state: Int) {
-        itemStack.itemMeta = itemStack.itemMeta?.apply {
-            this.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-        }
-        if (this.state.value == state) {
-            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
-        }
-        else {
-            itemStack.removeEnchantment(Enchantment.DURABILITY)
         }
     }
 
@@ -104,5 +89,23 @@ class ShopCreateGUI (private val player: Player, itemStack: ItemStack) : KMenu()
 
         updatePriceOn(this.up)
         updatePriceOn(this.down)
+        state.setItem(Shop.STATE_BUY)
+    }
+
+    companion object {
+        fun enchantIfStateMatch(itemStack: ItemStack, state: Int, baseState: Int): ItemStack {
+            itemStack.itemMeta = itemStack.itemMeta?.apply {
+                this.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+            }
+            if (baseState == state) {
+                itemStack.itemMeta = itemStack.itemMeta?.apply {
+                    this.addEnchant(Enchantment.DURABILITY, 1, true)
+                }
+            }
+            else {
+                itemStack.removeEnchantment(Enchantment.DURABILITY)
+            }
+            return itemStack
+        }
     }
 }

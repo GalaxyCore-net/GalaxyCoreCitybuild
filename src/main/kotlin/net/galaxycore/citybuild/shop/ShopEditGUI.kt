@@ -1,12 +1,10 @@
 package net.galaxycore.citybuild.shop
 
+import net.galaxycore.citybuild.shop.ShopCreateGUI.Companion.enchantIfStateMatch
 import net.galaxycore.galaxycorecore.spice.KMenu
 import net.galaxycore.galaxycorecore.spice.reactive.Reactive
 import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemFlag
-import org.bukkit.inventory.ItemStack
 
 class ShopEditGUI(player: Player, r: Shop) : KMenu(){
     private val state = Reactive(r.state)
@@ -29,33 +27,18 @@ class ShopEditGUI(player: Player, r: Shop) : KMenu(){
         item(18, Material.TNT, "Adminshop")
 
 
-        state.updatelistener {
+        state.updatelistener {item ->
             buyState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_BUY)
-                it
+                enchantIfStateMatch(it, Shop.STATE_BUY, item)
             }
             sellState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_SELL)
-                it
+                enchantIfStateMatch(it, Shop.STATE_SELL, item)
             }
             bothState.itemStack.update {
-                enchantIfStateMatch(it, Shop.STATE_BTH)
-                it
+                enchantIfStateMatch(it, Shop.STATE_BTH, item)
             }
         }
 
-    }
-
-    private fun enchantIfStateMatch(itemStack: ItemStack, state: Int) {
-        itemStack.itemMeta = itemStack.itemMeta?.apply {
-            this.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-        }
-        if (this.state.value == state) {
-            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
-        }
-        else {
-            itemStack.removeEnchantment(Enchantment.DURABILITY)
-        }
     }
 
 

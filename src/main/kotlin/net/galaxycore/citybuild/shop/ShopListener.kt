@@ -25,7 +25,6 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class ShopListener : Listener {
-    private val namespacedKey = NamespacedKey(Essential.getInstance(), "shops")
 
     init {
         essential = Essential.getInstance()
@@ -75,7 +74,7 @@ class ShopListener : Listener {
         event.isCancelled = true
         val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
         if (shop.r.player == loadedPlayer.id) {
-            ShopEditGUI(event.player, shop.r).open(event.player)
+            ShopEditGUI(event.player, shop.r, shop.t.block).open(event.player)
         } else {
             ShopGUI(event.player, shop.r).open()
         }
@@ -172,5 +171,6 @@ class ShopListener : Listener {
         lateinit var essential: Essential
         lateinit var hologramPool: HologramPool
         var animationData = HashMap<Both<Player, Shop>, Hologram>()
+        val namespacedKey = NamespacedKey(Essential.getInstance(), "shops")
     }
 }

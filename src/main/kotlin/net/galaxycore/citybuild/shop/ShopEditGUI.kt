@@ -1,12 +1,17 @@
 package net.galaxycore.citybuild.shop
 
+import net.galaxycore.citybuild.Essential
 import net.galaxycore.citybuild.shop.ShopCreateGUI.Companion.enchantIfStateMatch
+import net.galaxycore.galaxycorecore.spice.KBlockData
 import net.galaxycore.galaxycorecore.spice.KMenu
 import net.galaxycore.galaxycorecore.spice.reactive.Reactive
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.persistence.PersistentDataType
 
-class ShopEditGUI(player: Player, r: Shop) : KMenu(){
+class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu(){
     private val state = Reactive(r.state)
 
     init {
@@ -24,7 +29,15 @@ class ShopEditGUI(player: Player, r: Shop) : KMenu(){
         item(11, Material.STONE_BUTTON, ShopI18N.get<ShopEditGUI>(player, "refill"))
         item(13, r.itemStack)
         item(15, Material.IRON_AXE, ShopI18N.get<ShopEditGUI>(player, "changeprice"))
-        item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop"))
+        item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop")).then {
+            val shopData = KBlockData(block, Essential.getInstance())
+            val shop = shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY]?.let { Shop.disect(it) }
+
+            shop!!.player = -1
+
+            shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY] = shop.compact()
+            player.inventory.close()
+        }
 
 
         state.updatelistener {item ->
@@ -39,6 +52,15 @@ class ShopEditGUI(player: Player, r: Shop) : KMenu(){
             }
         }
 
+    }
+
+    override fun onclose(inventoryCloseEvent: InventoryCloseEvent) {
+        val shopData = KBlockData(block, Essential.getInstance())
+        val shop = shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY]?.let { Shop.disect(it) }
+
+        shop!!.state = state.value
+
+        shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY] = shop.compact()
     }
 
 

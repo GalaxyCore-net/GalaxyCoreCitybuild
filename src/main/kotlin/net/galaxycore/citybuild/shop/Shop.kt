@@ -3,7 +3,7 @@ package net.galaxycore.citybuild.shop
 import org.bukkit.inventory.ItemStack
 import java.io.Serializable
 
-data class Shop(var player: Int, var price: Long, var itemStack: ItemStack, var len: Int, var cx: Int, var cy: Int, var cz: Int, val state: Int) : Serializable {
+data class Shop(var player: Int, var price: Long, var itemStack: ItemStack, var len: Int, var cx: Int, var cy: Int, var cz: Int, var state: Int) : Serializable {
     private fun writeInt(byteArray: ByteArray, offset: Int, value: Int) {
         byteArray[offset] = (value shr 24).toByte()
         byteArray[offset + 1] = (value shr 16).toByte()

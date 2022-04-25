@@ -1,17 +1,21 @@
 package net.galaxycore.citybuild.shop
 
 import com.github.unldenis.hologram.Hologram
+import com.github.unldenis.hologram.HologramAccessor
 import com.github.unldenis.hologram.HologramPool
+import com.github.unldenis.hologram.event.PlayerHologramHideEvent
 import net.galaxycore.citybuild.Essential
 import net.galaxycore.citybuild.utils.Both
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader
 import net.galaxycore.galaxycorecore.spice.KBlockData
 import net.kyori.adventure.text.Component
 import org.bukkit.*
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -47,13 +51,13 @@ class ShopListener : Listener {
             return
         }
 
-        ShopCreateGUI(event.player, event.player.inventory.itemInMainHand.clone()).open{
+        ShopCreateGUI(event.player, event.player.inventory.itemInMainHand.clone()).open {
             val player = event.player
             val loadedPlayer: PlayerLoader = PlayerLoader.load(player)
             val shop = Shop(loadedPlayer.id, it.price, player.inventory.itemInMainHand, 0, location.blockX - chunk.x * 16, location.blockY, location.blockZ - chunk.z * 16, it.state.value)
             ShopAnimation(event.player, Both(location, shop)).open()
             val blockdata = KBlockData(event.clickedBlock!!, Essential.getInstance())
-            blockdata.set(namespacedKey, PersistentDataType.BYTE_ARRAY, shop.compact())
+            shop.compact(blockdata)
         }
     }
 
@@ -73,7 +77,7 @@ class ShopListener : Listener {
         val shop = shopsInDistance[0]
         event.isCancelled = true
         val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
-        if (shop.r.player == loadedPlayer.id) {
+        if (shop.r.player == loadedPlayer.id || (shop.r.player == 0 && event.player.hasPermission("citybuild.shop.admin"))) {
             ShopEditGUI(event.player, shop.r, shop.t.block).open(event.player)
         } else {
             ShopGUI(event.player, shop.r).open()
@@ -108,13 +112,21 @@ class ShopListener : Listener {
     }
 
     @EventHandler
-    fun onBlockBreak(event: BlockEvent) {
+    fun onBlockBreak(event: BlockBreakEvent) {
         if (event.block.type != Material.CHEST && event.block.type != Material.TRAPPED_CHEST) return
         val shopsInDistance = getShopsInDistance(event.block.location, 0.5)
         if (shopsInDistance.isEmpty()) return
         val shop = shopsInDistance[0]
+        val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
+        if (shop.r.player != loadedPlayer.id && !event.player.hasPermission("citybuild.shop.admin")) {
+            if (shop.r.player != 0 || !event.player.hasPermission("citybuild.shop.admin")) {
+                event.isCancelled = true
+                event.player.sendMessage(ShopI18N.get<ShopListener>(event.player, "cantbreakshop"))
+                return
+            }
+        }
         val blockData = KBlockData(event.block, Essential.getInstance())
-        blockData.remove(namespacedKey)
+        blockData.clear()
         event.block.location.getNearbyPlayers(7.0).forEach {
             ShopAnimation(it, shop).close()
         }
@@ -124,6 +136,9 @@ class ShopListener : Listener {
     fun onQuit(event: PlayerQuitEvent) {
         val shopsInDistance = getShopsInDistance(event.player.location, 7.0)
         if (shopsInDistance.isEmpty()) return
+        for (shop in shopsInDistance) {
+            ShopAnimation(event.player, shop).close()
+        }
     }
 
     @EventHandler
@@ -131,18 +146,27 @@ class ShopListener : Listener {
         onMove(PlayerMoveEvent(event.player, event.player.world.getBlockAt(0, 0, 0).location, event.player.location))
     }
 
+    @EventHandler
+    fun onHologramHide(event: PlayerHologramHideEvent) {
+        if (HologramAccessor.isHidden(event.hologram, event.player)) return
+
+        Bukkit.getScheduler().runTaskLater(Essential.getInstance(), Runnable {
+            hologramPool.remove(event.hologram)
+        }, 100)
+    }
+
     private fun getShopsInDistance(location: Location, distance: Double): List<Both<Location, Shop>> {
         val shops: MutableList<Both<Location, Shop>> = ArrayList()
         val chunks = listOf(
-                location.chunk,
-                location.clone().add(16.0, 0.0, -16.0).chunk,
-                location.clone().add(16.0, 0.0, 0.0).chunk,
-                location.clone().add(16.0, 0.0, 16.0).chunk,
-                location.clone().add(0.0, 0.0, -16.0).chunk,
-                location.clone().add(0.0, 0.0, 16.0).chunk,
-                location.clone().add(-16.0, 0.0, -16.0).chunk,
-                location.clone().add(-16.0, 0.0, 0.0).chunk,
-                location.clone().add(-16.0, 0.0, 16.0).chunk
+            location.chunk,
+            location.clone().add(16.0, 0.0, -16.0).chunk,
+            location.clone().add(16.0, 0.0, 0.0).chunk,
+            location.clone().add(16.0, 0.0, 16.0).chunk,
+            location.clone().add(0.0, 0.0, -16.0).chunk,
+            location.clone().add(0.0, 0.0, 16.0).chunk,
+            location.clone().add(-16.0, 0.0, -16.0).chunk,
+            location.clone().add(-16.0, 0.0, 0.0).chunk,
+            location.clone().add(-16.0, 0.0, 16.0).chunk
         )
 
         val essential: Essential = Essential.getInstance()
@@ -154,9 +178,8 @@ class ShopListener : Listener {
                 val shop = KBlockData(it, essential)
                 val realShopLocation = it.location
                 if (realShopLocation.distance(location) <= distance) {
-                    val raw = shop.get(namespacedKey, PersistentDataType.BYTE_ARRAY) ?: return@forEach
                     try {
-                        shops.add(Both(it.location, Shop.disect(raw)))
+                        shops.add(Both(it.location, Shop.disect(shop)))
                     } catch (e: Exception) {
                         println("Error while disecting shop at ${it.location}. Probably someone tampered with the data. Please don't do that. That's evil. Like you.")
                         e.printStackTrace()
@@ -170,7 +193,6 @@ class ShopListener : Listener {
     companion object {
         lateinit var essential: Essential
         lateinit var hologramPool: HologramPool
-        var animationData = HashMap<Both<Player, Shop>, Hologram>()
-        val namespacedKey = NamespacedKey(Essential.getInstance(), "shops")
+        var animationData = HashMap<Both<Player, Block>, Hologram>()
     }
 }

@@ -1,38 +1,24 @@
 package net.galaxycore.citybuild.shop
 
+import net.galaxycore.citybuild.Essential
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataContainer
+import org.bukkit.persistence.PersistentDataType
 import java.io.Serializable
 
 data class Shop(var player: Int, var price: Long, var itemStack: ItemStack, var len: Int, var cx: Int, var cy: Int, var cz: Int, var state: Int) : Serializable {
-    private fun writeInt(byteArray: ByteArray, offset: Int, value: Int) {
-        byteArray[offset] = (value shr 24).toByte()
-        byteArray[offset + 1] = (value shr 16).toByte()
-        byteArray[offset + 2] = (value shr 8).toByte()
-        byteArray[offset + 3] = value.toByte()
-    }
-
-    private fun writeLong(byteArray: ByteArray, offset: Int, value: Long) {
-        writeInt(byteArray, offset, (value shr 32).toInt())
-        writeInt(byteArray, offset + 4, value.toInt())
-    }
-
-
-    fun compact(): ByteArray {
+    fun compact(pdc: PersistentDataContainer){
         val itemStackSerialized = itemStack.serializeAsBytes()
-        val byteArray = ByteArray(itemStackSerialized.size + 4 + 8 + 4 + 4 + 4 + 4 + 4)
 
-        writeInt(byteArray, 0, player)// Write the player (4 Bytes)
-        writeLong(byteArray, 4, price)// Write the price (8 Bytes)
-        writeInt(byteArray, 12, len)// Write the len (4 Bytes)
-        writeInt(byteArray, 16, cx) // Write the cx (4 Bytes)
-        writeInt(byteArray, 20, cy)// Write the cy (4 Bytes)
-        writeInt(byteArray, 24, cz)// Write the cz (4 Bytes)
-        writeInt(byteArray, 28, state)// Write the state (4 Bytes)
-
-        // Write the itemStack (? Bytes, depends on the itemStack, is the rest of the data)
-        System.arraycopy(itemStackSerialized, 0, byteArray, 32, itemStackSerialized.size)
-
-        return byteArray
+        pdc[KEY_PLAYER,    PersistentDataType.INTEGER   ] = player
+        pdc[KEY_PRICE,     PersistentDataType.LONG      ] = price
+        pdc[KEY_ITEMSTACK, PersistentDataType.BYTE_ARRAY] = itemStackSerialized
+        pdc[KEY_LEN,       PersistentDataType.INTEGER   ] = len
+        pdc[KEY_CX,        PersistentDataType.INTEGER   ] = cx
+        pdc[KEY_CY,        PersistentDataType.INTEGER   ] = cy
+        pdc[KEY_CZ,        PersistentDataType.INTEGER   ] = cz
+        pdc[KEY_STATE,     PersistentDataType.INTEGER   ] = state
     }
 
     companion object {
@@ -40,24 +26,28 @@ data class Shop(var player: Int, var price: Long, var itemStack: ItemStack, var 
         const val STATE_BUY = 2
         const val STATE_BTH = STATE_SELL or STATE_BUY
 
-        fun disect(byteArray: ByteArray): Shop {
-            val player = readInt(byteArray, 0)
-            val price = (readInt(byteArray, 4).toLong() shl 32) + readInt(byteArray, 8).toLong()
-            val len = readInt(byteArray, 12)
-            val cx = readInt(byteArray, 16)
-            val cy = readInt(byteArray, 20)
-            val cz = readInt(byteArray, 24)
-            val state = readInt(byteArray, 28)
+        val KEY_PLAYER = NamespacedKey(Essential.getInstance(), "shop_player")
+        val KEY_PRICE = NamespacedKey(Essential.getInstance(), "shop_price")
+        val KEY_ITEMSTACK = NamespacedKey(Essential.getInstance(), "shop_itemstack")
+        val KEY_LEN = NamespacedKey(Essential.getInstance(), "shop_len")
+        val KEY_CX = NamespacedKey(Essential.getInstance(), "shop_cx")
+        val KEY_CY = NamespacedKey(Essential.getInstance(), "shop_cy")
+        val KEY_CZ = NamespacedKey(Essential.getInstance(), "shop_cz")
+        val KEY_STATE = NamespacedKey(Essential.getInstance(), "shop_state")
 
-            val itemStackByteArray = ByteArray(byteArray.size - 32)
-            System.arraycopy(byteArray, 32, itemStackByteArray, 0, itemStackByteArray.size)
+        fun disect(pdc: PersistentDataContainer): Shop {
 
-            val itemStack = ItemStack.deserializeBytes(itemStackByteArray)
+            val player              = pdc[KEY_PLAYER,    PersistentDataType.INTEGER   ]!!
+            val price               = pdc[KEY_PRICE,     PersistentDataType.LONG      ]!!
+            val itemStackSerialized = pdc[KEY_ITEMSTACK, PersistentDataType.BYTE_ARRAY]!!
+            val len                 = pdc[KEY_LEN,       PersistentDataType.INTEGER   ]!!
+            val cx                  = pdc[KEY_CX,        PersistentDataType.INTEGER   ]!!
+            val cy                  = pdc[KEY_CY,        PersistentDataType.INTEGER   ]!!
+            val cz                  = pdc[KEY_CZ,        PersistentDataType.INTEGER   ]!!
+            val state               = pdc[KEY_STATE,     PersistentDataType.INTEGER   ]!!
+
+            val itemStack = ItemStack.deserializeBytes(itemStackSerialized)
             return Shop(player, price, itemStack, len, cx, cy, cz, state)
-        }
-
-        private fun readInt(byteArray: ByteArray, offset: Int): Int {
-            return (byteArray[offset].toInt() shl 24) + (byteArray[offset + 1].toInt() shl 16) + (byteArray[offset + 2].toInt() shl 8) + byteArray[offset + 3].toInt()
         }
     }
 }

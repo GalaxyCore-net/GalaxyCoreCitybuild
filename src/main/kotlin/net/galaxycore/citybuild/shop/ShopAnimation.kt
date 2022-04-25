@@ -16,19 +16,20 @@ import org.bukkit.entity.Player
 class ShopAnimation(private val player: Player, private val shop: Both<Location, Shop>) {
     fun open() {
         getWrapperFor(shop.t, true).sendPacket(player)
+        if (ShopListener.animationData.keys.any { it.t == player && it.r == shop.t.block }) return
         val hologram = Hologram.builder()
                 .location(shop.t.toCenterLocation().subtract(0.0, 1.0, 0.0))
                 .addLine(shop.r.itemStack)
                 .build(ShopListener.hologramPool)
         hologram.setAnimation(0, Animation.CIRCLE)
         Bukkit.getOnlinePlayers().forEach { player1: Player? -> HologramAccessor.hide(hologram, player1) }
-        ShopListener.animationData[Both(player, shop.r)] = hologram
+        ShopListener.animationData[Both(player, shop.t.block)] = hologram
     }
 
     fun close() {
         getWrapperFor(shop.t, false).sendPacket(player)
         try {
-            ShopListener.animationData.keys.filter { it.t == player && it.r == shop.r }[0].let {
+            ShopListener.animationData.keys.filter { it.t == player && it.r == shop.t.block }[0].let {
                 ShopListener.hologramPool.remove(ShopListener.animationData[it]!!)
                 ShopListener.animationData.remove(it)
             }

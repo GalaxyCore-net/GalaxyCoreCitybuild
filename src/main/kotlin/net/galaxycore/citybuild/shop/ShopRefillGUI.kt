@@ -60,16 +60,11 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
             }
 
             var amountToWithdraw = r.itemStack.amount
-            println("playerCan: $playerCan")
             if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
                 amountToWithdraw = floorDiv(playerCan, r.itemStack.amount)*r.itemStack.amount
             }
 
-            println("amountToWithdraw: $amountToWithdraw")
-
             amountToWithdraw = amountToWithdraw.coerceAtMost(r.len)
-
-            println("amountToWithdraw2: $amountToWithdraw")
 
             amount.update {
                 it - amountToWithdraw

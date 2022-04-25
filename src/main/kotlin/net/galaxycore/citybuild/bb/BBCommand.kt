@@ -153,7 +153,7 @@ class BBCommand : CommandExecutor, TabCompleter {
                 "shop_cz",
                 "shop_state"
             )
-            return possibilities.filter { it.startsWith(args[4]) }.toMutableList()
+            return possibilities.filter { it.startsWith(args[3]) }.toMutableList()
         }
 
         if (args.size == 5) {

@@ -33,7 +33,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
 
             var amountToInsert = r.itemStack.amount
             if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
-                amountToInsert = floorDiv(playerHas, r.itemStack.amount) * r.itemStack.amount
+                amountToInsert = floorDiv(playerHas, r.itemStack.amount)
             }
 
             removeAmountOfItemFromPlayerInventory(amountToInsert)
@@ -52,7 +52,43 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
                 ShopI18N.get<ShopRefillGUI>(player, "withdraw.l1"),
                 ShopI18N.get<ShopRefillGUI>(player, "withdraw.l2")
             )
-        )
+        ).then { kMenuItem ->
+            val playerCan = howManySpacesAreLeftForItemStack()
+            if (r.len == 0) {
+                player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
+                return@then
+            }
+
+            var amountToWithdraw = r.itemStack.amount
+            println("playerCan: $playerCan")
+            if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
+                amountToWithdraw = floorDiv(playerCan, r.itemStack.amount)*r.itemStack.amount
+            }
+
+            println("amountToWithdraw: $amountToWithdraw")
+
+            amountToWithdraw = amountToWithdraw.coerceAtMost(r.len)
+
+            println("amountToWithdraw2: $amountToWithdraw")
+
+            amount.update {
+                it - amountToWithdraw
+            }
+
+            var wholeStacks = floorDiv(amountToWithdraw, r.itemStack.maxStackSize)
+            val remainder = amountToWithdraw % r.itemStack.maxStackSize
+
+            while (wholeStacks > 0) {
+                player.inventory.addItem(r.itemStack.clone().asQuantity(r.itemStack.maxStackSize))
+                wholeStacks--
+            }
+
+            if (remainder > 0) {
+                player.inventory.addItem(r.itemStack.clone().asQuantity(remainder))
+            }
+
+            player.playNote(player.location, Instrument.CHIME, Note.natural(1, Note.Tone.A))
+        }
 
         amount.updatelistener {am ->
             amountItem.itemStack.update { itemStack ->
@@ -73,6 +109,18 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
         for (itemStack in player.inventory.contents) {
             if (itemStack != null && itemStack.isSimilar(r.itemStack)) {
                 count += itemStack.amount
+            }
+        }
+        return count
+    }
+
+    private fun howManySpacesAreLeftForItemStack(): Int {
+        var count = 0
+        for (itemStack in player.inventory.contents) {
+            if (itemStack != null && itemStack.isSimilar(r.itemStack)) {
+                count += r.itemStack.maxStackSize - itemStack.amount
+            } else if (itemStack == null) {
+                count += r.itemStack.maxStackSize
             }
         }
         return count

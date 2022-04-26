@@ -1,5 +1,6 @@
 package net.galaxycore.citybuild.pmenu;
 
+import lombok.Getter;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.entity.Player;
 
@@ -70,8 +71,11 @@ public enum PMenuI18N {
     NOT_YOUR_PLOT("not_your_plot", "§cDies ist nicht dein Grundstück", "§cThis is not your plot", false),
     FETCHING_PLAYERS_TIMEOUT("fetching_players_timeout", "§cFehler beim Herunterladen der Spielerdaten", "§cError while fetching player data", false),
     NOTPAYINGBUTSAYIN("notpayingbutsayin", "Du musst die vorherige Lizenz erstkaufen", "You have to buy the previous license", true),
-    YOUHAVEITYOUIDIOT("alreadypurchased", "Du hast diese Lizenz bereits gekauft", "You have already purchased this license", true);
-
+    YOUHAVEITYOUIDIOT("alreadypurchased", "Du hast diese Lizenz bereits gekauft", "You have already purchased this license", true),
+    PLOTBYMENU("plotmenubuy", "§ePlots kaufen", "§eBuy a Rent", false),
+    AKUPLOTS("currentplots", "§eAktuelle Plots: ", "§eCurrent Plots: ", false),
+    NEWPLOT("newplots", "§eKaufe ein neues Plot", "§eBuy a new plot", false);
+    @Getter
     private final String key;
 
     PMenuI18N(String key, String de, String en, boolean prefix) {

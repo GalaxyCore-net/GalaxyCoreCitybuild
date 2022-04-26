@@ -70,38 +70,88 @@ class BBCommand : CommandExecutor, TabCompleter {
 
         if (args.size == 9) {
             if (args[6] == "mod") {
-                if (datatype != PersistentDataType.BYTE_ARRAY) {
-                    sender.sendMessage("§cModifying data is only supported for byte arrays")
-                    return true
-                }
-
-                val rawValue = rawData as ByteArray
-                val toEdit = args[8].split("shr")
-                val editablelong = toEdit[0].toLong()
-                val editable = ByteArray(Long.SIZE_BYTES)
-                for (i in 0 until Long.SIZE_BYTES) {
-                    editable[i] = editablelong.toByte()
-                }
-
-                val editableByteArray = ByteArray(rawValue.size)
-
-                if(toEdit.size == 2) {
-                    val shift = toEdit[1].toInt()
-                    System.arraycopy(editable, 0, editableByteArray, shift, editable.size)
-                }
-
-                val value = when (args[7]) {
+                when (args[7]) {
                     "and" -> {
+                        if (datatype != PersistentDataType.BYTE_ARRAY) {
+                            sender.sendMessage("§cModifying data is only supported for byte arrays")
+                            return true
+                        }
+                        val rawValue = rawData as ByteArray
+                        val toEdit = args[8].split("shr")
+                        val editablelong = toEdit[0].toLong()
+                        val editable = ByteArray(Long.SIZE_BYTES)
+                        for (i in 0 until Long.SIZE_BYTES) {
+                            editable[i] = editablelong.toByte()
+                        }
+
+                        val editableByteArray = ByteArray(rawValue.size)
+
+                        if (toEdit.size == 2) {
+                            val shift = toEdit[1].toInt()
+                            System.arraycopy(editable, 0, editableByteArray, shift, editable.size)
+                        }
                         val a: BitSet = BitSet.valueOf(rawValue)
                         val b: BitSet = BitSet.valueOf(editable)
                         a.and(b)
-                        a.toByteArray()
+                        pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE_ARRAY] = a.toByteArray()
                     }
                     "or" -> {
+                        if (datatype != PersistentDataType.BYTE_ARRAY) {
+                            sender.sendMessage("§cModifying data is only supported for byte arrays")
+                            return true
+                        }
+                        val rawValue = rawData as ByteArray
+                        val toEdit = args[8].split("shr")
+                        val editablelong = toEdit[0].toLong()
+                        val editable = ByteArray(Long.SIZE_BYTES)
+                        for (i in 0 until Long.SIZE_BYTES) {
+                            editable[i] = editablelong.toByte()
+                        }
+
+                        val editableByteArray = ByteArray(rawValue.size)
+
+                        if (toEdit.size == 2) {
+                            val shift = toEdit[1].toInt()
+                            System.arraycopy(editable, 0, editableByteArray, shift, editable.size)
+                        }
                         val a: BitSet = BitSet.valueOf(rawValue)
                         val b: BitSet = BitSet.valueOf(editable)
                         a.or(b)
-                        a.toByteArray()
+                        pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE_ARRAY] = a.toByteArray()
+                    }
+                    "set" -> {
+                        when (stringDatatype) {
+                            "byte" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE] = getInt(args[8]).toByte()
+                            }
+                            "short" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.SHORT] = getInt(args[8]).toShort()
+                            }
+                            "int" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.INTEGER] = getInt(args[8])
+
+                            }
+                            "long" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.LONG] = getInt(args[8]).toLong()
+
+                            }
+                            "float" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.FLOAT] = args[8].toFloat()
+                            }
+                            "double" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.DOUBLE] = getInt(args[8]).toDouble()
+                            }
+                            "string" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.STRING] = args[8]
+                            }
+                            "bytearray" -> {
+                                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE_ARRAY] = args[8].split(",").map { it.toInt().toByte() }.toTypedArray().toByteArray()
+                            }
+                            else -> {
+                                sender.sendMessage("§cCan't set data of type $stringDatatype")
+                                return true
+                            }
+                        }
                     }
                     else -> {
                         sender.sendMessage("§cInvalid operator: ${args[8]}")
@@ -109,7 +159,7 @@ class BBCommand : CommandExecutor, TabCompleter {
                     }
                 }
 
-                pdc[NamespacedKey(Essential.getInstance(), data), PersistentDataType.BYTE_ARRAY] = value
+
                 sender.sendMessage("§aSet!")
             }
         }
@@ -125,6 +175,18 @@ class BBCommand : CommandExecutor, TabCompleter {
             }
         }
         return true
+    }
+
+    private fun getInt(string: String): Int {
+        return if (string.startsWith("0x")) {
+            Integer.parseInt(string.substring(2), 16)
+        } else if (string.startsWith("0b")) {
+            Integer.parseInt(string.substring(2), 2)
+        } else if (string.startsWith("0o")) {
+            Integer.parseInt(string.substring(2), 8)
+        } else {
+            Integer.parseInt(string)
+        }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
@@ -188,7 +250,8 @@ class BBCommand : CommandExecutor, TabCompleter {
         if (args.size == 8) {
             val possibilities = mutableListOf(
                 "and",
-                "or"
+                "or",
+                "set"
             )
             return possibilities.filter { it.startsWith(args[7]) }.toMutableList()
         }

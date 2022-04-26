@@ -25,22 +25,34 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
                 ShopI18N.get<ShopRefillGUI>(player, "deposit.l2")
             )
         ).then { kMenuItem ->
-            val playerHas = howManyItemsOfTypeHasPlayer()
-            if (playerHas < r.itemStack.amount) {
+            if (howManyItemsOfTypeHasPlayer() < r.itemStack.amount) {
                 player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
                 return@then
             }
-
-            var amountToInsert = r.itemStack.amount
             if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
-                amountToInsert = floorDiv(playerHas, r.itemStack.amount)
-            }
+                while (true) {
+                    val playerHas = howManyItemsOfTypeHasPlayer()
+                    if (playerHas < r.itemStack.amount) {
+                        break
+                    }
 
-            removeAmountOfItemFromPlayerInventory(amountToInsert)
-            amount.update {
-                it + amountToInsert
+                    val amountToInsert = r.itemStack.amount
+
+                    removeAmountOfItemFromPlayerInventory(amountToInsert)
+                    amount.update {
+                        it + amountToInsert
+                    }
+                }
+            } else {
+                val amountToInsert = r.itemStack.amount
+
+                removeAmountOfItemFromPlayerInventory(amountToInsert)
+                amount.update {
+                    it + amountToInsert
+                }
             }
             player.playNote(player.location, Instrument.CHIME, Note.natural(1, Note.Tone.A))
+
         }
 
         val amountItem = item(13, r.itemStack.clone())
@@ -61,7 +73,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
 
             var amountToWithdraw = r.itemStack.amount
             if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
-                amountToWithdraw = floorDiv(playerCan, r.itemStack.amount)*r.itemStack.amount
+                amountToWithdraw = floorDiv(playerCan, r.itemStack.amount) * r.itemStack.amount
             }
 
             amountToWithdraw = amountToWithdraw.coerceAtMost(r.len)
@@ -85,7 +97,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
             player.playNote(player.location, Instrument.CHIME, Note.natural(1, Note.Tone.A))
         }
 
-        amount.updatelistener {am ->
+        amount.updatelistener { am ->
             amountItem.itemStack.update { itemStack ->
                 itemStack.editMeta {
                     it.displayName(Component.text(ShopI18N.get<ShopEditGUI>(player, "current").replace("%d", am.toString())))

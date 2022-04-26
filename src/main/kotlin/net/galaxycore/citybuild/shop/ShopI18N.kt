@@ -42,10 +42,16 @@ class ShopI18N {
             default<ShopRefillGUI>("withdraw.l2", "§7Shift-Click to withdraw all", "§7Shift-Klicke um alles zu entnehmen", false)
             default<ShopRefillGUI>("title", "§eRefill Shop", "§eAuffüllen des Shops", false)
             default<ShopRefillGUI>("notenoughitems", "§cYou don't have enough items!", "§cDu hast nicht genug Items!", true)
+            default<ShopRefillGUI>("notenoughcoins", "§cYou don't have enough coins!", "§cDu hast nicht genug Coins!", true)
+            default<ShopRefillGUI>("notenoughcoinsother", "§c%s doesn't have enough coins!", "§c%s hat nicht genug Coins!", true)
             default<ShopGUI>( "title", "Buy %s", "Kaufe %s",false)
             default<ShopGUI>( "sell", "§eSell", "§eVerkaufen",false)
             default<ShopGUI>( "buy", "§eBuy", "§eKaufen",false)
             default<ShopGUI>( "settings", "§eSettings", "§eEinstellungen",false)
+            default<ShopGUI>("sell.l1", "§7Click to sell one item group", "§7Klicke um eine Itemgruppe zu verkaufen", false)
+            default<ShopGUI>("sell.l2", "§7Shift-Click to sell all", "§7Shift-Klicke um alles zu verkaufen", false)
+            default<ShopGUI>("buy.l1", "§7Click to buy one item group", "§7Klicke um eine Itemgruppe zu kaufen", false)
+            default<ShopGUI>("buy.l2", "§7Shift-Click to buy all", "§7Shift-Klicke um alles zu kaufen", false)
         }
     }
 }

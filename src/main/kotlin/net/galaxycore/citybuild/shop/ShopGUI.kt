@@ -9,6 +9,7 @@ import net.galaxycore.galaxycorecore.coins.CoinDAO
 import net.galaxycore.galaxycorecore.coins.PartnerTransactionError
 import net.galaxycore.galaxycorecore.coins.PlayerTransactionError
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader
+import net.galaxycore.galaxycorecore.spice.KBlockData
 import net.galaxycore.galaxycorecore.spice.KMenu
 import net.galaxycore.galaxycorecore.spice.reactive.Reactive
 import org.bukkit.Instrument
@@ -17,6 +18,7 @@ import org.bukkit.Note
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
+import java.lang.Math.floorDiv
 import java.sql.ResultSet
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,15 +28,20 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
     private val amount = Reactive(shop.len)
 
     init {
-        if (shop.state == Shop.STATE_BUY || shop.state == Shop.STATE_BTH)
-            item(11, Skull.ARROW_UP.getSkull(ShopI18N.get<ShopGUI>(player, "sell"),
-                ShopI18N.get<ShopGUI>(player, "sell.l1"),
-                ShopI18N.get<ShopGUI>(player, "sell.l2"))).then { kMenuItem ->
+        println("state: ${shop.state}")
+        if (shop.state == 2 || shop.state == 3) {
+            item(
+                11, Skull.ARROW_UP.getSkull(
+                    ShopI18N.get<ShopGUI>(player, "sell"),
+                    ShopI18N.get<ShopGUI>(player, "sell.l1"),
+                    ShopI18N.get<ShopGUI>(player, "sell.l2")
+                )
+            ).then { kMenuItem ->
                 var price = 0L
                 val dao = CoinDAO(PlayerLoader.load(player), Essential.getInstance())
                 val shopOwner = buildLoader(shop.player)
                 val ownerDAO = CoinDAO(shopOwner, Essential.getInstance())
-                if (howManyItemsOfTypeHasPlayer() < shop.itemStack.amount ) {
+                if (howManyItemsOfTypeHasPlayer() < shop.itemStack.amount) {
                     player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
                     return@then
                 }
@@ -82,14 +89,83 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
                 player.playNote(player.location, Instrument.CHIME, Note.natural(1, Note.Tone.A))
 
             }
+        }
         item(13, shop.itemStack.clone())
 
-        if (shop.state == Shop.STATE_BUY || shop.state == Shop.STATE_BTH)
-            item(15, Skull.ARROW_DOWN.getSkull(ShopI18N.get<ShopGUI>(player, "buy"),
-                ShopI18N.get<ShopGUI>(player, "buy.l1"),
-                ShopI18N.get<ShopGUI>(player, "buy.l2"))).then {
+        if (shop.state == 1 || shop.state == 3) {
+            item(
+                15, Skull.ARROW_DOWN.getSkull(
+                    ShopI18N.get<ShopGUI>(player, "buy"),
+                    ShopI18N.get<ShopGUI>(player, "buy.l1"),
+                    ShopI18N.get<ShopGUI>(player, "buy.l2")
+                )
+            ).then { kMenuItem ->
+                val dao = CoinDAO(PlayerLoader.load(player), Essential.getInstance())
+                if (dao.get() < shop.price) {
+                    player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughcoins"))
+                    return@then
+                }
+                var playerCan = howManySpacesAreLeftForItemStack()
 
+                val maxBuyAmountForPlayer = floorDiv(dao.get(), shop.price) * shop.itemStack.amount
+
+                if (playerCan > maxBuyAmountForPlayer) {
+                    playerCan = maxBuyAmountForPlayer.toInt()
+                }
+
+                if (shop.len == 0) {
+                    player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
+                    return@then
+                }
+
+                var amountToWithdraw = shop.itemStack.amount
+                if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
+                    amountToWithdraw = floorDiv(playerCan, shop.itemStack.amount) * shop.itemStack.amount
+                }
+                amountToWithdraw = amountToWithdraw.coerceAtMost(shop.len)
+
+                while (amountToWithdraw > 64) {
+                    amountToWithdraw -= shop.itemStack.amount
+                }
+
+                if (amountToWithdraw <= 0) {
+                    player.sendMessage("§cERROR")
+                    return@then
+                }
+
+                amount.update {
+                    it - amountToWithdraw
+                }
+
+                var wholeStacks = floorDiv(amountToWithdraw, shop.itemStack.maxStackSize)
+                val remainder = amountToWithdraw % shop.itemStack.maxStackSize
+
+                while (wholeStacks > 0) {
+                    player.inventory.addItem(shop.itemStack.clone().asQuantity(shop.itemStack.maxStackSize))
+                    wholeStacks--
+                }
+
+                if (remainder > 0) {
+                    player.inventory.addItem(shop.itemStack.clone().asQuantity(remainder))
+                }
+
+                val shopOwner = buildLoader(shop.player)
+
+                try {
+                    dao.transact(shopOwner, floorDiv(amountToWithdraw, shop.itemStack.amount) * shop.price, "SHOP:INSERT:${block.location.toBlockKey()}:${amount.value}:TIME:${System.currentTimeMillis()}")
+                } catch (playerTransactionException: PlayerTransactionError) {
+                    Essential.getInstance().logger.warning(String.format("%s tried to buy from %s but failed", player.name, shopOwner!!.lastname))
+                    player.sendMessage("§cERROR")
+                    return@then
+                } catch (partnerTransactionException: PartnerTransactionError) {
+                    Essential.getInstance().logger.warning(String.format("%s tried to buy from %s but failed", player.name, shopOwner!!.lastname))
+                    player.sendMessage("§cERROR")
+                    return@then
+                }
+
+                player.playNote(player.location, Instrument.CHIME, Note.natural(1, Note.Tone.A))
             }
+        }
 
         val loadedPlayer = PlayerLoader.load(player)
 
@@ -99,7 +175,8 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
             }
 
         amount.updatelistener {
-
+            shop.len = it
+            shop.compact(KBlockData(block, Essential.getInstance()))
         }
     }
 
@@ -112,6 +189,8 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
         }
         return count
     }
+
+    private fun buildPriceComponent() = ShopI18N.get<ShopPriceGUI>(player, "price").replace("%d", shop.price.toString())
 
     private fun howManySpacesAreLeftForItemStack(): Int {
         var count = 0
@@ -193,7 +272,7 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     override fun getNameI18NKey() = ShopI18N.get<ShopGUI>(player, "title")
         .replace("%s",
-            shop.itemStack.type.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() })
+            shop.itemStack.type.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }) + " - " + buildPriceComponent() + " Coins"
 
     override fun getSize() = 3 * 9
 }

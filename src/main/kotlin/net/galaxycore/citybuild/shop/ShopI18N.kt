@@ -51,7 +51,9 @@ class ShopI18N {
             default<ShopGUI>("sell.l1", "§7Click to sell one item group", "§7Klicke um eine Itemgruppe zu verkaufen", false)
             default<ShopGUI>("sell.l2", "§7Shift-Click to sell all", "§7Shift-Klicke um alles zu verkaufen", false)
             default<ShopGUI>("buy.l1", "§7Click to buy one item group", "§7Klicke um eine Itemgruppe zu kaufen", false)
-            default<ShopGUI>("buy.l2", "§7Shift-Click to buy all", "§7Shift-Klicke um alles zu kaufen", false)
+            default<ShopGUI>("buy.l2", "§7Shift-Click to buy all", "§7Shift-Klicke um maximal einen Stack zu kaufen", false)
+            default<ShopPriceGUI>("title", "§eCreate a shop", "§eErstelle einen Shop", false)
+            default<ShopPriceGUI>("price", "§ePrice: %d Coind", "§ePreis: %d Coins", false)
         }
     }
 }

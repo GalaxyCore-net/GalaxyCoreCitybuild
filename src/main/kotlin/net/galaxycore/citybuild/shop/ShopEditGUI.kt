@@ -8,9 +8,8 @@ import net.galaxycore.galaxycorecore.spice.reactive.Reactive
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryCloseEvent
 
-class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu() {
+class ShopEditGUI(private val player: Player, private val r: Shop, private val block: Block) : KMenu() {
     private val state = Reactive(r.state)
 
     init {
@@ -29,7 +28,9 @@ class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu() {
             ShopRefillGUI(player, r, block).open()
         }
         item(13, r.itemStack)
-        item(15, Material.IRON_AXE, ShopI18N.get<ShopEditGUI>(player, "changeprice"))
+        item(15, Material.IRON_AXE, ShopI18N.get<ShopEditGUI>(player, "changeprice")).then {
+            ShopPriceGUI(player, r, block).open()
+        }
         if (player.hasPermission("citybuild.shop.adminshop") && r.player != 0) {
             item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop")).then {
                 val shopData = KBlockData(block, Essential.getInstance())
@@ -51,15 +52,19 @@ class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu() {
             bothState.itemStack.update {
                 enchantIfStateMatch(it, Shop.STATE_BTH, item)
             }
+
+            val shopData = KBlockData(block, Essential.getInstance())
+            val shop = Shop.disect(shopData)
+            shop.state = state.value
+            shop.compact(shopData)
         }
 
     }
 
-    override fun onclose(inventoryCloseEvent: InventoryCloseEvent) {
-        val shopData = KBlockData(block, Essential.getInstance())
-        val shop = Shop.disect(shopData)
-        shop.state = state.value
-        shop.compact(shopData)
+    fun open() {
+        open(player)
+
+        state.setItem(r.state)
     }
 
 

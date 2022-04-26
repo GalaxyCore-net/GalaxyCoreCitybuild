@@ -1,22 +1,30 @@
 package net.galaxycore.citybuild.shop
 
 import lombok.Getter
-import me.kodysimpson.menumanagersystem.menusystem.Menu
-import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility
+import net.galaxycore.citybuild.utils.Skull
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader
+import net.galaxycore.galaxycorecore.spice.KMenu
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.ItemStack
 
 @Getter
-class ShopGUI(player: Player, private val shop: Shop) : Menu(PlayerMenuUtility.getPlayerMenuUtility(player)) {
-    override fun getMenuName(): String = "shit shop test menu with " + shop.len + " items"
+class ShopGUI(private val player: Player, private val shop: Shop, block: Block) : KMenu() {
+    init {
+        item(11, Skull.ARROW_UP.getSkull(ShopI18N.get<ShopGUI>(player, "sell")))
+        item(13, shop.itemStack.clone())
+        item(15, Skull.ARROW_DOWN.getSkull(ShopI18N.get<ShopGUI>(player, "buy")))
 
-    override fun getSlots(): Int = 6 * 9
+        val loadedPlayer = PlayerLoader.load(player)
 
-    override fun handleMenu(inventoryClickEvent: InventoryClickEvent) {}
-    override fun setMenuItems() {
-        inventory.addItem(makeItem(Material.TOTEM_OF_UNDYING, "Price: " + shop.price))
-        inventory.addItem(shop.itemStack)
+        if (player.hasPermission("citybuild.shop.admin") || loadedPlayer.id == shop.len)
+            item(18, Material.TNT, "Settings").then {
+                ShopEditGUI(player, shop, block).open(player)
+            }
     }
+
+    override fun getNameI18NKey() = ShopI18N.get<ShopGUI>(player, "title")
+        .replace("%s", shop.itemStack.type.name.toLowerCase().replace("_", " ").capitalize())
+
+    override fun getSize() = 6 * 9
 }

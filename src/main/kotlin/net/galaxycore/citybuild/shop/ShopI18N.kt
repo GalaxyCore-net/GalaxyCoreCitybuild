@@ -2,7 +2,6 @@ package net.galaxycore.citybuild.shop
 
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N
 import org.bukkit.entity.Player
-import kotlin.reflect.KClass
 
 class ShopI18N {
     companion object {
@@ -33,6 +32,10 @@ class ShopI18N {
              default<ShopEditGUI>( "changeprice", "§aChange price", "§aPreis ändern",false)
              default<ShopEditGUI>( "makeadminshop", "§aMake an admin shop", "§aErstelle einen Admin Shop",false)
              default<ShopEditGUI>( "title", "§eEdit Shop", "§eBearbeite den Shop",false)
+            default<ShopGUI>( "title", "Buy %s", "Kaufe %s",false)
+            default<ShopGUI>( "sell", "§eSell", "§eVerkaufen",false)
+            default<ShopGUI>( "buy", "§eBuy", "§eKaufen",false)
+            default<ShopGUI>( "settings", "§eSettings", "§eEinstellungen",false)
         }
     }
 }

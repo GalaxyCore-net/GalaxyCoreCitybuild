@@ -76,7 +76,7 @@ class ShopListener : Listener {
         if (shop.r.player == loadedPlayer.id) {
             ShopEditGUI(event.player, shop.r, shop.t.block).open(event.player)
         } else {
-            ShopGUI(event.player, shop.r).open()
+            ShopGUI(event.player, shop.r, shop.t.block).open(event.player)
         }
     }
 

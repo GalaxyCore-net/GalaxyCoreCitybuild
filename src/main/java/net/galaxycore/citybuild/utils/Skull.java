@@ -10,7 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Represents some special mob heads, also support creating player skulls and custom skulls.
@@ -121,17 +123,18 @@ public enum Skull {
         return itemStack;
     }
 
-    public ItemStack getSkull(Component name) {
+    public ItemStack getSkull(Component name, String[] lore) {
         ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
         meta.setOwner(id);
         meta.displayName(name);
+        meta.lore(Arrays.stream(lore).map(Component::text).collect(Collectors.toList()));
         itemStack.setItemMeta(meta);
         return itemStack;
     }
 
-    public ItemStack getSkull(String name) {
-        return getSkull(Component.text(name));
+    public ItemStack getSkull(String name, String... lore) {
+        return getSkull(Component.text(name), lore);
     }
 
 }

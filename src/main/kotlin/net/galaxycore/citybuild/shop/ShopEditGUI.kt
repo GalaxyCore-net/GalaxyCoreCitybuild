@@ -9,9 +9,8 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.persistence.PersistentDataType
 
-class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu(){
+class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu() {
     private val state = Reactive(r.state)
 
     init {
@@ -26,21 +25,23 @@ class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu(){
         val bothState = item(8, Material.GOLD_INGOT, ShopI18N.get<ShopEditGUI>(player, "buyandsell")).then {
             state.setItem(Shop.STATE_BTH)
         }
-        item(11, Material.STONE_BUTTON, ShopI18N.get<ShopEditGUI>(player, "refill"))
+        item(11, Material.STONE_BUTTON, ShopI18N.get<ShopEditGUI>(player, "refill"), ShopI18N.get<ShopEditGUI>(player, "current").replace("%d", r.len.toString())).then {
+            ShopRefillGUI(player, r, block).open()
+        }
         item(13, r.itemStack)
         item(15, Material.IRON_AXE, ShopI18N.get<ShopEditGUI>(player, "changeprice"))
-        item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop")).then {
-            val shopData = KBlockData(block, Essential.getInstance())
-            val shop = shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY]?.let { Shop.disect(it) }
-
-            shop!!.player = -1
-
-            shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY] = shop.compact()
-            player.inventory.close()
+        if (player.hasPermission("citybuild.shop.adminshop") && r.player != 0) {
+            item(18, Material.TNT, ShopI18N.get<ShopEditGUI>(player, "makeadminshop")).then {
+                val shopData = KBlockData(block, Essential.getInstance())
+                val shop = Shop.disect(shopData)
+                shop.player = 0
+                shop.compact(shopData)
+                player.inventory.close()
+            }
         }
 
 
-        state.updatelistener {item ->
+        state.updatelistener { item ->
             buyState.itemStack.update {
                 enchantIfStateMatch(it, Shop.STATE_BUY, item)
             }
@@ -56,14 +57,12 @@ class ShopEditGUI(player: Player, r: Shop, private val block: Block) : KMenu(){
 
     override fun onclose(inventoryCloseEvent: InventoryCloseEvent) {
         val shopData = KBlockData(block, Essential.getInstance())
-        val shop = shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY]?.let { Shop.disect(it) }
-
-        shop!!.state = state.value
-
-        shopData[ShopListener.namespacedKey, PersistentDataType.BYTE_ARRAY] = shop.compact()
+        val shop = Shop.disect(shopData)
+        shop.state = state.value
+        shop.compact(shopData)
     }
 
 
-    override fun getNameI18NKey() = "galaxycore.citybuild.shop.ShopEditGUI.title"
-    override fun getSize() = 3*9
+    override fun getNameI18NKey() = "citybuild.shop.ShopEditGUI.title"
+    override fun getSize() = 3 * 9
 }

@@ -142,6 +142,19 @@ class BBCommand : CommandExecutor, TabCompleter {
             return mutableListOf(player.getTargetBlock(12)?.z.toString()).filter { it.startsWith(args[2]) }.toMutableList()
         }
 
+        if (args.size == 4) {
+            val possibilities = mutableListOf(
+                "shop_player",
+                "shop_price",
+                "shop_itemstack",
+                "shop_len",
+                "shop_cx",
+                "shop_cy",
+                "shop_cz",
+                "shop_state"
+            )
+            return possibilities.filter { it.startsWith(args[3]) }.toMutableList()
+        }
 
         if (args.size == 5) {
             val possibilities = mutableListOf(
@@ -159,8 +172,7 @@ class BBCommand : CommandExecutor, TabCompleter {
 
         if (args.size == 6) {
             val possibilities = mutableListOf(
-                "net.galaxycore.citybuild.bb.BasicDeserializer",
-                "net.galaxycore.citybuild.bb.ShopDeserializer"
+                "net.galaxycore.citybuild.bb.BasicDeserializer"
             )
             return possibilities.filter { it.startsWith(args[5]) }.toMutableList()
         }

@@ -9,12 +9,14 @@ import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -67,6 +69,13 @@ public class PMenuPlotsMenu extends Menu {
         } else {
             return 6 * 9;
         }
+    }
+
+    public Inventory inv() {
+        this.inventory = Bukkit.createInventory(this, this.getSlots(), Component.text(this.getMenuName()));
+        this.setMenuItems();
+
+        return this.inventory;
     }
 
     @Override

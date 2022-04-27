@@ -141,6 +141,18 @@ public class PMenuDistributor {
                 new PMenuDenyMenu(player, toDeny).open();
             }
 
+            if (List.of("v", "visit").contains(args[0])) {
+                if (args.length > 1) {
+                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
+
+                    if (plotPlayer == null || args[1].equalsIgnoreCase("*")) {
+                        PMenuI18N.PLAYERNOTFOUND.send(player);
+                        return;
+                    }
+                    new PMenuPlotsMenu(player, plotPlayer.getUUID()).open();
+                }
+            }
+
             if (List.of("kick", "k").contains(args[0])) {
                 UUID toKick = player.getUniqueId();
                 if (args.length > 1) {

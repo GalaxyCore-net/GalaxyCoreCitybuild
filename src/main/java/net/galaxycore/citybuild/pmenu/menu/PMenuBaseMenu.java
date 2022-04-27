@@ -2,10 +2,22 @@ package net.galaxycore.citybuild.pmenu.menu;
 
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
+import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
+import net.galaxycore.galaxycorecore.GalaxyCoreCore;
+import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
+import net.wesjd.anvilgui.AnvilGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
 public class PMenuBaseMenu extends Menu {
     private final Player player;
@@ -33,6 +45,7 @@ public class PMenuBaseMenu extends Menu {
             case 22 -> openPlots();
             case 15 -> openThisPlot();
             case 33 -> openPlotsBuy();
+            case 40 -> openVisit();
         }
     }
 
@@ -50,6 +63,43 @@ public class PMenuBaseMenu extends Menu {
     private void openThisPlot() {
         player.closeInventory();
         new PMenuPlotInfoMenu(player, null).open();
+    }
+
+    private void openVisit() {
+        player.closeInventory();
+
+        new AnvilGUI.Builder()
+                .itemLeft(makeItem(Material.NETHER_STAR, PMenuI18N.PLAYERLIST_PLAYER.get(player)))
+                .text(PMenuI18N.PLAYERLIST_PLAYER.get(player))
+                .title(PMenuI18N.PLAYERLIST_TITLE.get(player))
+                .plugin(Essential.getInstance())
+                .onComplete((player1, text) -> {
+                    try {
+                        GalaxyCoreCore core = CoreProvider.getCore();
+                        Connection connection = core.getDatabaseConfiguration().getConnection();
+
+                        // Sql Statement ignoring case
+                        PreparedStatement load = connection.prepareStatement("SELECT * FROM core_playercache WHERE LOWER(`lastname`) = LOWER(?)");
+                        load.setString(1, text);
+                        ResultSet loadResult = load.executeQuery();
+
+                        if (!loadResult.next()) {
+                            loadResult.close();
+                            load.close();
+                            return AnvilGUI.Response.text(PMenuI18N.PLAYERLIST_PLAYERNOTFOUND.get(player));
+                        }
+
+                        UUID uuid = UUID.fromString(loadResult.getString("uuid"));
+                        loadResult.close();
+
+                        PMenuPlotsMenu menu = new PMenuPlotsMenu(player, uuid);
+                        return AnvilGUI.Response.openInventory(menu.inv());
+
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .open(player);
     }
 
     private void openLizenz() {

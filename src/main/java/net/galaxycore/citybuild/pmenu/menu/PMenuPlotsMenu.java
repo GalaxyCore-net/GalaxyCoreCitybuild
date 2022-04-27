@@ -91,7 +91,7 @@ public class PMenuPlotsMenu extends Menu {
         if (inventoryClickEvent.getCurrentItem().getType() == Material.BARRIER) return;
         if (inventoryClickEvent.getCurrentItem() == FILLER_GLASS) return;
 
-        int position = (page * PIVOT) + inventoryClickEvent.getRawSlot()-9;
+        int position = (page * PIVOT) + inventoryClickEvent.getRawSlot() - (useUpperLine ? 9 : 0);
         if (size < position) return;
         Plot plot = plotList.get(position);
         plot.getHome(location -> {

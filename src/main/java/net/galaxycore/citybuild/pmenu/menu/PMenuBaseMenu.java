@@ -59,7 +59,7 @@ public class PMenuBaseMenu extends Menu {
 
     private void openPlotsBuy() {
         player.closeInventory();
-        new PMenuPlotBuyMenu(player).open(player);
+        new PMenuPlotBuyMenu(player).open();
     }
 
     @Override

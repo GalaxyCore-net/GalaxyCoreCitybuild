@@ -28,9 +28,7 @@ public class PMenuLizenzMenu extends Menu {
     }
 
     public void addPermission(UUID userUuid, String permission) {
-        luckPerms.getUserManager().modifyUser(userUuid, user -> {
-            user.data().add(Node.builder(permission).build());
-        });
+        luckPerms.getUserManager().modifyUser(userUuid, user -> user.data().add(Node.builder(permission).build()));
     }
 
     public void addPermission(User user, String permission) {
@@ -64,7 +62,7 @@ public class PMenuLizenzMenu extends Menu {
             case 11 -> {
                 int maxShops = getMaxAllowedShops(player);
                 if (maxShops >= 50) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
+                    PMenuI18N.LICENSEALREADYPURCHASED.send(player);
                     return;
                 }
                 try {
@@ -78,11 +76,11 @@ public class PMenuLizenzMenu extends Menu {
             case 13 -> {
                 int maxShops = getMaxAllowedShops(player);
                 if (maxShops < 50) {
-                    PMenuI18N.NOTPAYINGBUTSAYIN.send(player);
+                    PMenuI18N.PREVLICENSENOTBOUGHT.send(player);
                     return;
                 }
                 if (maxShops >= 150) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
+                    PMenuI18N.LICENSEALREADYPURCHASED.send(player);
                     return;
                 }
                 try {
@@ -96,11 +94,11 @@ public class PMenuLizenzMenu extends Menu {
             case 15 -> {
                 int maxShops = getMaxAllowedShops(player);
                 if (maxShops < 150) {
-                    PMenuI18N.NOTPAYINGBUTSAYIN.send(player);
+                    PMenuI18N.PREVLICENSENOTBOUGHT.send(player);
                     return;
                 }
                 if (maxShops >= 500) {
-                    PMenuI18N.YOUHAVEITYOUIDIOT.send(player);
+                    PMenuI18N.LICENSEALREADYPURCHASED.send(player);
                     return;
                 }
                 try {

@@ -22,21 +22,17 @@ public class PMenuBaseMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 9;
+        return 9 * 5;
     }
 
     @Override
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
-        switch (inventoryClickEvent.getSlot()) {
-            case 1:
-                openWarp();
-                break;
-            case 4:
-                openPlots();
-                break;
-            case 7:
-                openThisPlot();
-                break;
+        switch (inventoryClickEvent.getRawSlot()) {
+            case 4 -> openLizenz();
+            case 11 -> openWarp();
+            case 22 -> openPlots();
+            case 15 -> openThisPlot();
+            case 33 -> openPlotsBuy();
         }
     }
 
@@ -48,18 +44,34 @@ public class PMenuBaseMenu extends Menu {
 
     private void openPlots() {
         player.closeInventory();
+        new PMenuPlotsMenu(player, player.getUniqueId()).open();
     }
 
     private void openThisPlot() {
         player.closeInventory();
+        new PMenuPlotInfoMenu(player, null).open();
+    }
+
+    private void openLizenz() {
+        player.closeInventory();
+        new PMenuLizenzMenu(player).open();
+    }
+
+    private void openPlotsBuy() {
+        player.closeInventory();
+        new PMenuPlotBuyMenu(player).open(player);
     }
 
     @Override
     public void setMenuItems() {
         setFillerGlass();
 
-        inventory.setItem(1, makeItem(Material.ENDER_EYE, PMenuI18N.MAIN_WARPS.get(player)));
-        inventory.setItem(4, makeItem(Material.GRASS_BLOCK, PMenuI18N.MAIN_PLOTS.get(player)));
-        inventory.setItem(7, makeItem(Material.NETHER_STAR, PMenuI18N.MAIN_THIS.get(player)));
+        inventory.setItem(11, makeItem(Material.ENDER_EYE, PMenuI18N.MAIN_WARPS.get(player)));
+        inventory.setItem(22, makeItem(Material.BOOK, PMenuI18N.MAIN_PLOTS.get(player)));
+        inventory.setItem(15, makeItem(Material.NETHER_STAR, PMenuI18N.MAIN_THIS.get(player)));
+        inventory.setItem(4, makeItem(Material.FLOWER_BANNER_PATTERN, PMenuI18N.MAIN_LICENCES.get(player)));
+        inventory.setItem(40, makeItem(Material.HEART_OF_THE_SEA, PMenuI18N.MAIN_PLOT_VISIT.get(player)));
+        inventory.setItem(29, makeItem(Material.EMERALD, PMenuI18N.MAIN_HELP.get(player)));
+        inventory.setItem(33, makeItem(Material.GOLD_INGOT, PMenuI18N.MAIN_PLOT_BUY.get(player)));
     }
 }

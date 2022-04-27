@@ -10,6 +10,7 @@ description: CityBuild Plugin für GalaxyCore.net
 depend:
   - GalaxyCoreCore
   - ProtocolLib
+  - PlotSquared
 commands:
   Debug:
     description: Gibt dir eine Test Nachricht aus.
@@ -91,4 +92,8 @@ commands:
   bb:
     description: Get Bitwise Blockdata Output
     permission: essentials.bb
-
+  warp:
+    description: Öffne das Warp-Menu
+  lizenz:
+    aliases:
+      - license

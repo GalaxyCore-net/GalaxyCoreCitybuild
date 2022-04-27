@@ -1,7 +1,12 @@
 package net.galaxycore.citybuild.pmenu.menu;
 
+import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
+import net.galaxycore.galaxycorecore.coins.CoinDAO;
+import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
 import net.galaxycore.galaxycorecore.spice.KMenu;
+import net.galaxycore.galaxycorecore.spice.reactive.Reactive;
+import net.kyori.adventure.text.Component;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -10,16 +15,52 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+import java.util.function.Function;
+
 public class PMenuPlotBuyMenu extends KMenu {
     private final LuckPerms luckPerms;
+    private final Player player;
+    private final Reactive<Integer> allowed = new Reactive<>(0);
+
+    private final Function<Integer, Long> priceCalculator = (plotNr) -> Long.parseLong(Math.pow(plotNr-2, 2)+"")*380L+10000L;
+
 
     public PMenuPlotBuyMenu(Player player) {
+        this.player = player;
         this.luckPerms = LuckPermsProvider.get();
-        item(11, Material.PAPER, PMenuI18N.AKUPLOTS.get(player) + getMaxAllowedPlots(player));
+
+        PlayerLoader loadedPlayer = PlayerLoader.load(player);
+        CoinDAO dao = new CoinDAO(loadedPlayer, Essential.getInstance());
+        KMenuItem allowedItem = item(11, Material.PAPER, " ");
         item(15, Material.EMERALD, PMenuI18N.NEWPLOT.get(player)).then(kMenuItem -> {
-            System.out.println("Deine Mutter stinkt nach Butter");
+            long priceForPlot = priceCalculator.apply(allowed.getItem());
+
+            if (dao.get() < priceForPlot) {
+                PMenuI18N.COINSPOOR.send(player);
+                return null;
+            }
+
+            allowed.setItem(allowed.getItem()+1);
+            dao.transact(null, priceForPlot, "PLOT:BUY:NR%d:FR%d".formatted(allowed.getItem(), priceForPlot));
+            addPermission(Objects.requireNonNull(luckPerms.getUserManager().getUser(player.getUniqueId())), "plots.plot." + allowed.getValue());
+            addPermission(Objects.requireNonNull(luckPerms.getUserManager().getUser(player.getUniqueId())), "plots.merge." + allowed.getValue());
             return null;
         });
+
+        allowed.updatelistener(integer -> {
+            allowedItem.getItemStack().update(itemStack -> {
+                itemStack.editMeta(itemMeta -> itemMeta.displayName(Component.text(PMenuI18N.AKUPLOTS.get(player) + getMaxAllowedPlots(player))));
+                return null;
+            });
+            return null;
+        });
+    }
+
+    public void open() {
+        open(player);
+
+        allowed.setItem(getMaxAllowedPlots(player));
     }
 
     public void addPermission(User user, String permission) {

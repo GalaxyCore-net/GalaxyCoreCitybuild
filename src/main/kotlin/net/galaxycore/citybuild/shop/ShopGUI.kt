@@ -28,7 +28,6 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
     private val amount = Reactive(shop.len)
 
     init {
-        println("state: ${shop.state}")
         if (shop.state == 2 || shop.state == 3) {
             item(
                 11, Skull.ARROW_UP.getSkull(
@@ -37,10 +36,14 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
                     ShopI18N.get<ShopGUI>(player, "sell.l2")
                 )
             ).then { kMenuItem ->
-                var price = 0L
                 val dao = CoinDAO(PlayerLoader.load(player), Essential.getInstance())
                 val shopOwner = buildLoader(shop.player)
-                val ownerDAO = CoinDAO(shopOwner, Essential.getInstance())
+                val ownerDAO: CoinDAO = if (shopOwner != null) {
+                    CoinDAO(shopOwner, Essential.getInstance())
+                } else {
+                    CoinFakeDAO()
+                }
+                var price = shop.price
                 if (howManyItemsOfTypeHasPlayer() < shop.itemStack.amount) {
                     player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
                     return@then
@@ -113,7 +116,11 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
                     playerCan = maxBuyAmountForPlayer.toInt()
                 }
 
-                if (shop.len == 0) {
+                if (playerCan == 0) {
+                    return@then
+                }
+
+                if (shop.len == 0 && shop.player != 0) {
                     player.sendMessage(ShopI18N.get<ShopRefillGUI>(player, "notenoughitems"))
                     return@then
                 }
@@ -122,7 +129,10 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
                 if (kMenuItem.clickType == ClickType.SHIFT_LEFT || kMenuItem.clickType == ClickType.SHIFT_RIGHT) {
                     amountToWithdraw = floorDiv(playerCan, shop.itemStack.amount) * shop.itemStack.amount
                 }
-                amountToWithdraw = amountToWithdraw.coerceAtMost(shop.len)
+
+                if (shop.player != 0) {
+                    amountToWithdraw = amountToWithdraw.coerceAtMost(shop.len)
+                }
 
                 while (amountToWithdraw > 64) {
                     amountToWithdraw -= shop.itemStack.amount
@@ -171,12 +181,14 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
         if (player.hasPermission("citybuild.shop.admin") || loadedPlayer.id == shop.len)
             item(18, Material.TNT, ShopI18N.get<ShopGUI>(player, "settings")).then {
-                ShopEditGUI(player, shop, block).open(player)
+                ShopEditGUI(player, shop, block).open()
             }
 
         amount.updatelistener {
-            shop.len = it
-            shop.compact(KBlockData(block, Essential.getInstance()))
+            if (shop.player != 0) {
+                shop.len = it
+                shop.compact(KBlockData(block, Essential.getInstance()))
+            }
         }
     }
 
@@ -194,10 +206,11 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     private fun howManySpacesAreLeftForItemStack(): Int {
         var count = 0
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.storageContents) {
+            @Suppress("SENSELESS_COMPARISON")
             if (itemStack != null && itemStack.isSimilar(shop.itemStack)) {
                 count += shop.itemStack.maxStackSize - itemStack.amount
-            } else if (itemStack == null) {
+            } else if (itemStack == null || itemStack.type == Material.AIR) {
                 count += shop.itemStack.maxStackSize
             }
         }
@@ -272,7 +285,7 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     override fun getNameI18NKey() = ShopI18N.get<ShopGUI>(player, "title")
         .replace("%s",
-            shop.itemStack.type.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }) + " - " + buildPriceComponent() + " Coins"
+            shop.itemStack.type.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }) + " - " + buildPriceComponent()
 
     override fun getSize() = 3 * 9
 }

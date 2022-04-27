@@ -55,7 +55,7 @@ class ShopEditGUI(private val player: Player, private val r: Shop, private val b
 
             val shopData = KBlockData(block, Essential.getInstance())
             val shop = Shop.disect(shopData)
-            shop.state = state.value
+            shop.state = item
             shop.compact(shopData)
         }
 

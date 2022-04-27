@@ -16,12 +16,10 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.block.BlockEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.persistence.PersistentDataType
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -77,7 +75,7 @@ class ShopListener : Listener {
         val shop = shopsInDistance[0]
         event.isCancelled = true
         val loadedPlayer: PlayerLoader = PlayerLoader.load(event.player)
-        if (shop.r.player == loadedPlayer.id || (shop.r.player == 0 && event.player.hasPermission("citybuild.shop.admin"))) {
+        if (shop.r.player == loadedPlayer.id) {
             ShopEditGUI(event.player, shop.r, shop.t.block).open(event.player)
         } else {
             ShopGUI(event.player, shop.r, shop.t.block).open(event.player)

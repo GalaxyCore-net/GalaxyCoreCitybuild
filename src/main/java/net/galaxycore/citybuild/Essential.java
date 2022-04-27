@@ -1,10 +1,13 @@
 package net.galaxycore.citybuild;
 
 import lombok.SneakyThrows;
+import net.galaxycore.citybuild.bb.BBCommand;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
+import net.galaxycore.citybuild.shop.ShopI18N;
+import net.galaxycore.citybuild.shop.ShopListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -48,6 +51,11 @@ public final class Essential extends JavaPlugin {
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_warps(pos int NOT NULL, loc varchar(100), name varchar(100), display varchar(100));").executeUpdate();
+
+        if (!getDataFolder().exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            getDataFolder().mkdirs();
+        }
 
         pMenuDistributor = new PMenuDistributor();
 
@@ -541,6 +549,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.schematic_too_large", "§cThis Schematic is too large");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
 
+        ShopI18N.Companion.registerDefaults();
+
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
         Objects.requireNonNull(getCommand("heal")).setExecutor(new HealCommand());
@@ -575,21 +585,21 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpaall")).setExecutor(new TPAAllCommand());
         Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
         Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
+        Objects.requireNonNull(getCommand("bb")).setExecutor(new BBCommand());
+        Objects.requireNonNull(getCommand("bb")).setTabCompleter(new BBCommand());
+
+        ShopListener shopLoadingListener = new ShopListener();
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(getConfigNamespace()), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
+        Bukkit.getPluginManager().registerEvents(shopLoadingListener, this);
 
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
         PMenuDistributor.init();
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 
     public PMenuDistributor getPMenuDistributor() {

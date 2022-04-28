@@ -55,7 +55,11 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        return PMenuI18N.TITLE_PLOTS.get(player);
+        if(player.getUniqueId().equals(toOpenFor.getUUID())) {
+            return PMenuI18N.TITLE_PLOTS.get(player);
+        } else {
+            return PMenuI18N.TITLE_PLOTS_OTHER.get(player).replace("%player%", toOpenFor.getName());
+        }
     }
 
     @Override

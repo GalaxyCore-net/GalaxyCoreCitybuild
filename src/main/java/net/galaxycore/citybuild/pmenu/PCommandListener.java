@@ -9,6 +9,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PCommandListener implements Listener {
+    /**
+     * TODO: Buy plots from others
+     * TODO: p clear
+     * TODO: p delete
+     * TODO: p help
+     * TODO: p merge
+     * TODO: p middle
+     * TODO: p sethome
+     */
+
     private final static List<String> pCommands = Arrays.asList(
             "plots",
             "p",

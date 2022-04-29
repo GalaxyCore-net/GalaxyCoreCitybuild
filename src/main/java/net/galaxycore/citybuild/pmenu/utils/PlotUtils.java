@@ -5,6 +5,7 @@ import com.plotsquared.core.location.Location;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
@@ -42,5 +43,9 @@ public class PlotUtils {
         }
 
         return plot;
+    }
+
+    public static org.bukkit.Location p2LocationToBukkitLocation(Location source) {
+        return new org.bukkit.Location((World) source.getWorld().getPlatformWorld(), source.getX(), source.getY(), source.getZ());
     }
 }

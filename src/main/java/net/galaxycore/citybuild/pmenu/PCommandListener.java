@@ -12,7 +12,6 @@ public class PCommandListener implements Listener {
     /**
      * TODO: Buy plots from others
      * TODO: p help
-     * TODO: p middle
      */
 
     private final static List<String> pCommands = Arrays.asList(

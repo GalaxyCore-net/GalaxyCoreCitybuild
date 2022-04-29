@@ -56,6 +56,16 @@ public class PMenuDistributor {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
             }
+
+            if (args[0].equalsIgnoreCase("middle")) {
+                @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
+                if (plot != null) {
+                    plot.getCenter(location -> {
+                        player.teleport(PlotUtils.p2LocationToBukkitLocation(location));
+                        PMenuI18N.TELEPORTED.send(player);
+                    });
+                }
+            }
         }
 
         if(args.length >= 1) {

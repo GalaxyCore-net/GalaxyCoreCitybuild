@@ -3,12 +3,15 @@ package net.galaxycore.citybuild.pmenu;
 import com.plotsquared.core.PlotAPI;
 import com.plotsquared.core.database.DBFunc;
 import com.plotsquared.core.player.PlotPlayer;
+import com.plotsquared.core.plot.Plot;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
 import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
+import net.galaxycore.citybuild.pmenu.utils.PlotUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +42,19 @@ public class PMenuDistributor {
             }
             if (List.of("sethome", "sh", "seth").contains(args[0])) {
                 new PMenuSetHomeMenu(player).open();
+            }
+
+            if (args[0].equalsIgnoreCase("clear")) {
+                @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
+                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(false);}
+            }
+            if (args[0].equalsIgnoreCase("merge")) {
+                @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
+                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runMerge();}
+            }
+            if (args[0].equalsIgnoreCase("delete")) {
+                @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
+                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
             }
         }
 

@@ -76,6 +76,14 @@ public enum PMenuI18N {
     PLOTBYMENU("plotmenubuy", "§ePlots kaufen", "§eBuy a Rent", false),
     CURRENTPLOTS("currentplots", "§eAktuelle Plots: ", "§eCurrent Plots: ", false),
     NEWPLOT("newplots", "§eKaufe ein neues Plot", "§eBuy a new plot", false),
+    CLEARPLOT("plot.settings.clear", "§ePlot leeren", "§eClear the plot", false),
+    MERGE_PLOTS("plot.settings.merge", "§ePlots zusammenführen", "§eMerge plots", false),
+    DELETE_PLOT("plot.settings.delete", "§ePlot löschen", "§eDelete the plot", false),
+    ACTION_CANNOT_BE_UNDONE("action_cannot_be_undone", "§cDiese Aktion kann nicht rückgängig gemacht werden", "§cThis action cannot be undone", false),
+    CONTINUE_ANYWAY("continue_anyway", "§cTrotzdem fortfahren!", "§cAnyway, continue!", false),
+    CANCEL("cancel", "§cAbbrechen", "§cCancel", false),
+    DONE("done", "§aFertig", "§aDone", false),
+    NOTHING_TO_MERGE("nothing_to_merge", "§cDu kannst keine Plots zusammenführen", "§cYou can't merge plots", false),
     PRICE("price", "§7Preis: ", "§7Price: ", false);
     @Getter
     private final String key;

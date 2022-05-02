@@ -124,14 +124,16 @@ class ShopListener : Listener {
                 return
             }
         }
+
+        if (shop.r.len > 0 && !event.player.hasPermission("citybuild.shop.admin")) {
+            event.isCancelled = true
+            event.player.sendMessage(ShopI18N.get<ShopListener>(event.player, "cantbreakshop:shophasitems"))
+            return
+        }
         val blockData = KBlockData(event.block, Essential.getInstance())
         blockData.clear()
         event.block.location.getNearbyPlayers(7.0).forEach {
             ShopAnimation(it, shop).close()
-        }
-
-        if (shop.r.len > 0) {
-            shop.t.world.dropItem(shop.t.block.location, shop.r.itemStack.asQuantity(shop.r.len))
         }
     }
 

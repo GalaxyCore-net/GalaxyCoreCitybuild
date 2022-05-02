@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class NightCommand implements CommandExecutor {
-    private HashMap<Player, Long> nightCooldown = new HashMap<>();
+    private final HashMap<Player, Long> nightCooldown = new HashMap<>();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;

@@ -7,9 +7,8 @@ import com.plotsquared.core.plot.Plot;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
 import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
-import net.galaxycore.citybuild.pmenu.utils.I18NUtils;
 import net.galaxycore.citybuild.pmenu.utils.PlotUtils;
-import net.kyori.adventure.inventory.Book;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -46,9 +45,7 @@ public class PMenuDistributor {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
             } else if (args[0].equalsIgnoreCase("help")) {
-                I18NUtils.Book book = I18NUtils.getBook("citybuild.pmenu.action_cannot_be_undone", player, true);
-
-                player.openBook(Book.builder().pages(book.getPages()).build());
+                player.sendMessage(I18N.getS(player, "citybuild.helptext"));
             } else if (args[0].equalsIgnoreCase("middle")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {
@@ -75,13 +72,10 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    new PMenuAddMenu(player, plotPlayer).open();
-                }else {
-                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
-                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
-                        new PMenuAddMenu(player, plotPlayer).open();
-                    }).open();
+                    new PMenuPlotsMenu(player, plotPlayer.getUUID()).open();
                 }
+                new PMenuPlotsMenu(player, toOpen).open();
+
             }
             if (List.of("setowner", "owner", "so", "seto").contains(args[0])) {
                 if (args.length > 1) {
@@ -95,9 +89,7 @@ public class PMenuDistributor {
                     new PMenuSetOwnerMenu(player, plotPlayer.getUUID()).open();
 
                 }else {
-                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
-                        new PMenuSetOwnerMenu(player, offlinePlayer.getUniqueId()).open();
-                    }).open();
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuSetOwnerMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
             }
 

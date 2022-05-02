@@ -1,12 +1,10 @@
 package net.galaxycore.citybuild.pmenu.menu;
 
-import com.sk89q.worldedit.util.formatting.text.format.TextColor;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.citybuild.utils.Skull;
 import net.galaxycore.galaxycorecore.spice.KMenu;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,18 +17,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 import static org.bukkit.Material.*;
 
 public class PMenuSearchPlayerMenu extends KMenu {
-    private Player player;
+    private final Player player;
     private final Consumer<OfflinePlayer> callback;
     private final KMenuItem pageItem;
     private int page = 1;
     private String nameFilter = "";
-    private List<OfflinePlayer> players;
+    private final List<OfflinePlayer> players;
     private List<OfflinePlayer> filtered;
 
     public PMenuSearchPlayerMenu(Player player, Consumer<OfflinePlayer> callback) {
@@ -53,7 +50,7 @@ public class PMenuSearchPlayerMenu extends KMenu {
                 filtered = players.stream().filter(fp -> Objects.requireNonNull(fp.getName()).toLowerCase().contains(nameFilter.toLowerCase())).limit(5*9).collect(java.util.stream.Collectors.toList());
                 update();
                 return AnvilGUI.Response.openInventory(getInventory());
-            }).plugin(Essential.getInstance()).title(PMenuI18N.SEARCH.get(player)).text(nameFilter).open(player);
+            }).plugin(Essential.getInstance()).title(PMenuI18N.SEARCH.get(player)).text(Objects.equals(nameFilter, "") ? " " : nameFilter).open(player);
 
             return null;
         });

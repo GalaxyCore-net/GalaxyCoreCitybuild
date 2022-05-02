@@ -96,6 +96,7 @@ public class PMenuAutoMenu extends Menu {
                 .replace("%plot%", bobTheBuilder.toString())));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+        setFillerGlass();
 
     }
 

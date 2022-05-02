@@ -67,6 +67,7 @@ public class PMenuTrustMenu extends Menu {
                 .replace("%name%", toTrust != null ? toTrust.getName() : "everyone")));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+        setFillerGlass();
 
     }
 

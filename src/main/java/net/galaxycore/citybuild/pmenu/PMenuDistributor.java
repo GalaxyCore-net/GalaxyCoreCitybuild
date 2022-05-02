@@ -7,7 +7,9 @@ import com.plotsquared.core.plot.Plot;
 import net.galaxycore.citybuild.Essential;
 import net.galaxycore.citybuild.pmenu.menu.*;
 import net.galaxycore.citybuild.pmenu.menu.flags.Flag;
+import net.galaxycore.citybuild.pmenu.utils.I18NUtils;
 import net.galaxycore.citybuild.pmenu.utils.PlotUtils;
+import net.kyori.adventure.inventory.Book;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,44 +22,34 @@ public class PMenuDistributor {
         if (alias.equalsIgnoreCase("/warp")) {
             new PMenuWarpMenu(player).open();
             return;
-        }
-        if (alias.equalsIgnoreCase("/licence") || alias.equalsIgnoreCase("/lizenz")) {
+        } else if (alias.equalsIgnoreCase("/licence") || alias.equalsIgnoreCase("/lizenz")) {
             new PMenuLizenzMenu(player).open();
             return;
-        }
-
-
-        if (args.length == 1) {
+        } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
                 new PMenuPlotInfoMenu(player, null).open();
-            }
-            if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
+            } else if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
                 new PMenuPlotsMenu(player, player.getUniqueId()).open();
-            }
-            if (args[0].equalsIgnoreCase("claim") || args[0].equalsIgnoreCase("c")) {
+            } else if (args[0].equalsIgnoreCase("claim") || args[0].equalsIgnoreCase("c")) {
                 new PMenuClaimMenu(player).open();
-            }
-            if (args[0].equalsIgnoreCase("auto") || args[0].equalsIgnoreCase("a")) {
+            } else if (args[0].equalsIgnoreCase("auto") || args[0].equalsIgnoreCase("a")) {
                 new PMenuAutoMenu(player).open();
-            }
-            if (List.of("sethome", "sh", "seth").contains(args[0])) {
+            } else if (List.of("sethome", "sh", "seth").contains(args[0])) {
                 new PMenuSetHomeMenu(player).open();
-            }
-
-            if (args[0].equalsIgnoreCase("clear")) {
+            } else if (args[0].equalsIgnoreCase("clear")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(false);}
-            }
-            if (args[0].equalsIgnoreCase("merge")) {
+            } else if (args[0].equalsIgnoreCase("merge")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runMerge();}
-            }
-            if (args[0].equalsIgnoreCase("delete")) {
+            } else if (args[0].equalsIgnoreCase("delete")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
-            }
+            } else if (args[0].equalsIgnoreCase("help")) {
+                I18NUtils.Book book = I18NUtils.getBook("citybuild.pmenu.action_cannot_be_undone", player, true);
 
-            if (args[0].equalsIgnoreCase("middle")) {
+                player.openBook(Book.builder().pages(book.getPages()).build());
+            } else if (args[0].equalsIgnoreCase("middle")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {
                     plot.getCenter(location -> {
@@ -83,12 +75,15 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toOpen = plotPlayer.getUUID();
+                    new PMenuAddMenu(player, plotPlayer).open();
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+                        new PMenuAddMenu(player, plotPlayer).open();
+                    }).open();
                 }
-                new PMenuPlotsMenu(player, toOpen).open();
             }
             if (List.of("setowner", "owner", "so", "seto").contains(args[0])) {
-                UUID newOwner = player.getUniqueId();
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -97,14 +92,16 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    newOwner = plotPlayer.getUUID();
+                    new PMenuSetOwnerMenu(player, plotPlayer.getUUID()).open();
 
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        new PMenuSetOwnerMenu(player, offlinePlayer.getUniqueId()).open();
+                    }).open();
                 }
-                new PMenuSetOwnerMenu(player, newOwner).open();
             }
 
             if (args[0].equalsIgnoreCase("add")) {
-                PlotPlayer<?> toAdd = new PlotAPI().wrapPlayer(player.getUniqueId());
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -113,14 +110,16 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toAdd = plotPlayer;
+                    new PMenuAddMenu(player, plotPlayer).open();
+                } else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+                        new PMenuAddMenu(player, plotPlayer).open();
+                    }).open();
                 }
-
-                new PMenuAddMenu(player, toAdd).open();
             }
 
             if (List.of("trust", "t").contains(args[0])) {
-                PlotPlayer<?> toTrust = new PlotAPI().wrapPlayer(player.getUniqueId());
                 if (args.length > 1) {
                     PlotPlayer<?> plotPLayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -129,14 +128,17 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toTrust = plotPLayer;
+                    new PMenuTrustMenu(player, plotPLayer).open();
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+                        new PMenuTrustMenu(player, plotPlayer).open();
+                    }).open();
                 }
 
-                new PMenuTrustMenu(player, toTrust).open();
             }
 
             if (List.of("remove", "r", "untrust", "ut", "undeny", "ud", "unban").contains(args[0])) {
-                PlotPlayer<?> toRemove = new PlotAPI().wrapPlayer(player.getUniqueId());
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -145,14 +147,17 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toRemove = plotPlayer;
+                    new PMenuRemoveMenu(player, plotPlayer).open();
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+                        new PMenuRemoveMenu(player, plotPlayer).open();
+                    }).open();
                 }
 
-                new PMenuRemoveMenu(player, toRemove).open();
             }
 
             if (List.of("deny", "d", "ban").contains(args[0])) {
-                PlotPlayer<?> toDeny = new PlotAPI().wrapPlayer(player.getUniqueId());
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -161,10 +166,14 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toDeny = plotPlayer;
+                    new PMenuDenyMenu(player, plotPlayer).open();
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                        PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+                        new PMenuDenyMenu(player, plotPlayer).open();
+                    }).open();
                 }
 
-                new PMenuDenyMenu(player, toDeny).open();
             }
 
             if (List.of("v", "visit").contains(args[0])) {
@@ -180,7 +189,6 @@ public class PMenuDistributor {
             }
 
             if (List.of("kick", "k").contains(args[0])) {
-                UUID toKick = player.getUniqueId();
                 if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
@@ -189,10 +197,12 @@ public class PMenuDistributor {
                         return;
                     }
 
-                    toKick = plotPlayer != null ? plotPlayer.getUUID() : DBFunc.EVERYONE;
+                    UUID toKick = plotPlayer != null ? plotPlayer.getUUID() : DBFunc.EVERYONE;
+                    new PMenuKickMenu(player, toKick).open();
+                }else {
+                    new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuKickMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
 
-                new PMenuKickMenu(player, toKick).open();
             }
 
             if (List.of("alias", "setalias", "sa", "name", "rename", "setname", "seta", "nameplot").contains(args[0])) {
@@ -215,9 +225,7 @@ public class PMenuDistributor {
                 }
             }
 
-        }
-
-        if ( args.length == 0 ) {
+        } else {
             new PMenuBaseMenu(player).open();
         }
     }

@@ -106,7 +106,12 @@ public class PMenuPlotsMenu extends Menu {
 
         int position = (page * PIVOT) + inventoryClickEvent.getRawSlot() - (useUpperLine ? 9 : 0);
         if (size < position) return;
-        Plot plot = plotList.get(position);
+        Plot plot;
+        try {
+            plot = plotList.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            return;
+        }
         plot.getHome(location -> {
             player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getX()+0.5, location.getY(), location.getZ()+0.5, location.getYaw(), location.getPitch()));
             PMenuI18N.TELEPORTED.send(player);

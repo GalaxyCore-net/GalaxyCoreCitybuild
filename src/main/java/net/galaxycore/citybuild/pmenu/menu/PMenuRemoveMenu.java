@@ -72,6 +72,7 @@ public class PMenuRemoveMenu extends Menu {
                 .replace("%name%", toRemove != null ? toRemove.getName() : "everyone")));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+        setFillerGlass();
 
     }
 

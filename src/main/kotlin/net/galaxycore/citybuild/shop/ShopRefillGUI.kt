@@ -113,7 +113,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
 
     private fun howManyItemsOfTypeHasPlayer(): Int {
         var count = 0
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.contents!!) {
             if (itemStack != null && itemStack.isSimilar(r.itemStack)) {
                 count += itemStack.amount
             }
@@ -123,7 +123,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
 
     private fun howManySpacesAreLeftForItemStack(): Int {
         var count = 0
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.contents!!) {
             if (itemStack != null && itemStack.isSimilar(r.itemStack)) {
                 count += r.itemStack.maxStackSize - itemStack.amount
             } else if (itemStack == null) {
@@ -135,7 +135,7 @@ class ShopRefillGUI(val player: Player, private val r: Shop, private val block: 
 
     private fun removeAmountOfItemFromPlayerInventory(amount: Int) {
         var count = amount
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.contents!!) {
             if (itemStack != null && itemStack.isSimilar(r.itemStack)) {
                 if (itemStack.amount > count) {
                     itemStack.amount -= count

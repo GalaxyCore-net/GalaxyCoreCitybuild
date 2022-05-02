@@ -67,6 +67,7 @@ public class PMenuSetOwnerMenu extends Menu {
         inventory.setItem(9 + 3, makeItem(Material.GREEN_CONCRETE, i18n("setowner_title")));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+        setFillerGlass();
 
     }
 

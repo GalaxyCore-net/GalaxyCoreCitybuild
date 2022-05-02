@@ -29,7 +29,7 @@ public class PMenuPlotInfoPlayerMenu extends Menu {
         this.player = player;
         this.plot = plot;
 
-        if(plot != null && !Objects.requireNonNull(plot.getOwner()).toString().equals(player.getUniqueId().toString()) && open) {
+        if (plot != null && !Objects.requireNonNull(plot.getOwner()).toString().equals(player.getUniqueId().toString()) && open) {
             open = false;
             PMenuI18N.NO_PLOT_PERMISSIONS.send(player);
         }
@@ -42,25 +42,14 @@ public class PMenuPlotInfoPlayerMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 3*9;
+        return 3 * 9;
     }
 
     private void openPlayerRequestThen(Function<PlotPlayer<?>, Menu> menuCallback) {
-        new AnvilGUI.Builder()
-                .plugin(Essential.getInstance())
-                .title(PMenuI18N.PLAYERLIST_TITLE.get(player))
-                .text(PMenuI18N.PLAYERLIST_PLAYER.get(player))
-                .onComplete((player1, s) -> {
-                    PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(s);
-
-                    if (plotPlayer == null)
-                        return AnvilGUI.Response.text(PMenuI18N.PLAYERLIST_PLAYERNOTFOUND.get(player1));
-
-                    menuCallback.apply(plotPlayer).open();
-
-                    return AnvilGUI.Response.text("");
-                })
-                .open(player);
+        new PMenuSearchPlayerMenu(player, (offlinePlayer -> {
+            PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
+            menuCallback.apply(plotPlayer).open();
+        }));
 
     }
 
@@ -69,7 +58,7 @@ public class PMenuPlotInfoPlayerMenu extends Menu {
         player.closeInventory();
         switch (inventoryClickEvent.getRawSlot()) {
             case 18 -> new PMenuPlotInfoMenu(player, plot).open();
-            case 9  -> openPlayerRequestThen((plotPlayer) -> new PMenuAddMenu(player, plotPlayer));
+            case 9 -> openPlayerRequestThen((plotPlayer) -> new PMenuAddMenu(player, plotPlayer));
             case 11 -> openPlayerRequestThen((plotPlayer) -> new PMenuDenyMenu(player, plotPlayer));
             case 13 -> openPlayerRequestThen((plotPlayer) -> new PMenuKickMenu(player, plotPlayer.getUUID()));
             case 15 -> openPlayerRequestThen((plotPlayer) -> new PMenuTrustMenu(player, plotPlayer));

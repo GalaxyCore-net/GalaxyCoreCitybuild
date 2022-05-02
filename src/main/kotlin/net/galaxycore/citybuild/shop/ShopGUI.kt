@@ -194,7 +194,7 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     private fun howManyItemsOfTypeHasPlayer(): Int {
         var count = 0
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.contents!!) {
             if (itemStack != null && itemStack.isSimilar(shop.itemStack)) {
                 count += itemStack.amount
             }
@@ -206,7 +206,7 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     private fun howManySpacesAreLeftForItemStack(): Int {
         var count = 0
-        for (itemStack in player.inventory.storageContents) {
+        for (itemStack in player.inventory.storageContents!!) {
             @Suppress("SENSELESS_COMPARISON")
             if (itemStack != null && itemStack.isSimilar(shop.itemStack)) {
                 count += shop.itemStack.maxStackSize - itemStack.amount
@@ -219,7 +219,7 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
 
     private fun removeAmountOfItemFromPlayerInventory(amount: Int) {
         var count = amount
-        for (itemStack in player.inventory.contents) {
+        for (itemStack in player.inventory.contents!!) {
             if (itemStack != null && itemStack.isSimilar(shop.itemStack)) {
                 if (itemStack.amount > count) {
                     itemStack.amount -= count

@@ -68,6 +68,7 @@ public class PMenuAddMenu extends Menu {
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
 
+        setFillerGlass();
     }
 
     private String i18n(String key) {

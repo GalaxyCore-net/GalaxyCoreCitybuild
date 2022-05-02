@@ -239,7 +239,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_lore", "§aDies wird dein %plot% Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.title", "§6Grundstück holen");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.title", "§6Auto");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.plot_area_not_found", "§cBitte begebe dich in eine Grundstückswelt");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.claimed_successfully", "§aDas Grundstück gehört jetzt dir");
@@ -499,7 +499,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.add_title", "§aAdd %name% to your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.cancel", "§cCancel");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully", true);
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.title", "§6Trust");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trusted_successfully", "§aUser trusted successfully");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_on_plot", "§cYou're not on a plot");

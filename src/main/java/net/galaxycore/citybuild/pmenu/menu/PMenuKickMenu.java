@@ -105,6 +105,7 @@ public class PMenuKickMenu extends Menu {
                 .replace("%name%", Bukkit.getPlayer(toKick) != null ? Objects.requireNonNull(Bukkit.getPlayer(toKick)).getName() : "everyone")));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+        setFillerGlass();
 
     }
 

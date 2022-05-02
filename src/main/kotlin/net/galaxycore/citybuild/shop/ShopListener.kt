@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.ItemStack
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -127,6 +128,10 @@ class ShopListener : Listener {
         blockData.clear()
         event.block.location.getNearbyPlayers(7.0).forEach {
             ShopAnimation(it, shop).close()
+        }
+
+        if (shop.r.len > 0) {
+            shop.t.world.dropItem(shop.t.block.location, shop.r.itemStack.asQuantity(shop.r.len))
         }
     }
 

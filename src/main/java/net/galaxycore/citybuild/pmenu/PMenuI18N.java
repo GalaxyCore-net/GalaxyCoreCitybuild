@@ -85,7 +85,8 @@ public enum PMenuI18N {
     DONE("done", "§aFertig", "§aDone", true),
     NOTHING_TO_MERGE("nothing_to_merge", "§cDu kannst hier keine Plots zusammenführen", "§cYou can't merge plots here", true),
     PRICE("price", "§7Preis: ", "§7Price: ", false),
-    SEARCH_FOR_PLAYER("search_for_player", "§eSpieler suchen", "§eSearch for player", false)
+    SEARCH_FOR_PLAYER("search_for_player", "§eSpieler suchen", "§eSearch for player", false),
+    PMENU_HELP("usage", "§cDieser Befehl ist uns nicht bekannt! Versuche es mit §e/p", "§cWe couln't recognise that command. Try §e/p", true)
     ;
     @Getter
     private final String key;

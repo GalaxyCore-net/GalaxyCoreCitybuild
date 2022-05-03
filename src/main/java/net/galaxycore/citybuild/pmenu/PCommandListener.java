@@ -11,7 +11,6 @@ import java.util.List;
 public class PCommandListener implements Listener {
     /**
      * TODO: Buy plots from others
-     * TODO: p help
      */
 
     private final static List<String> pCommands = Arrays.asList(
@@ -20,7 +19,7 @@ public class PCommandListener implements Listener {
             "plot",
             "ps",
             "plotsquared",
-//            "p2",
+            "p2",
             "2",
             "plotme",
             "plotsquared:plots",
@@ -69,6 +68,10 @@ public class PCommandListener implements Listener {
 
         Runtime.getRuntime().gc();
 
+        if(alias.equalsIgnoreCase("2") && event.getPlayer().hasPermission("citybuild.canUsePlotSquared")) {
+            event.setCancelled(false);
+            return;
+        }
         Essential.getInstance().getPMenuDistributor().distribute(event.getPlayer(), alias, args);
     }
 }

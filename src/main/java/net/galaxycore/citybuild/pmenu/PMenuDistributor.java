@@ -27,25 +27,34 @@ public class PMenuDistributor {
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
                 new PMenuPlotInfoMenu(player, null).open();
+                return;
             } else if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("l") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("search")) {
                 new PMenuPlotsMenu(player, player.getUniqueId()).open();
+                return;
             } else if (args[0].equalsIgnoreCase("claim") || args[0].equalsIgnoreCase("c")) {
                 new PMenuClaimMenu(player).open();
+                return;
             } else if (args[0].equalsIgnoreCase("auto") || args[0].equalsIgnoreCase("a")) {
                 new PMenuAutoMenu(player).open();
+                return;
             } else if (List.of("sethome", "sh", "seth").contains(args[0])) {
                 new PMenuSetHomeMenu(player).open();
+                return;
             } else if (args[0].equalsIgnoreCase("clear")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(false);}
+                return;
             } else if (args[0].equalsIgnoreCase("merge")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runMerge();}
+                return;
             } else if (args[0].equalsIgnoreCase("delete")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
+                return;
             } else if (args[0].equalsIgnoreCase("help")) {
                 player.sendMessage(I18N.getS(player, "citybuild.helptext"));
+                return;
             } else if (args[0].equalsIgnoreCase("middle")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
                 if (plot != null) {
@@ -54,12 +63,14 @@ public class PMenuDistributor {
                         PMenuI18N.TELEPORTED.send(player);
                     });
                 }
+                return;
             }
         }
 
         if(args.length >= 1) {
             if (args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("f")) {
                 new PMenuFlagsMenu(player).open();
+                return;
             }
 
             if (args[0].equalsIgnoreCase("home") || args[0].equalsIgnoreCase("h")) {
@@ -76,6 +87,7 @@ public class PMenuDistributor {
                 }
                 new PMenuPlotsMenu(player, toOpen).open();
 
+                return;
             }
             if (List.of("setowner", "owner", "so", "seto").contains(args[0])) {
                 if (args.length > 1) {
@@ -91,6 +103,7 @@ public class PMenuDistributor {
                 }else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuSetOwnerMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
+                return;
             }
 
             if (args[0].equalsIgnoreCase("add")) {
@@ -109,6 +122,7 @@ public class PMenuDistributor {
                         new PMenuAddMenu(player, plotPlayer).open();
                     }).open();
                 }
+                return;
             }
 
             if (List.of("trust", "t").contains(args[0])) {
@@ -128,6 +142,7 @@ public class PMenuDistributor {
                     }).open();
                 }
 
+                return;
             }
 
             if (List.of("remove", "r", "untrust", "ut", "undeny", "ud", "unban").contains(args[0])) {
@@ -147,6 +162,7 @@ public class PMenuDistributor {
                     }).open();
                 }
 
+                return;
             }
 
             if (List.of("deny", "d", "ban").contains(args[0])) {
@@ -166,6 +182,7 @@ public class PMenuDistributor {
                     }).open();
                 }
 
+                return;
             }
 
             if (List.of("v", "visit").contains(args[0])) {
@@ -178,6 +195,7 @@ public class PMenuDistributor {
                     }
                     new PMenuPlotsMenu(player, plotPlayer.getUUID()).open();
                 }
+                return;
             }
 
             if (List.of("kick", "k").contains(args[0])) {
@@ -195,6 +213,7 @@ public class PMenuDistributor {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuKickMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
 
+                return;
             }
 
             if (List.of("alias", "setalias", "sa", "name", "rename", "setname", "seta", "nameplot").contains(args[0])) {
@@ -207,6 +226,7 @@ public class PMenuDistributor {
                 } else {
                     new PMenuAliasMenu(player, null, null).open();
                 }
+                return;
             }
 
             if (List.of("setbiome", "biome", "sb", "setb", "b").contains(args[0])) {
@@ -215,11 +235,14 @@ public class PMenuDistributor {
                 } else {
                     new PMenuSetBiomeMenu(player, "null").open();
                 }
+                return;
             }
 
         } else {
             new PMenuBaseMenu(player).open();
+            return;
         }
+        PMenuI18N.PMENU_HELP.send(player);
     }
 
     public static void init() {

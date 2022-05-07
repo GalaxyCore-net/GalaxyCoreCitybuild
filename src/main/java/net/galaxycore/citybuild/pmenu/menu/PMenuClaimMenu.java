@@ -73,9 +73,9 @@ public class PMenuClaimMenu extends Menu {
             return;
         }
 
-        int plotLimit = Integer.parseInt(Essential.getInstance().getConfigNamespace().get("max_player_plots"));
+        int plotLimit = PMenuPlotBuyMenu.getMaxAllowedPlots(player);
 
-        if (plotPlayer.getPlotCount() == plotLimit) {
+        if (plotPlayer.getPlotCount() >= plotLimit) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("plot_limit_exceeded")));
             return;
         }

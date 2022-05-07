@@ -92,7 +92,7 @@ public class PMenuPlotBuyMenu extends KMenu {
         luckPerms.getUserManager().saveUser(user);
     }
 
-    private int getMaxAllowedPlots(Player paramPlayer) {
+    public static int getMaxAllowedPlots(Player paramPlayer) {
         for (int c = 50000; c >= 0; c--) {
             if (paramPlayer.hasPermission("plots.plot." + c))
                 return c;

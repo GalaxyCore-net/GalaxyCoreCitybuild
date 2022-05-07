@@ -232,60 +232,64 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
         }
     }
 
-    @SneakyThrows
-    private fun buildLoader(id: Int): PlayerLoader? {
-        val core = CoreProvider.getCore()
-        val connection = core.databaseConfiguration.connection
-        val load = connection.prepareStatement("SELECT * FROM core_playercache WHERE id = ?")
-        load.setInt(1, id)
-        val loadResult = load.executeQuery()
-        if (!loadResult.next()) {
-            loadResult.close()
-            load.close()
-            return null
-        }
-        val playerLoader = PlayerLoader(
-            loadResult.getInt("id"),
-            UUID.fromString(loadResult.getString("uuid")),
-            loadResult.getString("lastname"),
-            parse(loadResult, "firstlogin"),
-            parse(loadResult, "lastlogin"),
-            parse(loadResult, "last_daily_reward"),
-            loadResult.getInt("banpoints"),
-            loadResult.getInt("mutepoints"),
-            loadResult.getInt("warnpoints"),
-            loadResult.getInt("reports"),
-            loadResult.getBoolean("teamlogin"),
-            loadResult.getBoolean("debug"),
-            loadResult.getBoolean("socialspy"),
-            loadResult.getBoolean("commandspy"),
-            loadResult.getBoolean("vanished"),
-            loadResult.getBoolean("nicked"),
-            loadResult.getInt("lastnick"),
-            loadResult.getLong("coins")
-        )
-        loadResult.close()
-        load.close()
-        val update = connection.prepareStatement(
-            "UPDATE core_playercache SET lastname=?, lastlogin=CURRENT_TIMESTAMP WHERE id=?"
-        )
-        update.setString(1, playerLoader.lastname)
-        update.setInt(2, playerLoader.id)
-        update.executeUpdate()
-        update.close()
-        return playerLoader
-    }
-
-    @SneakyThrows
-    private fun parse(resultSet: ResultSet, field: String): Date? {
-        return if (CoreProvider.getCore().databaseConfiguration.internalConfiguration.connection == "sqlite") {
-            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(resultSet.getString(field))
-        } else resultSet.getDate(field)
-    }
 
     override fun getNameI18NKey() = ShopI18N.get<ShopGUI>(player, "title")
         .replace("%s",
             shop.itemStack.type.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }) + " - " + buildPriceComponent()
 
     override fun getSize() = 3 * 9
+
+    companion object {
+
+        @SneakyThrows
+        fun buildLoader(id: Int): PlayerLoader? {
+            val core = CoreProvider.getCore()
+            val connection = core.databaseConfiguration.connection
+            val load = connection.prepareStatement("SELECT * FROM core_playercache WHERE id = ?")
+            load.setInt(1, id)
+            val loadResult = load.executeQuery()
+            if (!loadResult.next()) {
+                loadResult.close()
+                load.close()
+                return null
+            }
+            val playerLoader = PlayerLoader(
+                loadResult.getInt("id"),
+                UUID.fromString(loadResult.getString("uuid")),
+                loadResult.getString("lastname"),
+                parse(loadResult, "firstlogin"),
+                parse(loadResult, "lastlogin"),
+                parse(loadResult, "last_daily_reward"),
+                loadResult.getInt("banpoints"),
+                loadResult.getInt("mutepoints"),
+                loadResult.getInt("warnpoints"),
+                loadResult.getInt("reports"),
+                loadResult.getBoolean("teamlogin"),
+                loadResult.getBoolean("debug"),
+                loadResult.getBoolean("socialspy"),
+                loadResult.getBoolean("commandspy"),
+                loadResult.getBoolean("vanished"),
+                loadResult.getBoolean("nicked"),
+                loadResult.getInt("lastnick"),
+                loadResult.getLong("coins")
+            )
+            loadResult.close()
+            load.close()
+            val update = connection.prepareStatement(
+                "UPDATE core_playercache SET lastname=?, lastlogin=CURRENT_TIMESTAMP WHERE id=?"
+            )
+            update.setString(1, playerLoader.lastname)
+            update.setInt(2, playerLoader.id)
+            update.executeUpdate()
+            update.close()
+            return playerLoader
+        }
+
+        @SneakyThrows
+        fun parse(resultSet: ResultSet, field: String): Date? {
+            return if (CoreProvider.getCore().databaseConfiguration.internalConfiguration.connection == "sqlite") {
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(resultSet.getString(field))
+            } else resultSet.getDate(field)
+        }
+    }
 }

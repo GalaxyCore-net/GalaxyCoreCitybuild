@@ -5,6 +5,7 @@ import net.galaxycore.citybuild.bb.BBCommand;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
+import net.galaxycore.citybuild.pmenu.PMenuUserExperienceListener;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.citybuild.shop.ShopI18N;
 import net.galaxycore.citybuild.shop.ShopListener;
@@ -308,6 +309,15 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.wait_for_timer", "§cBitte warte auf das Ende des aktuell laufenden Prozesses");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.schematic_too_large", "§cDieses Schematic ist zu groß");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_title", "§aHole dir dieses Grundstück für %d Coins");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.title", "§6Grundstück holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_enough_coins", "§cDu hast nicht genügend Coins", true);
         I18N.setDefaultByLang("de_DE", "citybuild.helptext", "Du kannst die Hilfe für CityBuild auf dieser Seite einsehen: §6https://docs.galaxycore.net/citybuild.de/");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
@@ -481,6 +491,15 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.cancel", "§cCancel");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.title", "§6Claim");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claimed_successfully", "§aPlot claimed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_already_claimed", "§CYou can't buy this plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_title", "§aBuy this Plot this plot for %d coins");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_lore", "§aThis will be your %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.title", "§6Buy Plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claimed_successfully", "§aPlot bought successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_enough_coins", "§cYou don't have enough coins");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.title", "§6Auto");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.plot_area_not_found", "§cPlease go into a plot world");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.claimed_successfully", "§aPlot claimed successfully");
@@ -599,6 +618,8 @@ public final class Essential extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(shopLoadingListener, this);
 
+        new PMenuUserExperienceListener();
+
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
         PMenuDistributor.init();
@@ -606,9 +627,5 @@ public final class Essential extends JavaPlugin {
 
     public PMenuDistributor getPMenuDistributor() {
         return pMenuDistributor;
-    }
-
-    public void setpMenuDistributor(PMenuDistributor pMenuDistributor) {
-        this.pMenuDistributor = pMenuDistributor;
     }
 }

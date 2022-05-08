@@ -21,6 +21,10 @@ public class PMenuDistributor {
         if (alias.equalsIgnoreCase("/warp")) {
             new PMenuWarpMenu(player).open();
             return;
+        }
+        if (alias.equalsIgnoreCase("/help")) {
+            player.sendMessage(I18N.getS(player, "citybuild.helptext"));
+            return;
         } else if (alias.equalsIgnoreCase("/licence") || alias.equalsIgnoreCase("/lizenz")) {
             new PMenuLizenzMenu(player).open();
             return;
@@ -42,15 +46,27 @@ public class PMenuDistributor {
                 return;
             } else if (args[0].equalsIgnoreCase("clear")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
-                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(false);}
+                if (plot != null) {
+                    new PMenuPlotInfoConfigMenu(player, plot).runClear(false);
+                }
                 return;
             } else if (args[0].equalsIgnoreCase("merge")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
-                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runMerge();}
+                if (plot != null) {
+                    new PMenuPlotInfoConfigMenu(player, plot).runMerge();
+                }
+                return;
+            } else if (args[0].equalsIgnoreCase("buy")) {
+                @Nullable Plot plot = PlotUtils.getPlotForPlayer(player, false);
+                if (plot != null) {
+                    new PMenuBuyPlotMenu(player).open();
+                }
                 return;
             } else if (args[0].equalsIgnoreCase("delete")) {
                 @Nullable Plot plot = PlotUtils.getPlotForPlayer(player);
-                if (plot != null) {new PMenuPlotInfoConfigMenu(player, plot).runClear(true);}
+                if (plot != null) {
+                    new PMenuPlotInfoConfigMenu(player, plot).runClear(true);
+                }
                 return;
             } else if (args[0].equalsIgnoreCase("help")) {
                 player.sendMessage(I18N.getS(player, "citybuild.helptext"));
@@ -67,7 +83,7 @@ public class PMenuDistributor {
             }
         }
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("f")) {
                 new PMenuFlagsMenu(player).open();
                 return;
@@ -75,7 +91,7 @@ public class PMenuDistributor {
 
             if (args[0].equalsIgnoreCase("home") || args[0].equalsIgnoreCase("h")) {
                 UUID toOpen = player.getUniqueId();
-                if(args.length > 1) {
+                if (args.length > 1) {
                     PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(args[1]);
 
                     if (plotPlayer == null) {
@@ -100,7 +116,7 @@ public class PMenuDistributor {
 
                     new PMenuSetOwnerMenu(player, plotPlayer.getUUID()).open();
 
-                }else {
+                } else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuSetOwnerMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
                 return;
@@ -135,7 +151,7 @@ public class PMenuDistributor {
                     }
 
                     new PMenuTrustMenu(player, plotPLayer).open();
-                }else {
+                } else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
                         PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
                         new PMenuTrustMenu(player, plotPlayer).open();
@@ -155,7 +171,7 @@ public class PMenuDistributor {
                     }
 
                     new PMenuRemoveMenu(player, plotPlayer).open();
-                }else {
+                } else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
                         PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
                         new PMenuRemoveMenu(player, plotPlayer).open();
@@ -175,7 +191,7 @@ public class PMenuDistributor {
                     }
 
                     new PMenuDenyMenu(player, plotPlayer).open();
-                }else {
+                } else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
                         PlotPlayer<?> plotPlayer = new PlotAPI().wrapPlayer(offlinePlayer.getUniqueId());
                         new PMenuDenyMenu(player, plotPlayer).open();
@@ -194,7 +210,9 @@ public class PMenuDistributor {
                         return;
                     }
                     new PMenuPlotsMenu(player, plotPlayer.getUUID()).open();
-                }
+                } else new PMenuSearchPlayerMenu(player, (offlinePlayer) -> {
+                    new PMenuPlotsMenu(player, offlinePlayer.getUniqueId()).open();
+                }).open();
                 return;
             }
 
@@ -209,7 +227,7 @@ public class PMenuDistributor {
 
                     UUID toKick = plotPlayer != null ? plotPlayer.getUUID() : DBFunc.EVERYONE;
                     new PMenuKickMenu(player, toKick).open();
-                }else {
+                } else {
                     new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuKickMenu(player, offlinePlayer.getUniqueId()).open()).open();
                 }
 

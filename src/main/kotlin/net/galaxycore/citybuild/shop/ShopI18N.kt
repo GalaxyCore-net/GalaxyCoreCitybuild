@@ -20,6 +20,7 @@ class ShopI18N {
             default<ShopListener>("sneakandinteracttocreateashop", "§aSneak and interact with a chest to create a shop!", "§aSchleiche und interagiere mit einer Kiste um einen Shop zu erstellen!", false)
             default<ShopListener>("cantbreakshop", "§cYou can't break this shop!", "§cDu kannst diesen Shop nicht zerstören!", true)
             default<ShopListener>("cantbreakshop:shophasitems", "§cYou can't break this shop, it has items!", "§cDu kannst diesen Shop nicht zerstören, er beinhaltet Items!", true)
+            default<ShopListener>("maxshopsreached", "§cYou have reached the max amount of shops!", "§cDu hast die maximale Anzahl an Shops erreicht!", true)
             default<ShopCreateGUI>("title", "§eCreate a shop", "§eErstelle einen Shop", false)
             default<ShopCreateGUI>("create", "§aCreate shop", "§aErstelle den Shop", false)
             default<ShopCreateGUI>("cancel", "§cCancel", "§cAbbrechen", false)

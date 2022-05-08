@@ -87,7 +87,7 @@ public enum PMenuI18N {
     PRICE("price", "§7Preis: ", "§7Price: ", false),
     SEARCH_FOR_PLAYER("search_for_player", "§eSpieler suchen", "§eSearch for player", false),
     PMENU_HELP("usage", "§cDieser Befehl ist uns nicht bekannt! Versuche es mit §e/p", "§cWe couln't recognise that command. Try §e/p", true),
-    YOU_CAN_BUY_THIS_PLOT_FOR_COINS("you_can_buy_this_plot_for_coins", "§eDu kannst dieses Grundstück für §6%price% Coins kaufen", "§eYou can buy this plot for §6%price% coins", false),
+    YOU_CAN_BUY_THIS_PLOT_FOR_COINS("you_can_buy_this_plot_for_coins", "§eDu kannst dieses Grundstück für §6%price% Coins kaufen", "§eYou can buy this plot for §6%price% coins", true),
     ;
     @Getter
     private final String key;

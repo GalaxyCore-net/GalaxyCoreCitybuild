@@ -9,9 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PCommandListener implements Listener {
-    /**
-     * TODO: Buy plots from others
-     */
 
     private final static List<String> pCommands = Arrays.asList(
             "plots",
@@ -44,6 +41,11 @@ public class PCommandListener implements Listener {
         command = command.replace("/", "");
 
         if(!PCommandListener.pCommands.contains(command)) return;
+
+        if (command.equals("2") && event.getPlayer().hasPermission("citybuild.plot.admin")) {
+            event.setCancelled(false);
+            return;
+        }
 
         event.setCancelled(true);
 

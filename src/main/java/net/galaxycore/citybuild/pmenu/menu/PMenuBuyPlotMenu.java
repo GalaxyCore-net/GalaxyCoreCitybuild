@@ -59,16 +59,16 @@ public class PMenuBuyPlotMenu extends Menu {
     public void handleMenu(InventoryClickEvent inventoryClickEvent) {
 
         if (!error)
-        switch (inventoryClickEvent.getRawSlot()) {
-            case 9 + 3 -> claimPlot();
-            case 9 + 5 -> player.closeInventory();
-        }
+            switch (inventoryClickEvent.getRawSlot()) {
+                case 9 + 3 -> claimPlot();
+                case 9 + 5 -> player.closeInventory();
+            }
 
     }
 
-    private double getPrice() {
+    private int getPrice() {
         if (currentPlot == null) return 0;
-        return currentPlot.getFlagContainer().getFlag(PriceFlag.class).getValue();
+        return currentPlot.getFlagContainer().getFlag(PriceFlag.class).getValue().intValue();
     }
 
     private void claimPlot() {
@@ -78,9 +78,10 @@ public class PMenuBuyPlotMenu extends Menu {
             return;
         }
         PlayerLoader otherPlayer = buildLoader(Objects.requireNonNull(currentPlot.getOwner()));
-        coinDAO.transact(otherPlayer, (long) getPrice(), "PLOTBUY:FROM+"+currentPlot.getOwner().toString() + ":TO+" + player.getUniqueId() + ":AS+" + currentPlot.getId() + ":PRICE+" + getPrice());
+        coinDAO.transact(otherPlayer, getPrice(), "PLOTBUY:FROM+" + currentPlot.getOwner().toString() + ":TO+" + player.getUniqueId() + ":AS+" + currentPlot.getId() + ":PRICE+" + getPrice());
 
         plotPlayer.getCurrentPlot().setOwner(player.getUniqueId());
+        plotPlayer.getCurrentPlot().removeFlag(PriceFlag.class);
         player.sendMessage(Component.text(i18n("claimed_successfully")));
         player.closeInventory();
     }
@@ -127,7 +128,7 @@ public class PMenuBuyPlotMenu extends Menu {
             default -> bobTheBuilder.append("th");
         }
 
-        inventory.setItem(9 + 3, makeItem(Material.GREEN_CONCRETE, i18n("claim_title").replace("%d", 3 + ""), i18n("claim_lore").replace("%plot%", bobTheBuilder.toString())));
+        inventory.setItem(9 + 3, makeItem(Material.GREEN_CONCRETE, i18n("claim_title").replace("%d", getPrice() + ""), i18n("claim_lore").replace("%plot%", bobTheBuilder.toString())));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
 

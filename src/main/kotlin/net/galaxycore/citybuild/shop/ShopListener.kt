@@ -5,6 +5,7 @@ import com.github.unldenis.hologram.HologramAccessor
 import com.github.unldenis.hologram.HologramPool
 import com.github.unldenis.hologram.event.PlayerHologramHideEvent
 import net.galaxycore.citybuild.Essential
+import net.galaxycore.citybuild.pmenu.menu.PMenuLizenzMenu
 import net.galaxycore.citybuild.utils.Both
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader
 import net.galaxycore.galaxycorecore.spice.KBlockData
@@ -21,6 +22,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -41,7 +43,17 @@ class ShopListener : Listener {
             return
         }
 
-        // TODO: check if player is allowed to create another shop
+
+        val pdc = event.player.persistentDataContainer
+
+        val current = pdc[key, PersistentDataType.INTEGER]
+
+        if ((current?.plus(1) ?: 0) > PMenuLizenzMenu.getMaxAllowedShops(event.player)) {
+            event.player.sendMessage(ShopI18N.get<ShopListener>(event.player, "maxshopsreached"))
+            return
+        }
+
+
         val chunk = event.player.chunk
 
         // Check if Player has non-null and non-air item in hand
@@ -57,6 +69,9 @@ class ShopListener : Listener {
             ShopAnimation(event.player, Both(location, shop)).open()
             val blockdata = KBlockData(event.clickedBlock!!, Essential.getInstance())
             shop.compact(blockdata)
+
+            val data = event.player.persistentDataContainer
+            data[key, PersistentDataType.INTEGER] = data[key, PersistentDataType.INTEGER]?.plus(1) ?: 1
         }
     }
 
@@ -132,6 +147,10 @@ class ShopListener : Listener {
         }
         val blockData = KBlockData(event.block, Essential.getInstance())
         blockData.clear()
+
+        val data = event.player.persistentDataContainer
+        data[key, PersistentDataType.INTEGER] = (data[key, PersistentDataType.INTEGER]?.minus(1) ?: 0).coerceAtLeast(0)
+
         event.block.location.getNearbyPlayers(7.0).forEach {
             ShopAnimation(it, shop).close()
         }
@@ -148,6 +167,12 @@ class ShopListener : Listener {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
+
+        val pdc = event.player.persistentDataContainer
+        if (!pdc.has(key)) {
+            pdc[key, PersistentDataType.INTEGER] = 0
+        }
+
         onMove(PlayerMoveEvent(event.player, event.player.world.getBlockAt(0, 0, 0).location, event.player.location))
     }
 
@@ -196,6 +221,7 @@ class ShopListener : Listener {
     }
 
     companion object {
+        val key = NamespacedKey(Essential.getInstance(), "shops")
         lateinit var essential: Essential
         lateinit var hologramPool: HologramPool
         var animationData = HashMap<Both<Player, Block>, Hologram>()

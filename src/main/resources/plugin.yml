@@ -2,10 +2,15 @@ name: Essential
 version: '${project.version}'
 main: net.galaxycore.citybuild.Essential
 api-version: 1.16
-author: TheNick24
+authors:
+  - TheNick24
+  - Bloeckchengrafik
+  - Flo_Mit_H_
 description: CityBuild Plugin für GalaxyCore.net
 depend:
   - GalaxyCoreCore
+  - ProtocolLib
+  - PlotSquared
 commands:
   Debug:
     description: Gibt dir eine Test Nachricht aus.
@@ -80,4 +85,15 @@ commands:
     description: Erlaubt TPs
   tpaall:
     description: TPAt alle
-
+  setwarp:
+    description: Setzt einen Warppunkt
+  delwarp:
+    description: Löscht einen Warppunkt
+  bb:
+    description: Get Bitwise Blockdata Output
+    permission: essentials.bb
+  warp:
+    description: Öffne das Warp-Menu
+  lizenz:
+    aliases:
+      - license

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class WeatherCommand implements CommandExecutor {
-    private HashMap<Player, Long> weatherCooldown = new HashMap<>();
+    private final HashMap<Player, Long> weatherCooldown = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

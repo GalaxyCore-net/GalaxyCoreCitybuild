@@ -20,16 +20,16 @@ public class GamemodeCommand implements CommandExecutor {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noperms"));
                 return true;
             }
-            if (args[0].equalsIgnoreCase("1")) {
+            if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative")) {
                 player.setGameMode(GameMode.CREATIVE);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.creative"));
-            } else if (args[0].equalsIgnoreCase("0")) {
+            } else if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival")) {
                 player.setGameMode(GameMode.SURVIVAL);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.survival"));
-            } else if (args[0].equalsIgnoreCase("2")) {
+            } else if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("adventure")) {
                 player.setGameMode(GameMode.ADVENTURE);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.adventure"));
-            } else if (args[0].equalsIgnoreCase("3")) {
+            } else if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator")) {
                 player.setGameMode(GameMode.SPECTATOR);
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.spectator"));
             } else {
@@ -46,19 +46,19 @@ public class GamemodeCommand implements CommandExecutor {
                 player.sendMessage(I18N.getByPlayer(player, "citybuild.noplayerfound"));
                 return true;
             }
-            if (args[0].equalsIgnoreCase("1")) {
+            if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative")) {
                 target.setGameMode(GameMode.CREATIVE);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
-            } else if (args[0].equalsIgnoreCase("0")) {
+            } else if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival")) {
                 target.setGameMode(GameMode.SURVIVAL);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.survival"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
-            } else if (args[0].equalsIgnoreCase("2")) {
+            } else if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("adventure")) {
                 target.setGameMode(GameMode.ADVENTURE);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.adventure"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));
-            } else if (args[0].equalsIgnoreCase("3")) {
+            } else if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator")) {
                 target.setGameMode(GameMode.SPECTATOR);
                 target.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.spectator"), new LuckPermsApiWrapper(player)));
                 player.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(player, "citybuild.creative.set"), new LuckPermsApiWrapper(target)));

@@ -1,10 +1,14 @@
 package net.galaxycore.citybuild;
 
 import lombok.SneakyThrows;
+import net.galaxycore.citybuild.bb.BBCommand;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
-import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
+import net.galaxycore.citybuild.pmenu.PMenuUserExperienceListener;
+import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
+import net.galaxycore.citybuild.shop.ShopI18N;
+import net.galaxycore.citybuild.shop.ShopListener;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -47,6 +51,12 @@ public final class Essential extends JavaPlugin {
         setCore(getServer().getServicesManager().load(GalaxyCoreCore.class));
 
         getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_playerdb (ID int,invtoggle bit default 0,ectoggle bit default 0,tptoggle bit default 0,tpatoggle bit default 0);").executeUpdate();
+        getCore().getDatabaseConfiguration().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS galaxycity_warps(pos int NOT NULL, loc varchar(100), name varchar(100), display varchar(100));").executeUpdate();
+
+        if (!getDataFolder().exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            getDataFolder().mkdirs();
+        }
 
         pMenuDistributor = new PMenuDistributor();
 
@@ -57,6 +67,10 @@ public final class Essential extends JavaPlugin {
         configNamespace.setDefault("spawn.z", "-278");
         configNamespace.setDefault("spawn.yaw", "-90");
         configNamespace.setDefault("spawn.pitch", "0");
+        configNamespace.setDefault("plotwelt.plot_width", "50");
+        configNamespace.setDefault("plotwelt.road_width", "7");
+        configNamespace.setDefault("plotwelt.plot_tp_offset", "3|1|3|-45|0");
+        configNamespace.setDefault("max_player_plots", "5");
 
         I18N.setDefaultByLang("de_DE", "citybuild.noperms", "§7Du hast keine Berechtigung für diesen Command.", true);
         I18N.setDefaultByLang("de_DE", "citybuild.noplayerfound", "§7Dieser Spieler ist nicht online", true);
@@ -205,6 +219,106 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.score.teamspeak", "§eTeamspeak:");
         I18N.setDefaultByLang("de_DE", "citybuild.setwarp.usage", "§cBenutze: §e/setwarp [Name] [Pos] §cund halte ein Item in der Hand", true);
         I18N.setDefaultByLang("de_DE", "citybuild.delwarp.usage", "§cBenutze: §e/delwarp [Pos]", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.error_title", "§cBeim Anfragen der Grundstücke ist ein Fehler aufgetreten");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.error_lore", "§cBitte melde diesen Fehler bei einem Teammitglied");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_title", "§cDu hast bist jetzt noch keine Grundstücke");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.plots.no_plots_lore", "§cHol' dir eins mit /p claim");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.claiming", "§6Holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.teleport", "§6Teleportieren");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.settings", "§6Einstellungen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.chat", "§6Chat");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.schematic", "§6Schematics");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.appereance", "§6Aussehen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.info", "§6Info");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.debug", "§6Debug");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.administration", "§6Administration");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.help.title", "§6Hilfe");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_title", "§aHole dir dieses Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.title", "§6Grundstück holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.title", "§6Auto");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.plot_area_not_found", "§cBitte begebe dich in eine Grundstückswelt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.auto_title", "§aHole dir automatisch ein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.auto_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.no_plot_found", "§cEs wurde kein freies Grundstück gefunden");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.title", "§6Set Owner");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowner_successfully", "§aDer neue Besitzer wurde erfolgreich gesetzt", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowner_title", "§a§lSetze den neuen Besitzer");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.title", "§6Add");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.add_title", "§aFüge %name% zu deinem Grundstück hinzu");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.added_successfully", "§aNutzer erfolgreich hinzugefügt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.title", "§6Trust");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.trusted_successfully", "§aBenutzer erfolgreich vertraut");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.trust_title", "§aVertraue %name% auf deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.trust.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.title", "§6Remove");
+        I18N.setDefaultByLang("de_DE", "citbuild.pmenu.remove.removed_successfully", "§aBenutzer erfolgreich entfernt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.not_your_plot", "§cDies ist nciht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pemnu.remove.remove_title", "§aEntferne %name% von deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.remove.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.title", "§6Deny");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.denied_successfully", "§aBenutzer erfolgreich verboten");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.deny_title", "§aVerbiete %name% von deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.deny.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.title", "§6Kick");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicked_no_spawn", "§cDu wurdest gekickt, da der Server keinen geladenen Spawnpunkt konfiguriert hat");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicked_successfully", "§cDu wurdest von dem Grundstück gekickt, auf dem du gestanden hast");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kick_title", "§aWerfe %name% von deinem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.kick.kicking_players", "§cWerfe Spieler vom Grundstück runter.... Dies kann eine Weile dauern, je nachdem wie viele Spieler sich auf dem Grundstück befinden");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.title", "§6Set Home");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.sethome_successfully", "§aNeues Zuhause erfolgreich gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.not_your_plot", "§cDies ist nicht dein Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.sethome_title", "§aSetze das neue Zuhause");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.sethome.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.title", "§6Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pemnu.alias.empty_alias", "§cDer Alias darf nicht leer sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_too_long", "§cDer Alias darf maximal 50 Zeichen lang sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_integer", "§cDer Alias darf keine Zahl sein!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_taken", "§cDieser Alias wird bereits benutzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_set_successfully", "§aDer Alias wurde erfolgreich gesetzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.alias_removed", "§aDer Alias wurde erfolgreich entfernt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.no_alias_set", "§cEs wurde noch kein Alias gesetzt!");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.what_new_alias", "§6Was solte der neue Alias sein?");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.set", "§aSetze den neuen Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.alias.remove", "§cEntferne den aktuellen Alias");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.title", "§6Set Biome");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.need_biome", "§cBitte gebe ein Biom an");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.wait_for_timer", "§cBitte warte auf das Ende des aktuell laufenden Prozesses");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.schematic_too_large", "§cDieses Schematic ist zu groß");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_title", "§aHole dir dieses Grundstück für %d Coins");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.title", "§6Grundstück holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_enough_coins", "§cDu hast nicht genügend Coins", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.helptext", "Du kannst die Hilfe für CityBuild auf dieser Seite einsehen: §6https://docs.galaxycore.net/citybuild.de/");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -354,6 +468,109 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.score.teamspeak", "§eTeamspeak:");
         I18N.setDefaultByLang("en_GB", "citybuild.setwarp.usage", "§cPlease use: §e/setwarp [Name] [Pos] §cand hold an item in your hand", true);
         I18N.setDefaultByLang("en_GB", "citybuild.delwarp.usage", "§cPlease use: §e/delwarp [Pos] ", true);
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.error_title", "§cAn error occured while getting the plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.error_lore", "§cPlease report this error to a staff member");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_title", "§cYou don't have any plots yet");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.plots.no_plots_lore", "§cClaim one using /p claim");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.claiming", "§6claiming");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.teleport", "§6teleport");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.settings", "§6settings");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.chat", "§6chat");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.schematic", "§6schematic");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.appereance", "§6appereance");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.info", "§6info");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.debug", "§6debug");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.administration", "§6administration");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.title", "§6Help");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.help.help", "§eHelp");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.plot_already_claimed", "§CThis plot is already claimed");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claim_title", "§aClaim this plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claim_lore", "§aThis will be your %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.title", "§6Claim");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claimed_successfully", "§aPlot claimed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_already_claimed", "§CYou can't buy this plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_title", "§aBuy this Plot this plot for %d coins");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_lore", "§aThis will be your %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.title", "§6Buy Plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claimed_successfully", "§aPlot bought successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_enough_coins", "§cYou don't have enough coins");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.title", "§6Auto");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.plot_area_not_found", "§cPlease go into a plot world");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.claimed_successfully", "§aPlot claimed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.auto_title", "§aAutomatically claim a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.auto_lore", "§aThis will be you %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.no_plot_found", "§cNo free plot was found");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.title", "§6Set Owner");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.setowner_successfully", "§aSet Owner successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.setowner_title", "§a§lSet the new owner");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setowner.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.title", "§6Add");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.add_title", "§aAdd %name% to your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully", true);
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.title", "§6Trust");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trusted_successfully", "§aUser trusted successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trust_title", "§aTrust %name% on your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.title", "§6Remove");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.removed_successfully", "§aUser removed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.remove_title", "§aRemove %name% from your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.remove.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.title", "§6Deny");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.denied_successfully", "§aUser denied successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.deny_title", "§aDeny %name% from your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.deny.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.title", "§6Kick");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicked_no_spawn", "§cBecause this server has no loaded spawn configured, you got kicked");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicked_successfully", "§cYou got kicked from the plot you were standing on");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kick_title", "§aKick %name% from your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.kick.kicking_players", "§cKicking Players from the plot, this might take a while depending on how many players are on the plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.title", "§6Set Home");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.sethome_successfully", "§aSet new home successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.not_your_plot", "§cThis is not your plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.sethome_title", "§aSet the new home");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.sethome.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.title", "§6Alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pemnu.alias.empty_alias", "§cThe alias can't be empty!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_too_long", "§cThe alias can't be longer than 50 characters!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_integer", "§cThe alias can't be a number!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_taken", "§cThe alias is already in use!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_set_successfully", "§aThe alias was set successfully!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.alias_removed", "§aThe alias was removed successfully!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.no_alias_set", "§cThere was no alias set!");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.what_new_alias", "§6What should be the new alias?");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.set", "§aSet the new alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.alias.remove", "§cRemove the existing alias");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.title", "§6Set Biome");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.need_biome", "§cPlease provide a biome");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.wait_for_timer", "§cPlease wait for the currently running task to end");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.schematic_too_large", "§cThis Schematic is too large");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
+        I18N.setDefaultByLang("en_GB", "citybuild.helptext", "You can find the CityBuild help page at §6https://docs.galaxycore.net/citybuild.en/", true);
+
+        ShopI18N.Companion.registerDefaults();
 
         Objects.requireNonNull(getCommand("debug")).setExecutor(new DebugCommand());
         Objects.requireNonNull(getCommand("gamemode")).setExecutor(new GamemodeCommand());
@@ -389,28 +606,26 @@ public final class Essential extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpaall")).setExecutor(new TPAAllCommand());
         Objects.requireNonNull(getCommand("setwarp")).setExecutor(new SetWarpCommand());
         Objects.requireNonNull(getCommand("delwarp")).setExecutor(new DelWarpCommand());
+        Objects.requireNonNull(getCommand("bb")).setExecutor(new BBCommand());
+        Objects.requireNonNull(getCommand("bb")).setTabCompleter(new BBCommand());
+
+        ShopListener shopLoadingListener = new ShopListener();
 
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new FoodLevelChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(getConfigNamespace()), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClickEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
+        Bukkit.getPluginManager().registerEvents(shopLoadingListener, this);
+
+        new PMenuUserExperienceListener();
 
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
-      PMenuDistributor.init();
+        PMenuDistributor.init();
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-    public PMenuDistributor getpMenuDistributor() {
+    public PMenuDistributor getPMenuDistributor() {
         return pMenuDistributor;
-    }
-
-    public void setpMenuDistributor(PMenuDistributor pMenuDistributor) {
-        this.pMenuDistributor = pMenuDistributor;
     }
 }

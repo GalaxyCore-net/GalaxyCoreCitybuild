@@ -4,7 +4,7 @@ type: docker
 
 steps:
   - name: test'n'deploy
-    image: maven:3-jdk-11
+    image: maven:3.8.5-eclipse-temurin-17
     environment:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
@@ -25,7 +25,7 @@ type: docker
 
 steps:
   - name: test
-    image: maven:3-jdk-11
+    image: maven:3.8.5-eclipse-temurin-17
     environment:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
@@ -36,3 +36,16 @@ steps:
 trigger:
   event:
     - push
+---
+kind: pipeline
+name: Citybuild-Reports
+type: docker
+steps:
+  - name: report
+    image: jetbrains/qodana-jvm-community:2021.3
+    environment:
+      NRM_PW:
+        from_secret: NEXUS_DEV_PWD
+    commands:
+      - cp workflow_settings.xml ~/.m2/settings.xml
+      - qodana

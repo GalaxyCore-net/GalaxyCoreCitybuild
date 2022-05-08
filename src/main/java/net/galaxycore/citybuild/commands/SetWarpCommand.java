@@ -30,7 +30,7 @@ public class SetWarpCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 2 || player.getInventory().getItemInMainHand().getType() == Material.AIR || !FastUtils.isPositiveInt(args[1])) {
+        if (args.length != 2 || player.getInventory().getItemInMainHand().getType() == Material.AIR || FastUtils.isNegativeInt(args[1])) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.setwarp.usage"));
             return true;
         }

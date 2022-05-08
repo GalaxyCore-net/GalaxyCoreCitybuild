@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PCommandListener implements Listener {
+
     private final static List<String> pCommands = Arrays.asList(
             "plots",
             "p",
@@ -25,7 +26,10 @@ public class PCommandListener implements Listener {
             "plotsquared:plotsquared",
             "plotsquared:p2",
             "plotsquared:2",
-            "plotsquared:plotme"
+            "plotsquared:plotme",
+            "warp",
+            "lizenz",
+            "licence"
     );
 
     @EventHandler
@@ -38,10 +42,16 @@ public class PCommandListener implements Listener {
 
         if(!PCommandListener.pCommands.contains(command)) return;
 
+        if (command.equals("2") && event.getPlayer().hasPermission("citybuild.plot.admin")) {
+            event.setCancelled(false);
+            return;
+        }
+
         event.setCancelled(true);
 
         String[] argsWithCommand = event.getMessage().split(" ");
         String[] args = new String[argsWithCommand.length - 1];
+        String alias = "";
 
         boolean doCMD = false;
 
@@ -49,6 +59,7 @@ public class PCommandListener implements Listener {
 
         for (String arg : argsWithCommand) {
             if(!doCMD) {
+                alias = arg;
                 doCMD = true;
                 continue;
             }
@@ -59,6 +70,10 @@ public class PCommandListener implements Listener {
 
         Runtime.getRuntime().gc();
 
-        Essential.getInstance().getpMenuDistributor().distribute(event.getPlayer(), args);
+        if(alias.equalsIgnoreCase("2") && event.getPlayer().hasPermission("citybuild.canUsePlotSquared")) {
+            event.setCancelled(false);
+            return;
+        }
+        Essential.getInstance().getPMenuDistributor().distribute(event.getPlayer(), alias, args);
     }
 }

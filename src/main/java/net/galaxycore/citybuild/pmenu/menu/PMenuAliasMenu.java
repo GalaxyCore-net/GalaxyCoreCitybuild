@@ -138,6 +138,8 @@ public class PMenuAliasMenu extends Menu {
         inventory.setItem(9 + 3, makeItem(Material.FEATHER, i18n("set")));
         inventory.setItem(9 + 5, makeItem(Material.BARRIER, i18n("remove")));
 
+        setFillerGlass();
+
     }
 
     private String i18n(String key) {

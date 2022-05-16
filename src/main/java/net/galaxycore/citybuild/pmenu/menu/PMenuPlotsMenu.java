@@ -4,6 +4,7 @@ import com.plotsquared.core.PlotAPI;
 import com.plotsquared.core.events.TeleportCause;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
+import com.plotsquared.core.util.query.PlotQuery;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.Essential;
@@ -27,8 +28,8 @@ import java.util.logging.Logger;
 public class PMenuPlotsMenu extends Menu {
     public static final int PIVOT = 9 * 5;
     private final Player player;
+    private UUID toOpen;
     private final PlotAPI plotAPI;
-    private final PlotPlayer<?> toOpenFor;
     private final List<ItemStack> itemStacks = new ArrayList<>();
     private final List<Plot> plotList = new ArrayList<>();
     private final Logger logger = Essential.getInstance().getLogger();
@@ -40,10 +41,10 @@ public class PMenuPlotsMenu extends Menu {
     public PMenuPlotsMenu(Player player, UUID toOpen) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
+        this.toOpen = toOpen;
         this.plotAPI = new PlotAPI();
-        toOpenFor = plotAPI.wrapPlayer(toOpen);
 
-        size = plotAPI.getPlayerPlots(Objects.requireNonNull(toOpenFor)).size();
+        size = PlotQuery.newQuery().ownedBy(toOpen).asList().size();
         if (size <= PIVOT) {
             maxpage = 0;
         } else {
@@ -55,10 +56,10 @@ public class PMenuPlotsMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        if(player.getUniqueId().equals(toOpenFor.getUUID())) {
+        if(player.getUniqueId().equals(toOpen)) {
             return PMenuI18N.TITLE_PLOTS.get(player);
         } else {
-            return PMenuI18N.TITLE_PLOTS_OTHER.get(player).replace("%player%", toOpenFor.getName());
+            return PMenuI18N.TITLE_PLOTS_OTHER.get(player).replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(toOpen).getName()));
         }
     }
 
@@ -106,7 +107,12 @@ public class PMenuPlotsMenu extends Menu {
 
         int position = (page * PIVOT) + inventoryClickEvent.getRawSlot() - (useUpperLine ? 9 : 0);
         if (size < position) return;
-        Plot plot = plotList.get(position);
+        Plot plot;
+        try {
+            plot = plotList.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            return;
+        }
         plot.getHome(location -> {
             player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getX()+0.5, location.getY(), location.getZ()+0.5, location.getYaw(), location.getPitch()));
             PMenuI18N.TELEPORTED.send(player);
@@ -117,7 +123,7 @@ public class PMenuPlotsMenu extends Menu {
     public void open() {
         new Thread(() -> {
 
-            Set<Plot> plots = plotAPI.getPlayerPlots(Objects.requireNonNull(toOpenFor));
+            Set<Plot> plots = PlotQuery.newQuery().ownedBy(toOpen).asSet();
             Semaphore semaphore = new Semaphore(-plots.size() + 1);
 
             if (plotList.size() == 0) {

@@ -3,10 +3,7 @@ package net.galaxycore.citybuild.pmenu.menu.flags;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.flag.PlotFlag;
 import com.plotsquared.core.plot.flag.implementations.*;
-import com.plotsquared.core.plot.flag.types.BlockTypeListFlag;
-import com.plotsquared.core.plot.flag.types.BooleanFlag;
-import com.plotsquared.core.plot.flag.types.LongFlag;
-import com.plotsquared.core.plot.flag.types.StringFlag;
+import com.plotsquared.core.plot.flag.types.*;
 import lombok.Getter;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
@@ -47,7 +44,8 @@ public enum Flag {
     VEHICLE_USE(VehicleUseFlag.class, "§eFahrzeug-Nutzung", "§eVehicle Use", "§eErlaube es anderen Spielern Fahrzeuge zu nutzen", "§eAllow other Players to use vehicles on your plot", "vehicle-use"),
     VILLAGER_INTERACT(VillagerInteractFlag.class, "§eDorfbewohner-Interaktion", "§eVillager-Interaction", "§eErlaube es anderen Spielern, mit Dorfbewohnern auf deinem Plot zu handeln", "§eAllow other players to trade with villagers on your plot", "villager-interact"),
     LECTERN_READ_BOOK(LecternReadBookFlag.class, "§eLesepult-Interaktion", "§eLectern-Interaction", "§eErlaube anderen Spielern, auf deinem Plot Bücher über Lesepulte zu lesen", "§eAllow other players to read books on a lectern within your plot", "lectern-read-book"),
-    LEAF_DECAY(LeafDecayFlag.class, "§eBlätter-Zerfall", "§eLeaf Decay", "§eErlaube Blättern auf deinem Plot zu zerfallen", "§eAllow Leafs on your plot to decay", "leaf-decay");
+    LEAF_DECAY(LeafDecayFlag.class, "§eBlätter-Zerfall", "§eLeaf Decay", "§eErlaube Blättern auf deinem Plot zu zerfallen", "§eAllow Leafs on your plot to decay", "leaf-decay"),
+    PRICE(PriceFlag.class, "§ePreis", "§ePrice", "§eSetze einen Preis, mit dem andere dein Plot kaufen können", "§eSet a Price for others to buy this plot", "price");
 
     private final Class<? extends PlotFlag<?, ?>> flagClass;
     private final String nameGer;
@@ -106,6 +104,8 @@ public enum Flag {
             new LongFlagMenu(player, plot, this).open();
         } else if (superclass == BlockTypeListFlag.class) {
             new BlockListFlagMenu(player, plot, this).open();
+        } else if (superclass == DoubleFlag.class) {
+            new PriceFlagMenu(player, plot, this).open();
         }
     }
 }

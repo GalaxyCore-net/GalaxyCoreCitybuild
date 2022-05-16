@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class DayCommand implements CommandExecutor {
-    private HashMap<Player, Long> dayCooldown = new HashMap<>();
+    private final HashMap<Player, Long> dayCooldown = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

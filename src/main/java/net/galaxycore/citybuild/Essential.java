@@ -5,6 +5,7 @@ import net.galaxycore.citybuild.bb.BBCommand;
 import net.galaxycore.citybuild.commands.*;
 import net.galaxycore.citybuild.listeners.*;
 import net.galaxycore.citybuild.pmenu.PMenuDistributor;
+import net.galaxycore.citybuild.pmenu.PMenuUserExperienceListener;
 import net.galaxycore.citybuild.scoreboard.CustomScoreBoardManager;
 import net.galaxycore.citybuild.shop.ShopI18N;
 import net.galaxycore.citybuild.shop.ShopListener;
@@ -239,20 +240,20 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claim_lore", "§aDies wird dein %plot% Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.title", "§6Grundstück holen");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.claim.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.title", "§6Auto");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.plot_area_not_found", "§cBitte begebe dich in eine Grundstückswelt");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.claimed_successfully", "§aDas Grundstück gehört jetzt dir");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.auto_title", "§aHole dir automatisch ein Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.auto_lore", "§aDies wird dein %plot% Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.auto.no_plot_found", "§cEs wurde kein freies Grundstück gefunden");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.title", "§6Set Owner");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowner_successfully", "§aSDer neue Besitzer wurde erfolgreich gesetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowner_successfully", "§aDer neue Besitzer wurde erfolgreich gesetzt", true);
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.not_your_plot", "§cDies ist nicht dein Grundstück");
-        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowmer_title", "§a§lSetze den neuen Besitzer");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.setowner_title", "§a§lSetze den neuen Besitzer");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setowner.cancel", "§cAbbrechen");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.title", "§6Add");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.add.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
@@ -310,6 +311,16 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
         I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.name.playtime", "§eSpielzeit");
         I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.valueprefix.playtime", "§7");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_title", "§aHole dir dieses Grundstück für %d Coins");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claim_lore", "§aDies wird dein %plot% Grundstück");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.cancel", "§cAbbrechen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.title", "§6Grundstück holen");
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_enough_coins", "§cDu hast nicht genügend Coins", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.helptext", "Du kannst die Hilfe für CityBuild auf dieser Seite einsehen: §6https://docs.galaxycore.net/citybuild.de/");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -482,6 +493,15 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.cancel", "§cCancel");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.title", "§6Claim");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.claim.claimed_successfully", "§aPlot claimed successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_on_plot", "§cYou're not on a plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_already_claimed", "§CYou can't buy this plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.plot_limit_exceeded", "§cYou exceeded the plot limit. Therefore, you can't claim more plots");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_title", "§aBuy this Plot this plot for %d coins");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claim_lore", "§aThis will be your %plot% plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.cancel", "§cCancel");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.title", "§6Buy Plot");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.claimed_successfully", "§aPlot bought successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.buy.not_enough_coins", "§cYou don't have enough coins");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.title", "§6Auto");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.plot_area_not_found", "§cPlease go into a plot world");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.auto.claimed_successfully", "§aPlot claimed successfully");
@@ -501,7 +521,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.not_your_plot", "§cThis is not your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.add_title", "§aAdd %name% to your plot");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.cancel", "§cCancel");
-        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully");
+        I18N.setDefaultByLang("en_GB", "citybuild.pmenu.add.added_successfully", "§aUser added successfully", true);
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.title", "§6Trust");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.trusted_successfully", "§aUser trusted successfully");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.trust.not_on_plot", "§cYou're not on a plot");
@@ -552,6 +572,7 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
         I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.name.playtime", "§ePlaytime");
         I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.valueprefix.playtime", "§7");
+        I18N.setDefaultByLang("en_GB", "citybuild.helptext", "You can find the CityBuild help page at §6https://docs.galaxycore.net/citybuild.en/", true);
 
         ShopI18N.Companion.registerDefaults();
 
@@ -601,6 +622,8 @@ public final class Essential extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(shopLoadingListener, this);
 
+        new PMenuUserExperienceListener();
+
         ScoreBoardController.setScoreBoardCallback(new CustomScoreBoardManager());
 
         PMenuDistributor.init();
@@ -608,9 +631,5 @@ public final class Essential extends JavaPlugin {
 
     public PMenuDistributor getPMenuDistributor() {
         return pMenuDistributor;
-    }
-
-    public void setpMenuDistributor(PMenuDistributor pMenuDistributor) {
-        this.pMenuDistributor = pMenuDistributor;
     }
 }

@@ -2,12 +2,14 @@ package net.galaxycore.citybuild.bb
 
 import net.galaxycore.citybuild.Essential
 import net.galaxycore.galaxycorecore.spice.KBlockData
+import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
+import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 import java.lang.reflect.Method
 import java.util.BitSet
@@ -15,8 +17,29 @@ import java.util.BitSet
 class BBCommand : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Require three int and two str args
+        if (args.size == 2 || args.size == 3) {
+            // Get the player
+            val player = Bukkit.getPlayer(args[0].substring(1))!!
+            val pdc: PersistentDataContainer = player.persistentDataContainer
+
+            // Get the key
+            val key = NamespacedKey(Essential.getInstance(), args[1])
+
+            val value = pdc.get(key, PersistentDataType.INTEGER)
+
+            player.sendMessage("§eValue: §7$value")
+
+            if (args.size == 3) {
+                val newValue = args[2].toInt()
+                pdc.set(key, PersistentDataType.INTEGER, newValue)
+                player.sendMessage("§eNew value: §7$newValue")
+            }
+
+            return true;
+        }
+
         if (args.size != 5 && args.size != 6 && args.size != 7 && args.size != 9) {
-            sender.sendMessage("§cUsage: /bb <x> <y> <z> <data> <datatype> [deserializer] [mod|clear] [and|or] [value]")
+            sender.sendMessage("§cUsage: /bb <x> <y> <z> <data> <datatype> [deserializer] [mod|clear] [and|or] [value] or /bb @<Player> <Key> [Int to set]")
             return true
         }
 
@@ -192,6 +215,20 @@ class BBCommand : CommandExecutor, TabCompleter {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         // Complete the first arg to the x-coordinate the sender is looking at
         val player = sender as Player
+
+        if (args.isNotEmpty() && args[0].startsWith("@")) {
+            if (args.size == 1) {
+                // Any player
+                return Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(args[0]) }.toMutableList()
+            }
+
+            if (args.size == 2) {
+                return mutableListOf("shops")
+            }
+
+            return mutableListOf()
+        }
+
         if (args.size == 1) {
             return mutableListOf(player.getTargetBlock(12)?.x.toString()).filter { it.startsWith(args[0]) }.toMutableList()
         }

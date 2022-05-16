@@ -82,9 +82,13 @@ public enum PMenuI18N {
     ACTION_CANNOT_BE_UNDONE("action_cannot_be_undone", "§cDiese Aktion kann nicht rückgängig gemacht werden", "§cThis action cannot be undone", false),
     CONTINUE_ANYWAY("continue_anyway", "§cTrotzdem fortfahren!", "§cAnyway, continue!", false),
     CANCEL("cancel", "§cAbbrechen", "§cCancel", false),
-    DONE("done", "§aFertig", "§aDone", false),
-    NOTHING_TO_MERGE("nothing_to_merge", "§cDu kannst keine Plots zusammenführen", "§cYou can't merge plots", false),
-    PRICE("price", "§7Preis: ", "§7Price: ", false);
+    DONE("done", "§aFertig", "§aDone", true),
+    NOTHING_TO_MERGE("nothing_to_merge", "§cDu kannst hier keine Plots zusammenführen", "§cYou can't merge plots here", true),
+    PRICE("price", "§7Preis: ", "§7Price: ", false),
+    SEARCH_FOR_PLAYER("search_for_player", "§eSpieler suchen", "§eSearch for player", false),
+    PMENU_HELP("usage", "§cDieser Befehl ist uns nicht bekannt! Versuche es mit §e/p", "§cWe couln't recognise that command. Try §e/p", true),
+    YOU_CAN_BUY_THIS_PLOT_FOR_COINS("you_can_buy_this_plot_for_coins", "§eDu kannst dieses Grundstück für §6%price% Coins kaufen", "§eYou can buy this plot for §6%price% coins", true),
+    ;
     @Getter
     private final String key;
 

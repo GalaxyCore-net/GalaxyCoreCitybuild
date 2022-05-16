@@ -7,6 +7,7 @@ import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -46,6 +47,10 @@ public class PMenuBaseMenu extends Menu {
             case 15 -> openThisPlot();
             case 33 -> openPlotsBuy();
             case 40 -> openVisit();
+            case 29 -> {
+                player.closeInventory();
+                player.sendMessage(I18N.getS(player, "citybuild.helptext"));
+            }
         }
     }
 
@@ -67,39 +72,7 @@ public class PMenuBaseMenu extends Menu {
 
     private void openVisit() {
         player.closeInventory();
-
-        new AnvilGUI.Builder()
-                .itemLeft(makeItem(Material.NETHER_STAR, PMenuI18N.PLAYERLIST_PLAYER.get(player)))
-                .text(PMenuI18N.PLAYERLIST_PLAYER.get(player))
-                .title(PMenuI18N.PLAYERLIST_TITLE.get(player))
-                .plugin(Essential.getInstance())
-                .onComplete((player1, text) -> {
-                    try {
-                        GalaxyCoreCore core = CoreProvider.getCore();
-                        Connection connection = core.getDatabaseConfiguration().getConnection();
-
-                        // Sql Statement ignoring case
-                        PreparedStatement load = connection.prepareStatement("SELECT * FROM core_playercache WHERE LOWER(`lastname`) = LOWER(?)");
-                        load.setString(1, text);
-                        ResultSet loadResult = load.executeQuery();
-
-                        if (!loadResult.next()) {
-                            loadResult.close();
-                            load.close();
-                            return AnvilGUI.Response.text(PMenuI18N.PLAYERLIST_PLAYERNOTFOUND.get(player));
-                        }
-
-                        UUID uuid = UUID.fromString(loadResult.getString("uuid"));
-                        loadResult.close();
-
-                        PMenuPlotsMenu menu = new PMenuPlotsMenu(player, uuid);
-                        return AnvilGUI.Response.openInventory(menu.inv());
-
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .open(player);
+        new PMenuSearchPlayerMenu(player, (offlinePlayer -> new PMenuPlotsMenu(player, offlinePlayer.getUniqueId()).open()));
     }
 
     private void openLizenz() {

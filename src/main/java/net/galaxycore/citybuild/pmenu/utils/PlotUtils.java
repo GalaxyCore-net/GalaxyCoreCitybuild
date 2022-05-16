@@ -12,8 +12,14 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class PlotUtils {
+
     @Nullable
     public static Plot getPlotForPlayer(Player player) {
+        return getPlotForPlayer(player, true);
+    }
+
+    @Nullable
+    public static Plot getPlotForPlayer(Player player, boolean checkPerms) {
         PlotAPI plotApi = new PlotAPI();
         @Nullable Plot plot;
 
@@ -37,7 +43,7 @@ public class PlotUtils {
             return null;
         }
 
-        if (!plot.getOwner().toString().equals(player.getUniqueId().toString())) {
+        if (!plot.getOwner().toString().equals(player.getUniqueId().toString()) && checkPerms) {
             PMenuI18N.NO_PLOT_PERMISSIONS.send(player);
             return null;
         }

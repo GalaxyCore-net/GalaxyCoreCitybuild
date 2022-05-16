@@ -15,14 +15,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class PMenuClaimMenu extends Menu {
 
     private final Player player;
-    private final PlotAPI plotAPI;
     private final PlotPlayer<?> plotPlayer;
     private final Plot currentPlot;
 
     public PMenuClaimMenu(Player player) {
         super(PlayerMenuUtility.getPlayerMenuUtility(player));
         this.player = player;
-        this.plotAPI = new PlotAPI();
+        PlotAPI plotAPI = new PlotAPI();
         plotPlayer = plotAPI.wrapPlayer(player.getUniqueId());
         if (plotPlayer != null)
             currentPlot = plotPlayer.getCurrentPlot();
@@ -74,9 +73,9 @@ public class PMenuClaimMenu extends Menu {
             return;
         }
 
-        int plotLimit = Integer.parseInt(Essential.getInstance().getConfigNamespace().get("max_player_plots"));
+        int plotLimit = PMenuPlotBuyMenu.getMaxAllowedPlots(player);
 
-        if (plotPlayer.getPlotCount() == plotLimit) {
+        if (plotPlayer.getPlotCount() >= plotLimit) {
             inventory.setItem(9 + 4, makeItem(Material.BARRIER, i18n("plot_limit_exceeded")));
             return;
         }
@@ -97,6 +96,8 @@ public class PMenuClaimMenu extends Menu {
                 .replace("%plot%", bobTheBuilder.toString())));
 
         inventory.setItem(9 + 5, makeItem(Material.RED_CONCRETE, i18n("cancel")));
+
+        setFillerGlass();
 
     }
 

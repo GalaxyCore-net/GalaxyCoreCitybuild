@@ -28,7 +28,6 @@ public class PMenuPlotInfoMenu extends Menu {
         biomeMaterials.put(Biome.OCEAN, Material.TRIDENT);
         biomeMaterials.put(Biome.PLAINS, Material.GRASS_BLOCK);
         biomeMaterials.put(Biome.DESERT, Material.CACTUS);
-        biomeMaterials.put(Biome.MOUNTAINS, Material.STONE);
         biomeMaterials.put(Biome.FOREST, Material.OAK_LOG);
         biomeMaterials.put(Biome.TAIGA, Material.SPRUCE_LOG);
         biomeMaterials.put(Biome.SWAMP, Material.LILY_PAD);
@@ -37,34 +36,17 @@ public class PMenuPlotInfoMenu extends Menu {
         biomeMaterials.put(Biome.THE_END, Material.END_STONE);
         biomeMaterials.put(Biome.FROZEN_OCEAN, Material.ICE);
         biomeMaterials.put(Biome.FROZEN_RIVER, Material.ICE);
-        biomeMaterials.put(Biome.SNOWY_TUNDRA, Material.SNOWBALL);
-        biomeMaterials.put(Biome.SNOWY_MOUNTAINS, Material.SNOWBALL);
         biomeMaterials.put(Biome.MUSHROOM_FIELDS, Material.BROWN_MUSHROOM);
-        biomeMaterials.put(Biome.MUSHROOM_FIELD_SHORE, Material.BROWN_MUSHROOM);
         biomeMaterials.put(Biome.BEACH, Material.SAND);
-        biomeMaterials.put(Biome.DESERT_HILLS, Material.SANDSTONE);
-        biomeMaterials.put(Biome.WOODED_HILLS, Material.DARK_OAK_WOOD);
-        biomeMaterials.put(Biome.TAIGA_HILLS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.MOUNTAIN_EDGE, Material.COBBLESTONE);
         biomeMaterials.put(Biome.JUNGLE, Material.JUNGLE_LOG);
-        biomeMaterials.put(Biome.JUNGLE_HILLS, Material.JUNGLE_LOG);
-        biomeMaterials.put(Biome.JUNGLE_EDGE, Material.JUNGLE_LOG);
         biomeMaterials.put(Biome.DEEP_OCEAN, Material.WATER_BUCKET);
-        biomeMaterials.put(Biome.STONE_SHORE, Material.STONE);
         biomeMaterials.put(Biome.SNOWY_BEACH, Material.SNOWBALL);
         biomeMaterials.put(Biome.BIRCH_FOREST, Material.BIRCH_LOG);
-        biomeMaterials.put(Biome.BIRCH_FOREST_HILLS, Material.BIRCH_LOG);
         biomeMaterials.put(Biome.DARK_FOREST, Material.DARK_OAK_LOG);
         biomeMaterials.put(Biome.SNOWY_TAIGA, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.SNOWY_TAIGA_HILLS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.GIANT_TREE_TAIGA, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.GIANT_TREE_TAIGA_HILLS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.WOODED_MOUNTAINS, Material.OAK_LOG);
         biomeMaterials.put(Biome.SAVANNA, Material.ACACIA_LOG);
         biomeMaterials.put(Biome.SAVANNA_PLATEAU, Material.ACACIA_LOG);
         biomeMaterials.put(Biome.BADLANDS, Material.TERRACOTTA);
-        biomeMaterials.put(Biome.WOODED_BADLANDS_PLATEAU, Material.TERRACOTTA);
-        biomeMaterials.put(Biome.BADLANDS_PLATEAU, Material.TERRACOTTA);
         biomeMaterials.put(Biome.SMALL_END_ISLANDS, Material.END_STONE);
         biomeMaterials.put(Biome.END_MIDLANDS, Material.END_STONE);
         biomeMaterials.put(Biome.END_HIGHLANDS, Material.END_STONE);
@@ -72,34 +54,15 @@ public class PMenuPlotInfoMenu extends Menu {
         biomeMaterials.put(Biome.WARM_OCEAN, Material.TROPICAL_FISH_BUCKET);
         biomeMaterials.put(Biome.LUKEWARM_OCEAN, Material.TROPICAL_FISH_BUCKET);
         biomeMaterials.put(Biome.COLD_OCEAN, Material.WATER_BUCKET);
-        biomeMaterials.put(Biome.DEEP_WARM_OCEAN, Material.WATER_BUCKET);
         biomeMaterials.put(Biome.DEEP_LUKEWARM_OCEAN, Material.WATER_BUCKET);
         biomeMaterials.put(Biome.DEEP_COLD_OCEAN, Material.WATER_BUCKET);
         biomeMaterials.put(Biome.DEEP_FROZEN_OCEAN, Material.BLUE_ICE);
         biomeMaterials.put(Biome.THE_VOID, Material.STRUCTURE_VOID);
         biomeMaterials.put(Biome.SUNFLOWER_PLAINS, Material.SUNFLOWER);
-        biomeMaterials.put(Biome.DESERT_LAKES, Material.SAND);
-        biomeMaterials.put(Biome.GRAVELLY_MOUNTAINS, Material.GRAVEL);
         biomeMaterials.put(Biome.FLOWER_FOREST, Material.CORNFLOWER);
-        biomeMaterials.put(Biome.TAIGA_MOUNTAINS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.SWAMP_HILLS, Material.VINE);
         biomeMaterials.put(Biome.ICE_SPIKES, Material.FROSTED_ICE);
-        biomeMaterials.put(Biome.MODIFIED_JUNGLE, Material.JUNGLE_LOG);
-        biomeMaterials.put(Biome.MODIFIED_JUNGLE_EDGE, Material.JUNGLE_LOG);
-        biomeMaterials.put(Biome.TALL_BIRCH_FOREST, Material.BIRCH_LOG);
-        biomeMaterials.put(Biome.TALL_BIRCH_HILLS, Material.BIRCH_LOG);
-        biomeMaterials.put(Biome.DARK_FOREST_HILLS, Material.DARK_OAK_LOG);
-        biomeMaterials.put(Biome.SNOWY_TAIGA_MOUNTAINS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.GIANT_SPRUCE_TAIGA, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.GIANT_SPRUCE_TAIGA_HILLS, Material.SPRUCE_LOG);
-        biomeMaterials.put(Biome.MODIFIED_GRAVELLY_MOUNTAINS, Material.GRAVEL);
-        biomeMaterials.put(Biome.SHATTERED_SAVANNA, Material.COARSE_DIRT);
-        biomeMaterials.put(Biome.SHATTERED_SAVANNA_PLATEAU, Material.COARSE_DIRT);
         biomeMaterials.put(Biome.ERODED_BADLANDS, Material.TERRACOTTA);
-        biomeMaterials.put(Biome.MODIFIED_WOODED_BADLANDS_PLATEAU, Material.TERRACOTTA);
-        biomeMaterials.put(Biome.MODIFIED_BADLANDS_PLATEAU, Material.TERRACOTTA);
         biomeMaterials.put(Biome.BAMBOO_JUNGLE, Material.BAMBOO);
-        biomeMaterials.put(Biome.BAMBOO_JUNGLE_HILLS, Material.BAMBOO);
         biomeMaterials.put(Biome.SOUL_SAND_VALLEY, Material.SOUL_SAND);
         biomeMaterials.put(Biome.CRIMSON_FOREST, Material.CRIMSON_NYLIUM);
         biomeMaterials.put(Biome.WARPED_FOREST, Material.WARPED_NYLIUM);
@@ -162,6 +125,7 @@ public class PMenuPlotInfoMenu extends Menu {
         switch (inventoryClickEvent.getRawSlot()) {
             case 1 -> new PMenuFlagsMenu(player, plot).open();
             case 7 -> new PMenuPlotInfoPlayerMenu(player, plot).open();
+            case 4 -> new PMenuPlotInfoConfigMenu(player, plot).open();
         }
     }
 

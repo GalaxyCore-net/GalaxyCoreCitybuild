@@ -31,13 +31,7 @@ public class PMenuLizenzMenu extends Menu {
         luckPerms.getUserManager().modifyUser(userUuid, user -> user.data().add(Node.builder(permission).build()));
     }
 
-    public void addPermission(User user, String permission) {
-        user.data().add(Node.builder(permission).build());
-
-        luckPerms.getUserManager().saveUser(user);
-    }
-
-    private int getMaxAllowedShops(Player paramPlayer) {
+    public static int getMaxAllowedShops(Player paramPlayer) {
         for (int c = 25000; c >= 0; c--) {
             if (paramPlayer.hasPermission("citybuild.shop." + c))
                 return c;

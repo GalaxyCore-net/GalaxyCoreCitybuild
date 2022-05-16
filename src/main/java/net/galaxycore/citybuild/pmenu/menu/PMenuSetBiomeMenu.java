@@ -92,6 +92,7 @@ public class PMenuSetBiomeMenu extends Menu {
             plot.removeRunning();
             player.sendMessage(i18n("biome_set_to") + optionalBiome.toLowerCase());
         });
+        setFillerGlass();
 
     }
 

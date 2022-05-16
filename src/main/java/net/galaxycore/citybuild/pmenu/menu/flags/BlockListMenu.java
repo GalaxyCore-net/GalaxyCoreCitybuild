@@ -41,7 +41,6 @@ public class BlockListMenu extends Menu {
         for (Material value : Material.values()) {
             if (!value.isBlock()) continue;
             if (value.isAir()) continue;
-            //noinspection deprecation Filter
             if (value.isLegacy()) continue;
             if (!value.isItem()) continue;
             if (value.name().contains("WALL")) continue;

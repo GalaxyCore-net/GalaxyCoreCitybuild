@@ -29,7 +29,7 @@ public class DelWarpCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 1 || !FastUtils.isPositiveInt(args[0])) {
+        if (args.length != 1 || FastUtils.isNegativeInt(args[0])) {
             player.sendMessage(I18N.getByPlayer(player, "citybuild.delwarp.usage"));
             return true;
         }

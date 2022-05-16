@@ -1,12 +1,10 @@
 package net.galaxycore.citybuild.pmenu.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,13 +55,15 @@ public class I18NUtils {
         Page page = new Page();
 
 
-
+        return null;
     }
 
     public static List<Component> getBookPages(String key, Player player, boolean toc) {
         String value = I18N.getS(player, key);
         String[] withForcedPageBreaks = value.split("\n---\n");
+        return null;
     }
+
 
     @Getter
     @Setter

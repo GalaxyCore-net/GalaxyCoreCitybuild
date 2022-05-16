@@ -4,6 +4,7 @@ import net.galaxycore.citybuild.Essential;
 import net.galaxycore.galaxycorecore.coins.CoinDAO;
 import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.onlinetime.OnlineTime;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.scoreboards.IScoreBoardCallback;
 import net.galaxycore.galaxycorecore.utils.ServerNameUtil;
@@ -18,8 +19,19 @@ public class CustomScoreBoardManager implements IScoreBoardCallback {
             kv = new String[]{I18N.getByPlayer(player, "citybuild.score.rank"), StringUtils.replaceRelevant("%rank_color%%rank_displayname%", new LuckPermsApiWrapper(player)), ""};
         if (id == 1)
             kv = new String[]{I18N.getByPlayer(player, "citybuild.score.coins"), "§7" + new CoinDAO(PlayerLoader.load(player), Essential.getInstance()).get(), ""};
-        if (id == 2)
-            kv = new String[]{I18N.getByPlayer(player, "citybuild.score.onlinetime"), "§7Kommt Bald", ""};
+        case 3:
+        try {
+            OnlineTime ot = OnlineTime.getOnlimeTime(player);
+            return new String[]{
+                    i18n(player, "name.playtime"),
+                    "", i18n(player, "valueprefix.playtime") + (int) Math.floor(ot.getHours()) + "h " + (int) Math.floor(ot.getMinutes()) + "m"
+            };
+        } catch (Exception e) {
+            return new String[]{
+                    i18n(player, "name.playtime"),
+                    "", i18n(player, "valueprefix.playtime") + "0h " + "0m"
+            };
+        }
         if (id == 3)
             kv = new String[]{I18N.getByPlayer(player, "citybuild.score.server"), "§7" + ServerNameUtil.getName().substring(0, Math.min(ServerNameUtil.getName().length(), 12)), ""};
         if (id == 4)

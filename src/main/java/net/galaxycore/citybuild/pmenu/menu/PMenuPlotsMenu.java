@@ -159,7 +159,7 @@ public class PMenuPlotsMenu extends Menu {
     @Override
     public void setMenuItems() {
         if (itemStacks.size() == 0) {
-            if (player.getUniqueId().equals(toOpen)) {
+            if (!player.getUniqueId().equals(toOpen)) {
                 inventory.setItem(13, makeItem(Material.BARRIER, PMenuI18N.THIS_USER_DOESNT_HAVE_ANY_PLOTS.get(player)));
             } else {
                 inventory.setItem(13, makeItem(Material.BARRIER, i18n("no_plots_title"), i18n("no_plots_lore")));

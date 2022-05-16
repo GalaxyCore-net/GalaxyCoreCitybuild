@@ -309,6 +309,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.wait_for_timer", "§cBitte warte auf das Ende des aktuell laufenden Prozesses");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.schematic_too_large", "§cDieses Schematic ist zu groß");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
+        I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.name.playtime", "§eSpielzeit");
+        I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.valueprefix.playtime", "§7");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_on_plot", "§cDu befindest dich nicht auf einem Grundstück");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_already_claimed", "§CDieses Grundstück ist bereits besetzt");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.plot_limit_exceeded", "§cDu bist am Grundstückslimit angekommen. Daher kannst du keine weiteren Grundstücke besitzen.");
@@ -568,6 +570,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.wait_for_timer", "§cPlease wait for the currently running task to end");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.schematic_too_large", "§cThis Schematic is too large");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
+        I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.name.playtime", "§ePlaytime");
+        I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.valueprefix.playtime", "§7");
         I18N.setDefaultByLang("en_GB", "citybuild.helptext", "You can find the CityBuild help page at §6https://docs.galaxycore.net/citybuild.en/", true);
 
         ShopI18N.Companion.registerDefaults();

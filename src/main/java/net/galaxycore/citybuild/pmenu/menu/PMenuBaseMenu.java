@@ -72,7 +72,7 @@ public class PMenuBaseMenu extends Menu {
 
     private void openVisit() {
         player.closeInventory();
-        new PMenuSearchPlayerMenu(player, (offlinePlayer -> new PMenuPlotsMenu(player, offlinePlayer.getUniqueId()).open()));
+        new PMenuSearchPlayerMenu(player, (offlinePlayer) -> new PMenuPlotsMenu(player, offlinePlayer.getUniqueId()).open()).open();
     }
 
     private void openLizenz() {

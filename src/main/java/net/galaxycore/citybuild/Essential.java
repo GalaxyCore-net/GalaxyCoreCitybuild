@@ -308,6 +308,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.wait_for_timer", "§cBitte warte auf das Ende des aktuell laufenden Prozesses");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.schematic_too_large", "§cDieses Schematic ist zu groß");
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.setbiome.biome_set_to", "§aDas Biom wurde gesändert auf ");
+        I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.name.playtime", "§eSpielzeit");
+        I18N.setDefaultByLang("de_DE", "citybuild.scoreboard.valueprefix.playtime", "§7");
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -548,6 +550,8 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.wait_for_timer", "§cPlease wait for the currently running task to end");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.schematic_too_large", "§cThis Schematic is too large");
         I18N.setDefaultByLang("en_GB", "citybuild.pmenu.setbiome.biome_set_to", "§aThe Biome was set to ");
+        I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.name.playtime", "§ePlaytime");
+        I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.valueprefix.playtime", "§7");
 
         ShopI18N.Companion.registerDefaults();
 

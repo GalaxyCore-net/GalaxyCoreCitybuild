@@ -60,7 +60,7 @@ public class PMenuPlotInfoConfigMenu extends Menu {
     @Override
     public void setMenuItems() {
         inventory.setItem(10, makeItem(Material.FEATHER, PMenuI18N.CLEARPLOT.get(player)));
-        inventory.setItem(14, makeItem(Material.ANVIL, PMenuI18N.MERGE_PLOTS.get(player)));
+        inventory.setItem(13, makeItem(Material.ANVIL, PMenuI18N.MERGE_PLOTS.get(player)));
         inventory.setItem(16, makeItem(Material.TNT, PMenuI18N.DELETE_PLOT.get(player)));
         inventory.setItem(18, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
         setFillerGlass();

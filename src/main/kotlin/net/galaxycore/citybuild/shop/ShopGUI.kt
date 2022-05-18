@@ -70,7 +70,6 @@ class ShopGUI(private val player: Player, private val shop: Shop, block: Block) 
                     }
                 } else {
                     val amountToInsert = shop.itemStack.amount
-                    price += shop.price
 
                     removeAmountOfItemFromPlayerInventory(amountToInsert)
                     amount.update {

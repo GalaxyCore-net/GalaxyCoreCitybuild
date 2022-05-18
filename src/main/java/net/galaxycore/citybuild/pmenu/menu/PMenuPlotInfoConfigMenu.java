@@ -8,27 +8,14 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.util.Permissions;
 import com.plotsquared.core.util.task.TaskManager;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.function.mask.RegionMask;
-import com.sk89q.worldedit.internal.annotation.Selection;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.world.World;
 import lombok.Getter;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
-import net.galaxycore.citybuild.pmenu.utils.PlotUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.util.BlockVector;
 
 import java.util.Objects;
 
@@ -65,7 +52,7 @@ public class PMenuPlotInfoConfigMenu extends Menu {
         switch (inventoryClickEvent.getRawSlot()) {
             case 18 -> new PMenuPlotInfoMenu(player, plot).open();
             case 10 -> runClear(false);
-            case 14 -> runMerge();
+            case 13 -> runMerge();
             case 16 -> runClear(true);
         }
     }
@@ -73,7 +60,7 @@ public class PMenuPlotInfoConfigMenu extends Menu {
     @Override
     public void setMenuItems() {
         inventory.setItem(10, makeItem(Material.FEATHER, PMenuI18N.CLEARPLOT.get(player)));
-        inventory.setItem(14, makeItem(Material.ANVIL, PMenuI18N.MERGE_PLOTS.get(player)));
+        inventory.setItem(13, makeItem(Material.ANVIL, PMenuI18N.MERGE_PLOTS.get(player)));
         inventory.setItem(16, makeItem(Material.TNT, PMenuI18N.DELETE_PLOT.get(player)));
         inventory.setItem(18, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
         setFillerGlass();

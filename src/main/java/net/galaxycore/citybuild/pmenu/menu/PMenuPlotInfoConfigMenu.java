@@ -11,6 +11,8 @@ import com.plotsquared.core.util.task.TaskManager;
 import lombok.Getter;
 import me.kodysimpson.menumanagersystem.menusystem.Menu;
 import me.kodysimpson.menumanagersystem.menusystem.PlayerMenuUtility;
+import net.galaxycore.citybuild.plotborder.RandGui;
+import net.galaxycore.citybuild.plotborder.WandGui;
 import net.galaxycore.citybuild.pmenu.PMenuI18N;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,9 +32,16 @@ public class PMenuPlotInfoConfigMenu extends Menu {
         this.player = player;
         this.plot = plot;
 
-        if (plot != null && !Objects.requireNonNull(plot.getOwner()).toString().equals(player.getUniqueId().toString()) && open) {
+        if ((plot != null && !Objects.requireNonNull(plot.getOwner()).toString().equals(player.getUniqueId().toString()) && open) && !player.hasPermission("citybuild.config.admin")) {
             open = false;
             PMenuI18N.NO_PLOT_PERMISSIONS.send(player);
+        }
+    }
+
+    @Override
+    public void open() {
+        if (open) {
+            super.open();
         }
     }
 
@@ -51,17 +60,21 @@ public class PMenuPlotInfoConfigMenu extends Menu {
         player.closeInventory();
         switch (inventoryClickEvent.getRawSlot()) {
             case 18 -> new PMenuPlotInfoMenu(player, plot).open();
-            case 10 -> runClear(false);
+            case 9 -> runClear(false);
+            case 11 -> new RandGui(player).open(player);
             case 13 -> runMerge();
-            case 16 -> runClear(true);
+            case 15 -> new WandGui(player).open(player);
+            case 17 -> runClear(true);
         }
     }
 
     @Override
     public void setMenuItems() {
-        inventory.setItem(10, makeItem(Material.FEATHER, PMenuI18N.CLEARPLOT.get(player)));
+        inventory.setItem(9, makeItem(Material.FEATHER, PMenuI18N.CLEARPLOT.get(player)));
+        inventory.setItem(11, makeItem(Material.SMOOTH_STONE_SLAB, PMenuI18N.RANDGUI.get(player)));
         inventory.setItem(13, makeItem(Material.ANVIL, PMenuI18N.MERGE_PLOTS.get(player)));
-        inventory.setItem(16, makeItem(Material.TNT, PMenuI18N.DELETE_PLOT.get(player)));
+        inventory.setItem(15, makeItem(Material.COBBLESTONE_WALL, PMenuI18N.WANDGUI.get(player)));
+        inventory.setItem(17, makeItem(Material.TNT, PMenuI18N.DELETE_PLOT.get(player)));
         inventory.setItem(18, makeItem(Material.BARRIER, PMenuI18N.BACK.get(player)));
         setFillerGlass();
     }

@@ -6,7 +6,7 @@
 
     <groupId>net.galaxycore</groupId>
     <artifactId>galaxycity</artifactId>
-    <version>1.2.5-RELEASE</version>
+    <version>1.2.6-RELEASE</version>
     <packaging>jar</packaging>
 
     <name>Essential</name>

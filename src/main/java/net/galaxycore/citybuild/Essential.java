@@ -321,6 +321,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.claimed_successfully", "§aDas Grundstück gehört jetzt dir", true);
         I18N.setDefaultByLang("de_DE", "citybuild.pmenu.buy.not_enough_coins", "§cDu hast nicht genügend Coins", true);
         I18N.setDefaultByLang("de_DE", "citybuild.helptext", "Du kannst die Hilfe für CityBuild auf dieser Seite einsehen: §6https://docs.galaxycore.net/citybuild.de/");
+        I18N.setDefaultByLang("de_DE", "randgui.name", "§7Plot Ränder:");
+        I18N.setDefaultByLang("de_DE", "wandgui.name", "§7Plot Wände:");
+        I18N.setDefaultByLang("de_DE", "citybuild.border.changed", "§aDein Plot Rand wurde geändert!", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.wall.changed", "§aDeine Plot Wand wurde geändert!", true);
 
         I18N.setDefaultByLang("en_GB", "citybuild.noperms", "§7You're not permitted to use this", true);
         I18N.setDefaultByLang("en_GB", "citybuild.noplayerfound", "§7This Player isn't online", true);
@@ -573,6 +577,10 @@ public final class Essential extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.name.playtime", "§ePlaytime");
         I18N.setDefaultByLang("en_GB", "citybuild.scoreboard.valueprefix.playtime", "§7");
         I18N.setDefaultByLang("en_GB", "citybuild.helptext", "You can find the CityBuild help page at §6https://docs.galaxycore.net/citybuild.en/", true);
+        I18N.setDefaultByLang("en_GB", "randgui.name", "§7Plot Borders:");
+        I18N.setDefaultByLang("en_GB", "wandgui.name", "§7Plot Walls:");
+        I18N.setDefaultByLang("de_DE", "citybuild.border.changed", "§aYour Plot Border has been changed!", true);
+        I18N.setDefaultByLang("de_DE", "citybuild.wall.changed", "§aYour Plot Wall has been changed!", true);
 
         ShopI18N.Companion.registerDefaults();
 

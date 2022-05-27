@@ -89,6 +89,8 @@ public enum PMenuI18N {
     PMENU_HELP("usage", "§cDieser Befehl ist uns nicht bekannt! Versuche es mit §e/p", "§cWe couln't recognise that command. Try §e/p", true),
     YOU_CAN_BUY_THIS_PLOT_FOR_COINS("you_can_buy_this_plot_for_coins", "§eDu kannst dieses Grundstück für §6%price% Coins kaufen", "§eYou can buy this plot for §6%price% coins", true),
     THIS_USER_DOESNT_HAVE_ANY_PLOTS("this_user_doesnt_have_any_plots", "§cDieser Spieler hat keine Plots", "§cThis user has no plots", false),
+    WANDGUI("wandgui", "§eWand", "§eWall", false),
+    RANDGUI("randgui", "§eRand", "§eBorder", false),
     ;
     @Getter
     private final String key;
